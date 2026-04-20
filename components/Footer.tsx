@@ -28,7 +28,7 @@ export default function Footer() {
               {[
                 { href: "/services", label: "Services" },
                 { href: "/pricing", label: "Pricing" },
-                { href: "/contact", label: "Get Started" },
+                { href: "/intake", label: "Start Intake Form" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-sm text-[#6B6B6B] hover:text-[#0D0D0D]">

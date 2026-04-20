@@ -132,38 +132,39 @@ export default function PricingPage() {
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`rounded-lg flex flex-col ${
+              className={`relative rounded-lg flex flex-col bg-white border transition-shadow hover:shadow-md ${
                 plan.highlight
-                  ? "bg-[#0F1B3C] text-white border border-[#0F1B3C]"
-                  : "bg-white border border-[#E2E0DA]"
+                  ? "border-[#0F1B3C] shadow-sm ring-1 ring-[#0F1B3C]/10"
+                  : "border-[#E2E0DA]"
               }`}
             >
-              <div className="p-6 border-b border-white/10 flex-shrink-0" style={{ borderColor: plan.highlight ? 'rgba(255,255,255,0.1)' : '#E2E0DA' }}>
-                <div className="flex items-center gap-2 mb-4">
+              {/* Most Popular badge */}
+              {plan.highlight && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0F1B3C] text-white text-[10px] font-bold tracking-widest uppercase px-4 py-1 rounded-full whitespace-nowrap">
+                  Most Popular
+                </div>
+              )}
+
+              <div className="p-6 border-b border-[#E2E0DA] flex-shrink-0">
+                <div className="flex items-center gap-2 mb-3">
                   <span className="text-lg">{plan.badge}</span>
-                  <span className={`text-[11px] font-semibold tracking-widest uppercase ${plan.highlight ? 'text-white/70' : 'text-[#6B6B6B]'}`}>
+                  <span className="text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B]">
                     {plan.name}
                   </span>
                 </div>
-                <p className={`text-[11px] mb-5 leading-relaxed ${plan.highlight ? 'text-white/60' : 'text-[#6B6B6B]'}`}>
-                  {plan.audience}
-                </p>
+                <p className="text-[11px] text-[#6B6B6B] mb-5 leading-relaxed">{plan.audience}</p>
                 <div className="mb-1">
-                  <span className={`text-3xl font-black ${plan.highlight ? 'text-white' : 'text-[#0D0D0D]'}`}>
-                    ${plan.monthly}
-                  </span>
-                  <span className={`text-sm ml-1 ${plan.highlight ? 'text-white/60' : 'text-[#6B6B6B]'}`}>/mo</span>
+                  <span className="text-3xl font-black text-[#0D0D0D]">${plan.monthly}</span>
+                  <span className="text-sm ml-1 text-[#6B6B6B]">/mo</span>
                 </div>
-                <p className={`text-[12px] ${plan.highlight ? 'text-white/60' : 'text-[#6B6B6B]'}`}>
-                  + ${plan.setup} setup
-                </p>
+                <p className="text-[12px] text-[#6B6B6B]">+ ${plan.setup} setup</p>
               </div>
 
               <div className="p-6 flex-1">
                 <ul className="space-y-3 mb-6">
                   {plan.features.map((f) => (
-                    <li key={f} className={`flex gap-2.5 text-[13px] leading-relaxed ${plan.highlight ? 'text-white/80' : 'text-[#444]'}`}>
-                      <Check size={13} className={`flex-shrink-0 mt-0.5 ${plan.highlight ? 'text-[#D4A847]' : 'text-[#B8902A]'}`} strokeWidth={2.5} />
+                    <li key={f} className="flex gap-2.5 text-[13px] text-[#444] leading-relaxed">
+                      <Check size={13} className="text-[#B8902A] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
                       {f}
                     </li>
                   ))}
@@ -172,10 +173,10 @@ export default function PricingPage() {
 
               <div className="p-6 pt-0">
                 <Link
-                  href="/contact"
+                  href="/intake"
                   className={`flex items-center justify-center gap-2 py-3 rounded text-sm font-medium w-full transition-colors ${
                     plan.highlight
-                      ? "bg-[#D4A847] hover:bg-[#c49a30] text-[#0F1B3C]"
+                      ? "bg-[#0F1B3C] hover:bg-[#1a2d5a] text-white"
                       : "border border-[#0F1B3C] text-[#0F1B3C] hover:bg-[#0F1B3C] hover:text-white"
                   }`}
                 >

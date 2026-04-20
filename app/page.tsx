@@ -94,21 +94,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── PROOF BAR ─── */}
+      {/* ─── STATS BAR ─── */}
       <div className="border-y border-[#E2E0DA] bg-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex flex-wrap gap-x-8 gap-y-3 items-center">
-          {[
-            "Built on Claude by Anthropic",
-            "Dedicated hardware per client",
-            "Setup in 48–72 hours",
-            "88–90% gross margin for clients who resell",
-            "Version 2.0 — April 2026",
-          ].map((item) => (
-            <span key={item} className="flex items-center gap-2 text-[12px] text-[#6B6B6B]">
-              <Check size={12} className="text-[#B8902A]" strokeWidth={2.5} />
-              {item}
-            </span>
-          ))}
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-[#E2E0DA]">
+            {[
+              { stat: "48–72 hrs", label: "From intake to live" },
+              { stat: "88–90%", label: "Gross margin per client" },
+              { stat: "$20K–$59K", label: "3-Year LTV per client" },
+              { stat: "24/7", label: "Your assistant is always on" },
+            ].map((s) => (
+              <div key={s.stat} className="md:px-8 first:pl-0 last:pr-0">
+                <p className="font-display text-2xl sm:text-3xl text-[#0F1B3C] mb-1">{s.stat}</p>
+                <p className="text-[12px] text-[#6B6B6B]">{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -250,22 +251,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ─── FAQ ─── */}
+      <section className="bg-white border-t border-[#E2E0DA] py-20 md:py-24">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8">
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">FAQ</p>
+          <h2 className="font-display text-3xl sm:text-4xl text-[#0D0D0D] mb-12">Common questions.</h2>
+          <div className="space-y-0">
+            {[
+              { q: "Do I need any technical knowledge?", a: "None at all. You fill out our intake form, tell us what you want, and we handle everything. You'll receive a working assistant and a plain-English guide on how to use it." },
+              { q: "What are API credits and what do they cost?", a: "Your assistant uses Claude by Anthropic to think and respond. You pay Anthropic directly for token usage — typically $50–150/month depending on how heavily you use it. We help you set up the account." },
+              { q: "Who owns the hardware and data?", a: "You do. The Mac mini is shipped to you and it's yours. Your data lives on your machine. We configure the system and hand it off — we don't have ongoing access to your conversations." },
+              { q: "How long does setup take?", a: "48–72 hours from completed intake form to live assistant. Complex Business setups with multiple integrations may take up to a week. We'll give you a clear timeline upfront." },
+              { q: "What if I want to change something after setup?", a: "Every plan includes a tuning period after handoff. Ongoing changes are covered under the monthly fee — just reach out and we'll update it, usually within 24 hours." },
+              { q: "Can I cancel?", a: "Yes, any time. Monthly billing only — no annual contracts. Your assistant keeps running as long as you have Anthropic credits. The Mac mini stays with you either way." },
+            ].map((faq, i, arr) => (
+              <div key={faq.q} className={`py-6 ${i !== arr.length - 1 ? 'border-b border-[#E2E0DA]' : ''}`}>
+                <h3 className="font-semibold text-[#0D0D0D] mb-2">{faq.q}</h3>
+                <p className="text-sm text-[#6B6B6B] leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── CTA ─── */}
-      <section className="bg-[#F8F7F3] border-t border-[#E2E0DA]">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 text-center">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-4">Get Started</p>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5 max-w-2xl mx-auto">
-            The window to establish this is open now.
+      <section className="bg-[#0F1B3C]">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-24 text-center">
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-4">Get Started</p>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white mb-5 max-w-2xl mx-auto">
+            The window is open now.
           </h2>
-          <p className="text-[#6B6B6B] text-lg max-w-xl mx-auto mb-10">
+          <p className="text-white/60 text-lg max-w-xl mx-auto mb-10">
             In 24–36 months, everyone will have an AI assistant. The clients who get set up properly now will have a compounding advantage over those who wait.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/pricing" className="inline-flex items-center justify-center gap-2 bg-[#0F1B3C] hover:bg-[#1a2d5a] text-white px-8 py-4 rounded font-medium text-[15px]">
-              See Pricing <ArrowRight size={16} />
+            <Link href="/intake" className="inline-flex items-center justify-center gap-2 bg-[#D4A847] hover:bg-[#c49a30] text-[#0F1B3C] px-8 py-4 rounded font-semibold text-[15px]">
+              Start Intake Form <ArrowRight size={16} />
             </Link>
-            <Link href="/contact" className="inline-flex items-center justify-center gap-2 border border-[#E2E0DA] hover:border-[#0D0D0D] text-[#0D0D0D] px-8 py-4 rounded font-medium text-[15px]">
-              Schedule a Call
+            <Link href="/pricing" className="inline-flex items-center justify-center gap-2 border border-white/20 hover:border-white/50 text-white px-8 py-4 rounded font-medium text-[15px]">
+              See Pricing
             </Link>
           </div>
         </div>
