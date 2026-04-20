@@ -215,10 +215,9 @@ export default function IntakePage() {
                 <label className="block text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2">Which plan are you leaning toward?</label>
                 <select name="plan" className="w-full bg-[#F8F7F3] border border-[#E2E0DA] rounded px-4 py-2.5 text-sm text-[#0D0D0D] focus:outline-none focus:border-[#0F1B3C] appearance-none">
                   <option value="">Not sure — help me decide</option>
-                  <option>Personal — $2,500 setup + $500/month</option>
-                  <option>Professional — $3,500 setup + $750/month</option>
-                  <option>Business Standard — $5,000 setup + $1,000/month</option>
-                  <option>Business Premium — $5,000 setup + $1,500/month</option>
+                  <option>Basic — $2,500 setup + $100/month</option>
+                  <option>Pro — $2,500 setup + $250/month</option>
+                  <option>Hourly work only — $125/hr</option>
                 </select>
               </div>
               <div>

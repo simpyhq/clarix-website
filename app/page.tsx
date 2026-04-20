@@ -101,7 +101,7 @@ export default function HomePage() {
             {[
               { stat: "48–72 hrs", label: "From intake to live" },
               { stat: "88–90%", label: "Gross margin per client" },
-              { stat: "$20K–$59K", label: "3-Year LTV per client" },
+              { stat: "$100–$250", label: "Monthly after setup" },
               { stat: "24/7", label: "Your assistant is always on" },
             ].map((s) => (
               <div key={s.stat} className="md:px-8 first:pl-0 last:pr-0">
@@ -226,19 +226,19 @@ export default function HomePage() {
               tier: "Tier A — Business",
               range: "$2M – $50M revenue",
               desc: "CFO functions, operations dashboards, KPI monitoring, financial reporting, vendor management, and industry-specific automation.",
-              plan: "Business Standard or Premium",
+              plan: "Pro Plan — $250/mo",
             },
             {
               tier: "Tier B — Professionals",
               range: "Real estate · Legal · Finance · Medicine",
               desc: "Admin automation, client management, research, scheduling, and communication support. Recover your billable hours.",
-              plan: "Professional Plan",
+              plan: "Pro Plan — $250/mo",
             },
             {
               tier: "Tier C — Individuals",
               range: "Students · Creators · Executives",
               desc: "Personal briefings, research, health tracking, goal management, and proactive scheduling. Your life, organized.",
-              plan: "Personal Plan",
+              plan: "Basic Plan — $100/mo",
             },
           ].map((t) => (
             <div key={t.tier} className="bg-white border border-[#E2E0DA] rounded-lg p-7 flex flex-col">
