@@ -67,7 +67,7 @@ export default function HomePage() {
           <div className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] border border-[#D4A847]/40 bg-[#D4A847]/8 px-3 py-1.5 rounded mb-8">
             Powered by Claude · Anthropic
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl text-[#0D0D0D] leading-[1.08] mb-6">
+          <h1 className="font-display text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl text-[#0D0D0D] leading-[1.1] mb-6">
             Your Life. Your Work.<br />
             <span className="text-[#0F1B3C]">An AI That Knows It.</span>
           </h1>
@@ -95,8 +95,8 @@ export default function HomePage() {
       </section>
 
       {/* ─── PROOF BAR ─── */}
-      <div className="border-y border-[#E2E0DA] bg-white">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex flex-wrap gap-x-10 gap-y-3 items-center">
+      <div className="border-y border-[#E2E0DA] bg-white overflow-hidden">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex flex-wrap gap-x-8 gap-y-3 items-center">
           {[
             "Built on Claude by Anthropic",
             "Dedicated hardware per client",
@@ -116,7 +116,7 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28">
         <div className="mb-14">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">The Problem</p>
-          <h2 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-5">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5">
             The gap isn&apos;t better AI.<br />It&apos;s setup and configuration.
           </h2>
           <p className="text-[#6B6B6B] text-lg max-w-2xl">
@@ -144,7 +144,7 @@ export default function HomePage() {
       <section className="bg-[#0F1B3C] py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-3">Every Client Gets</p>
-          <h2 className="font-display text-4xl sm:text-5xl text-white mb-14">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white mb-14">
             A complete system, not a subscription.
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -163,7 +163,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           <div>
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">The Difference</p>
-            <h2 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-6">
               Why this is different from everything else.
             </h2>
             <p className="text-[#6B6B6B] leading-relaxed mb-4">
@@ -194,7 +194,7 @@ export default function HomePage() {
       <section className="bg-white border-y border-[#E2E0DA] py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">The Process</p>
-          <h2 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-14">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-14">
             From intake to live in 48–72 hours.
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -212,7 +212,7 @@ export default function HomePage() {
       {/* ─── WHO IT'S FOR ─── */}
       <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28">
         <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">Who It&apos;s For</p>
-        <h2 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-5">
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5">
           No client is too small or too large.
         </h2>
         <p className="text-[#6B6B6B] text-lg max-w-2xl mb-12">
@@ -254,7 +254,7 @@ export default function HomePage() {
       <section className="bg-[#F8F7F3] border-t border-[#E2E0DA]">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 text-center">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-4">Get Started</p>
-          <h2 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-5 max-w-2xl mx-auto">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5 max-w-2xl mx-auto">
             The window to establish this is open now.
           </h2>
           <p className="text-[#6B6B6B] text-lg max-w-xl mx-auto mb-10">

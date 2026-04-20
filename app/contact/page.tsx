@@ -5,7 +5,7 @@ export default function ContactPage() {
     <div>
       <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-20 pb-8">
         <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">Contact</p>
-        <h1 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-5">Get in touch.</h1>
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5">Get in touch.</h1>
         <p className="text-[#6B6B6B] text-lg max-w-xl">
           Tell us what you need and we&apos;ll reply within a few hours — usually faster. No sales funnel, no demo calls, no wait.
         </p>

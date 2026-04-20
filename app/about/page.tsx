@@ -7,7 +7,7 @@ export default function AboutPage() {
       {/* Header */}
       <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-20 pb-14">
         <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">About</p>
-        <h1 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-6 max-w-3xl">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-6 max-w-3xl">
           We built this for a $25M energy company. It works. Now we scale it to everyone else.
         </h1>
       </section>

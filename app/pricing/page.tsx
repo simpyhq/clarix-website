@@ -128,7 +128,7 @@ export default function PricingPage() {
 
       {/* Plans */}
       <section className="max-w-6xl mx-auto px-5 sm:px-8 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -200,15 +200,41 @@ export default function PricingPage() {
       </section>
 
       {/* Unit Economics */}
-      <section className="bg-white border-y border-[#E2E0DA] py-20">
+      <section className="bg-white border-y border-[#E2E0DA] py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">Unit Economics</p>
-          <h2 className="font-display text-3xl sm:text-4xl text-[#0D0D0D] mb-3">Why margins stay high.</h2>
-          <p className="text-[#6B6B6B] mb-10 max-w-2xl">
-            The AI does the ongoing work. Monthly costs are primarily API fees and minimal maintenance time. As client count scales, costs do not scale proportionally — the infrastructure is already built.
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#0D0D0D] mb-3">Why margins stay high.</h2>
+          <p className="text-[#6B6B6B] mb-8 max-w-2xl text-sm sm:text-base">
+            The AI does the ongoing work. Monthly costs are primarily API fees and minimal maintenance time. As client count scales, costs do not scale proportionally.
           </p>
-          <div className="overflow-x-auto">
-            <table>
+          {/* Mobile: stacked cards */}
+          <div className="md:hidden space-y-3">
+            {[
+              { plan: "Personal", setup: "$2,500", margin: "52%", monthly: "$500", monthlyMargin: "~88%", ltv: "~$20,500" },
+              { plan: "Professional", setup: "$3,500", margin: "57%", monthly: "$750", monthlyMargin: "~89%", ltv: "~$29,500" },
+              { plan: "Business Std.", setup: "$5,000", margin: "76%", monthly: "$1,000", monthlyMargin: "~90%", ltv: "~$41,000" },
+              { plan: "Business Prem.", setup: "$5,000", margin: "76%", monthly: "$1,500", monthlyMargin: "~89%", ltv: "~$59,000" },
+            ].map((p) => (
+              <div key={p.plan} className="bg-[#F8F7F3] border border-[#E2E0DA] rounded-lg p-4">
+                <p className="text-[11px] font-bold tracking-widest uppercase text-[#0F1B3C] mb-3">{p.plan}</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    ["Setup", p.setup], ["Setup Margin", p.margin],
+                    ["Monthly", p.monthly], ["Monthly Margin", p.monthlyMargin],
+                    ["3-Year LTV", p.ltv],
+                  ].map(([label, val]) => (
+                    <div key={label}>
+                      <p className="text-[10px] text-[#6B6B6B] uppercase tracking-wide">{label}</p>
+                      <p className="text-sm font-semibold text-[#0D0D0D]">{val}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Desktop: full table */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-[640px] w-full">
               <thead>
                 <tr className="bg-[#0F1B3C]">
                   <th className="text-left text-[11px] font-semibold tracking-widest uppercase text-white/70 px-5 py-3">Metric</th>
@@ -223,14 +249,14 @@ export default function PricingPage() {
                   ["Setup Cost", "~$1,200", "~$1,500", "~$1,200", "~$1,200"],
                   ["Setup Margin", "~$1,300 (52%)", "~$2,000 (57%)", "~$3,800 (76%)", "~$3,800 (76%)"],
                   ["Monthly Revenue", "$500", "$750", "$1,000", "$1,500"],
-                  ["Monthly Cost (API+hosting)", "~$50–75", "~$75–100", "~$100–150", "~$150–200"],
+                  ["Monthly Cost", "~$50–75", "~$75–100", "~$100–150", "~$150–200"],
                   ["Monthly Margin", "~88%", "~89%", "~90%", "~89%"],
                   ["Annual Revenue/Client", "~$8,500", "~$12,500", "~$17,000", "~$23,000"],
                   ["3-Year LTV", "~$20,500", "~$29,500", "~$41,000", "~$59,000"],
                 ].map((row, i) => (
                   <tr key={row[0]} className={i % 2 === 0 ? 'bg-white' : 'bg-[#F8F7F3]'}>
                     {row.map((cell, j) => (
-                      <td key={j} className={`px-5 py-3 text-sm border-b border-[#E2E0DA] ${j === 0 ? 'font-medium text-[#0D0D0D]' : 'text-[#444]'}`}>
+                      <td key={j} className={`px-5 py-3 text-sm border-b border-[#E2E0DA] whitespace-nowrap ${j === 0 ? 'font-medium text-[#0D0D0D]' : 'text-[#444]'}`}>
                         {cell}
                       </td>
                     ))}
@@ -243,19 +269,42 @@ export default function PricingPage() {
       </section>
 
       {/* Competitive Table */}
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+      <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16 md:py-20">
         <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">Competitive Advantage</p>
-        <h2 className="font-display text-3xl sm:text-4xl text-[#0D0D0D] mb-3">How we stack up.</h2>
-        <p className="text-[#6B6B6B] mb-10 max-w-2xl">
+        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#0D0D0D] mb-3">How we stack up.</h2>
+        <p className="text-[#6B6B6B] mb-8 max-w-2xl text-sm sm:text-base">
           White-glove setup, persistent memory, and dedicated hardware are not Google or Microsoft products. They never will be.
         </p>
-        <div className="overflow-x-auto">
-          <table>
+        {/* Mobile: stacked comparison cards */}
+        <div className="md:hidden space-y-3">
+          {compTable.map((row) => (
+            <div key={row.factor} className="bg-white border border-[#E2E0DA] rounded-lg p-4">
+              <p className="text-[11px] font-bold tracking-widest uppercase text-[#0D0D0D] mb-3">{row.factor}</p>
+              <div className="space-y-2">
+                <div className="flex justify-between items-start gap-3">
+                  <span className="text-[11px] font-semibold text-[#B8902A] uppercase tracking-wide w-20 flex-shrink-0">Clarix</span>
+                  <span className="text-sm text-[#B8902A] font-medium text-right">{row.us}</span>
+                </div>
+                <div className="flex justify-between items-start gap-3">
+                  <span className="text-[11px] font-semibold text-[#6B6B6B] uppercase tracking-wide w-20 flex-shrink-0">ChatGPT</span>
+                  <span className="text-sm text-[#6B6B6B] text-right">{row.generic}</span>
+                </div>
+                <div className="flex justify-between items-start gap-3">
+                  <span className="text-[11px] font-semibold text-[#6B6B6B] uppercase tracking-wide w-20 flex-shrink-0">Consult.</span>
+                  <span className="text-sm text-[#6B6B6B] text-right">{row.traditional}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Desktop: full table */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="min-w-[640px] w-full">
             <thead>
               <tr className="bg-[#0F1B3C]">
                 <th className="text-left text-[11px] font-semibold tracking-widest uppercase text-white/70 px-5 py-3 w-1/4">Factor</th>
                 <th className="text-left text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] px-5 py-3 w-1/4">Clarix</th>
-                <th className="text-left text-[11px] font-semibold tracking-widest uppercase text-white/70 px-5 py-3 w-1/4">Generic AI (ChatGPT, etc.)</th>
+                <th className="text-left text-[11px] font-semibold tracking-widest uppercase text-white/70 px-5 py-3 w-1/4">Generic AI</th>
                 <th className="text-left text-[11px] font-semibold tracking-widest uppercase text-white/70 px-5 py-3 w-1/4">Traditional Consultants</th>
               </tr>
             </thead>

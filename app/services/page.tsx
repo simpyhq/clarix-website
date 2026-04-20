@@ -86,7 +86,7 @@ export default function ServicesPage() {
       {/* Header */}
       <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-20 pb-14">
         <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">Services</p>
-        <h1 className="font-display text-4xl sm:text-5xl text-[#0D0D0D] mb-5">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5">
           What we build.<br />What you get.
         </h1>
         <p className="text-[#6B6B6B] text-lg max-w-2xl">
@@ -104,7 +104,7 @@ export default function ServicesPage() {
             {onboarding.map((s, i) => (
               <div
                 key={s.n}
-                className={`flex gap-8 items-start py-8 ${i !== onboarding.length - 1 ? 'border-b border-[#E2E0DA]' : ''}`}
+                className={`flex gap-5 sm:gap-8 items-start py-7 sm:py-8 ${i !== onboarding.length - 1 ? 'border-b border-[#E2E0DA]' : ''}`}
               >
                 <div className="w-12 flex-shrink-0">
                   <span className="font-display text-2xl text-[#E2E0DA]">{s.n}</span>
