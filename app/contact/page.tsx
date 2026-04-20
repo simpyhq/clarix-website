@@ -1,4 +1,5 @@
-import { Mail, Clock } from "lucide-react";
+import Link from "next/link";
+import { Mail, Clock, ClipboardList } from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -85,13 +86,31 @@ export default function ContactPage() {
           {/* Sidebar */}
           <div className="md:col-span-2 space-y-5">
             <div className="bg-white border border-[#E2E0DA] rounded-lg p-6 space-y-5">
-              <a href="mailto:hello@clarix.ai" className="flex items-start gap-3 group">
+              <a href="mailto:jarvis@simpyhq.com" className="flex items-start gap-3 group">
                 <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
                   <Mail size={14} className="text-[#0F1B3C]" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">Email</p>
-                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">hello@clarix.ai</p>
+                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">General</p>
+                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">jarvis@simpyhq.com</p>
+                </div>
+              </a>
+              <a href="mailto:michael@ospipe.com" className="flex items-start gap-3 group">
+                <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
+                  <Mail size={14} className="text-[#0F1B3C]" />
+                </div>
+                <div>
+                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">Michael Simpson — Founder</p>
+                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">michael@ospipe.com</p>
+                </div>
+              </a>
+              <a href="mailto:christian.simpson.2018@outlook.com" className="flex items-start gap-3 group">
+                <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
+                  <Mail size={14} className="text-[#0F1B3C]" />
+                </div>
+                <div>
+                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">Christian Simpson — Operations</p>
+                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">christian.simpson.2018@outlook.com</p>
                 </div>
               </a>
               <div className="flex items-start gap-3">
@@ -123,6 +142,17 @@ export default function ContactPage() {
                 ))}
               </ol>
             </div>
+
+            <Link href="/intake" className="block bg-[#0F1B3C] rounded-lg p-6 group hover:bg-[#1a2d5a] transition-colors">
+              <div className="flex items-start gap-3">
+                <ClipboardList size={18} className="text-[#D4A847] flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-white font-semibold text-sm mb-1">Ready to get started?</p>
+                  <p className="text-white/60 text-xs leading-relaxed">Fill out our intake form — tell us about your business and what you want to automate. We&apos;ll come back with a tailored recommendation.</p>
+                  <p className="text-[#D4A847] text-xs font-medium mt-3 group-hover:underline">Start intake form →</p>
+                </div>
+              </div>
+            </Link>
 
             <div className="bg-[#F8F7F3] border border-[#E2E0DA] rounded-lg p-6">
               <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-2">Referral Program</p>

@@ -9,6 +9,7 @@ const links = [
   { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/intake", label: "Get Started" },
 ];
 
 export default function Navbar() {
@@ -42,10 +43,10 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <Link
-              href="/contact"
+              href="/intake"
               className="text-[13px] bg-[#0F1B3C] hover:bg-[#1a2d5a] text-white px-5 py-2 rounded font-medium tracking-wide"
             >
-              Get Started
+              Start Intake
             </Link>
           </div>
 

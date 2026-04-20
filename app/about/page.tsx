@@ -28,6 +28,9 @@ export default function AboutPage() {
             <p>
               When they started explaining it to lawyers, real estate agents, consultants, and other business owners — the reaction was always the same: <em>&ldquo;I want that. I have no idea how to set it up.&rdquo;</em>
             </p>
+            <p>
+              Michael founded Clarix to turn that into a business. Christian runs day-to-day operations — client setup, onboarding, and support. Together they have the playbook to deploy this for anyone.
+            </p>
             <p className="font-medium text-[#0D0D0D]">
               That&apos;s Clarix. We do the setup so you don&apos;t have to.
             </p>
@@ -39,16 +42,18 @@ export default function AboutPage() {
               <div className="space-y-5">
                 {[
                   {
-                    initials: "CS",
-                    name: "Christian Simpson",
-                    role: "Founder",
-                    detail: "Finance student, OU. Runs his own AI assistant daily.",
-                  },
-                  {
                     initials: "MS",
                     name: "Michael Simpson",
-                    role: "Co-Founder",
-                    detail: "CEO, OS Pipe & Supply. Built the original system for a $25M business.",
+                    role: "Founder",
+                    detail: "CEO, OS Pipe & Supply. Built the original AI system for a $25M business.",
+                    email: "michael@ospipe.com",
+                  },
+                  {
+                    initials: "CS",
+                    name: "Christian Simpson",
+                    role: "Operations Manager",
+                    detail: "Finance student, OU. Handles client setup, support, and day-to-day operations.",
+                    email: "christian.simpson.2018@outlook.com",
                   },
                 ].map((p) => (
                   <div key={p.name} className="flex gap-3 items-start">
@@ -59,12 +64,14 @@ export default function AboutPage() {
                       <p className="text-[#0D0D0D] text-sm font-semibold">{p.name}</p>
                       <p className="text-[#B8902A] text-[11px] font-medium tracking-wide uppercase">{p.role}</p>
                       <p className="text-[#6B6B6B] text-xs mt-1">{p.detail}</p>
+                      <a href={`mailto:${p.email}`} className="text-[11px] text-[#0F1B3C] hover:underline mt-1 block">{p.email}</a>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="border-t border-[#E2E0DA] mt-5 pt-5">
-                <a href="mailto:hello@clarix.ai" className="text-sm text-[#0F1B3C] font-medium hover:underline">hello@clarix.ai</a>
+              <div className="border-t border-[#E2E0DA] mt-5 pt-5 space-y-1">
+                <p className="text-[10px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2">General Inquiries</p>
+                <a href="mailto:jarvis@simpyhq.com" className="text-sm text-[#0F1B3C] font-medium hover:underline block">jarvis@simpyhq.com</a>
               </div>
             </div>
 
