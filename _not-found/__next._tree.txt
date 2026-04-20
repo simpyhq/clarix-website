@@ -1,2 +1,2 @@
-:HL["/clarix-website/_next/static/chunks/04b-_p671w00b.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"lSYC-3HNs2Q8AM3FhROIU"}
+:HL["/clarix-website/_next/static/chunks/0hda8h.dfl8wl.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"IvTAOMAnGiPVc87lI62S4"}
