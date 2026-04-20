@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #F8F7F3;
+  --ink: #0D0D0D;
+  --navy: #0F1B3C;
+  --gold: #B8902A;
+  --gold-light: #D4A847;
+  --muted: #6B6B6B;
+  --border: #E2E0DA;
+  --card: #FFFFFF;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-instrument), Georgia, 'Times New Roman', serif;
+}
+
+/* Refined table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Smooth transitions */
+a, button {
+  transition: all 0.15s ease;
+}
