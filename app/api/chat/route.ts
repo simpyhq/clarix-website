@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       headers: {
         "Authorization": `Bearer ${process.env.OPENROUTER_CHAT_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://clarix-website.vercel.app",
+        "HTTP-Referer": "https://clarix-website-nine.vercel.app",
         "X-Title": "Clarix Support Chat"
       },
       body: JSON.stringify({
