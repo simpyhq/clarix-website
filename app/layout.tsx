@@ -43,7 +43,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <ChatWidget apiKey={process.env.NEXT_PUBLIC_OPENROUTER_CHAT_KEY || ""} />
+        <ChatWidget />
       </body>
     </html>
   );

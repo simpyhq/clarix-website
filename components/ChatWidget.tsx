@@ -8,23 +8,7 @@ interface Message {
   content: string;
 }
 
-const SYSTEM_PROMPT = `You are Clarix, a friendly and knowledgeable AI assistant for the Clarix website. Your job is to help visitors understand what Clarix does, answer questions about pricing, and guide them toward booking a consultation.
-
-About Clarix:
-- We build, configure, and maintain personalized AI assistants for businesses, professionals, and individuals
-- Every client gets a dedicated Mac mini with their AI running 24/7
-- The assistant connects to WhatsApp, iMessage, Discord, and email
-- Setup fee: $2,500 (includes Mac mini, discovery consultation, configuration, and 2 months Pro support)
-- Basic plan: $100/month (keep-alive, updates, security patches)
-- Pro plan: $250/month (optimization, new skills, LLM tuning, 2 hrs support/month)
-- Hourly work: $125/hr in 15-minute increments, remote via Tailscale
-- Founded by Michael Simpson (CEO, OS Pipe & Supply), operated by Christian Simpson
-- Contact: jarvis@simpyhq.com
-- Start with the intake form at /intake
-
-Keep answers concise, warm, and professional. If someone asks a question you can't answer, direct them to jarvis@simpyhq.com or the intake form. Never make up pricing or features that aren't listed above.`;
-
-export default function ChatWidget({ apiKey }: { apiKey: string }) {
+export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: "Hi, I'm Clarix — your AI assistant. Ask me anything about how we can help you, our pricing, or how setup works." }
@@ -35,9 +19,7 @@ export default function ChatWidget({ apiKey }: { apiKey: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
+    if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
   useEffect(() => {
@@ -48,35 +30,21 @@ export default function ChatWidget({ apiKey }: { apiKey: string }) {
     if (!input.trim() || loading) return;
     const userMsg = input.trim();
     setInput("");
-    setMessages(prev => [...prev, { role: "user", content: userMsg }]);
+    const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
+    setMessages(newMessages);
     setLoading(true);
 
     try {
-      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      const res = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": "https://simpyhq.github.io/clarix-website/",
-          "X-Title": "Clarix Support Chat"
-        },
-        body: JSON.stringify({
-          model: "anthropic/claude-3.5-haiku",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            ...messages.slice(-6),
-            { role: "user", content: userMsg }
-          ],
-          max_tokens: 400,
-          temperature: 0.7
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages })
       });
-
       const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content || "Sorry, I'm having trouble right now. Email us at jarvis@simpyhq.com and we'll get back to you shortly.";
+      const reply = data.reply || "Sorry, I'm having trouble right now. Email jarvis@simpyhq.com and we'll help you out.";
       setMessages(prev => [...prev, { role: "assistant", content: reply }]);
     } catch {
-      setMessages(prev => [...prev, { role: "assistant", content: "Something went wrong on my end. Feel free to email jarvis@simpyhq.com and we'll help you out." }]);
+      setMessages(prev => [...prev, { role: "assistant", content: "Something went wrong. Email jarvis@simpyhq.com and we'll get back to you." }]);
     } finally {
       setLoading(false);
     }
@@ -84,7 +52,6 @@ export default function ChatWidget({ apiKey }: { apiKey: string }) {
 
   return (
     <>
-      {/* Chat window */}
       {open && (
         <div className="fixed bottom-20 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[380px] max-h-[520px] z-50 flex flex-col rounded-xl border border-[#E2E0DA] bg-white shadow-2xl overflow-hidden">
           {/* Header */}
@@ -107,13 +74,11 @@ export default function ChatWidget({ apiKey }: { apiKey: string }) {
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#F8F7F3]" style={{ maxHeight: "340px" }}>
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div
-                  className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-[#0F1B3C] text-white rounded-br-sm"
-                      : "bg-white border border-[#E2E0DA] text-[#0D0D0D] rounded-bl-sm"
-                  }`}
-                >
+                <div className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-[#0F1B3C] text-white rounded-br-sm"
+                    : "bg-white border border-[#E2E0DA] text-[#0D0D0D] rounded-bl-sm"
+                }`}>
                   {msg.content}
                 </div>
               </div>
@@ -150,11 +115,10 @@ export default function ChatWidget({ apiKey }: { apiKey: string }) {
         </div>
       )}
 
-      {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
         className="fixed bottom-5 right-4 sm:right-6 z-50 w-14 h-14 rounded-full bg-[#0F1B3C] hover:bg-[#1a2d5a] text-white shadow-lg flex items-center justify-center transition-all hover:scale-105"
-        aria-label="Open chat"
+        aria-label="Open Clarix chat"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}
       </button>

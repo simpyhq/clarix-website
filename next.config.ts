@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: "/clarix-website",
-  assetPrefix: "/clarix-website",
-  trailingSlash: true,
+  // No static export — deploying to Vercel for server-side API routes
   images: {
     unoptimized: true,
   },
