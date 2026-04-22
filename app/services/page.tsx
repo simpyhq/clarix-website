@@ -106,7 +106,7 @@ export default function ServicesPage() {
           </Reveal>
           <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {useCases.map((uc) => (
-              <div key={uc.role} className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-5 hover:border-[#0066ff]/30 hover:shadow-sm transition-all">
+              <div key={uc.role} className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-5 hover:border-[#94a3b8] hover:shadow-sm transition-all">
                 <div className="mb-3">
                   <h3 className="font-medium text-[#0f172a] text-[14px]">{uc.role}</h3>
                 </div>
@@ -133,7 +133,7 @@ export default function ServicesPage() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-4 mb-2">
                     <h3 className="font-medium text-[#0f172a] text-[14px]">{s.title}</h3>
-                    <span className="text-[11px] font-semibold text-[#0f172a] bg-[#0f172a]/10 px-2.5 py-1 rounded-md flex-shrink-0">{s.time}</span>
+                    <span className="text-[11px] font-semibold text-[#0f172a] bg-[#f1f3f5] px-2.5 py-1 rounded-md flex-shrink-0">{s.time}</span>
                   </div>
                   <p className="text-[14px] text-[#64748b] leading-relaxed">{s.desc}</p>
                 </div>
@@ -240,11 +240,11 @@ export default function ServicesPage() {
             </div>
             <div className="flex gap-3 flex-shrink-0">
               <Link href="/pricing"
-                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
+                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#1e293b] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
                 View Pricing <ArrowRight size={14} />
               </Link>
               <Link href="/contact"
-                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#0a0a0a] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
+                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#334155] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
                 Ask a question
               </Link>
             </div>

@@ -53,12 +53,12 @@ export default function ChatWidget() {
   return (
     <>
       {open && (
-        <div className="fixed bottom-20 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[380px] max-h-[520px] z-50 flex flex-col rounded-xl border border-[#E2E0DA] bg-white shadow-2xl overflow-hidden">
+        <div className="fixed bottom-20 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[380px] max-h-[520px] z-50 flex flex-col rounded-xl border border-[#e2e8f0] bg-white shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-[#0F1B3C] px-4 py-3.5 flex items-center justify-between flex-shrink-0">
+          <div className="bg-[#0f172a] px-4 py-3.5 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded bg-[#D4A847] flex items-center justify-center">
-                <span className="text-[#0F1B3C] text-xs font-bold">C</span>
+              <div className="w-7 h-7 rounded bg-[#e2e8f0] flex items-center justify-center">
+                <span className="text-[#0f172a] text-xs font-bold">C</span>
               </div>
               <div>
                 <p className="text-white text-sm font-semibold leading-none">Clarix</p>
@@ -71,13 +71,13 @@ export default function ChatWidget() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#F8F7F3]" style={{ maxHeight: "340px" }}>
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#f8f9fa]" style={{ maxHeight: "340px" }}>
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-[#0F1B3C] text-white rounded-br-sm"
-                    : "bg-white border border-[#E2E0DA] text-[#0D0D0D] rounded-bl-sm"
+                    ? "bg-[#0f172a] text-white rounded-br-sm"
+                    : "bg-[#f8f9fa] border border-[#e2e8f0] text-[#0f172a] rounded-bl-sm"
                 }`}>
                   {msg.content}
                 </div>
@@ -85,8 +85,8 @@ export default function ChatWidget() {
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-white border border-[#E2E0DA] rounded-xl rounded-bl-sm px-3.5 py-2.5">
-                  <Loader2 size={14} className="text-[#B8902A] animate-spin" />
+                <div className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl rounded-bl-sm px-3.5 py-2.5">
+                  <Loader2 size={14} className="text-[#64748b] animate-spin" />
                 </div>
               </div>
             )}
@@ -94,7 +94,7 @@ export default function ChatWidget() {
           </div>
 
           {/* Input */}
-          <div className="border-t border-[#E2E0DA] p-3 flex gap-2 bg-white flex-shrink-0">
+          <div className="border-t border-[#e2e8f0] p-3 flex gap-2 bg-white flex-shrink-0">
             <input
               ref={inputRef}
               type="text"
@@ -102,12 +102,12 @@ export default function ChatWidget() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === "Enter" && send()}
               placeholder="Ask a question..."
-              className="flex-1 text-sm bg-[#F8F7F3] border border-[#E2E0DA] rounded-lg px-3 py-2 text-[#0D0D0D] placeholder-[#ABABAB] focus:outline-none focus:border-[#0F1B3C] transition-colors"
+              className="flex-1 text-sm bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-3 py-2 text-[#0f172a] placeholder-[#94a3b8] focus:outline-none focus:border-[#0f172a] transition-colors"
             />
             <button
               onClick={send}
               disabled={loading || !input.trim()}
-              className="w-9 h-9 rounded-lg bg-[#0F1B3C] hover:bg-[#1a2d5a] disabled:bg-[#E2E0DA] text-white flex items-center justify-center transition-colors flex-shrink-0"
+              className="w-9 h-9 rounded-lg bg-[#0f172a] hover:bg-[#1e293b] disabled:bg-[#e2e8f0] text-white flex items-center justify-center transition-colors flex-shrink-0"
             >
               <Send size={14} />
             </button>
@@ -117,7 +117,7 @@ export default function ChatWidget() {
 
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-5 right-4 sm:right-6 z-50 w-14 h-14 rounded-full bg-[#0F1B3C] hover:bg-[#1a2d5a] text-white shadow-lg flex items-center justify-center transition-all hover:scale-105"
+        className="fixed bottom-5 right-4 sm:right-6 z-50 w-14 h-14 rounded-full bg-[#0f172a] hover:bg-[#1e293b] text-white shadow-lg flex items-center justify-center transition-all hover:scale-105"
         aria-label="Open Clarix chat"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}

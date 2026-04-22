@@ -287,11 +287,11 @@ export default function CompetitionPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link href="/intake"
-              className="inline-flex items-center justify-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-7 py-3.5 rounded-lg font-bold text-[14px]">
+              className="inline-flex items-center justify-center gap-2 bg-[#0f172a] hover:bg-[#1e293b] text-white px-7 py-3.5 rounded-lg font-bold text-[14px]">
               Get Started <ArrowRight size={14} />
             </Link>
             <Link href="/pricing"
-              className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#0a0a0a] text-[#0f172a] px-7 py-3.5 rounded-lg font-medium text-[14px]">
+              className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#334155] text-[#0f172a] px-7 py-3.5 rounded-lg font-medium text-[14px]">
               View Pricing
             </Link>
           </div>

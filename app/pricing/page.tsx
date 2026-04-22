@@ -90,7 +90,7 @@ export default function PricingPage() {
                   Everything you need to go from zero to a fully working AI assistant — hardware, configuration, knowledge base, integrations, and 2 months of Pro support.
                 </p>
                 <Link href="/intake"
-                  className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
+                  className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#1e293b] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
                   Start Intake Form <ArrowRight size={14} />
                 </Link>
               </div>
@@ -115,9 +115,9 @@ export default function PricingPage() {
         <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl">
           {plans.map((plan) => (
             <div key={plan.name}
-              className={`relative rounded-xl flex flex-col border ${plan.featured ? "bg-[#0f172a] border-[#0a0a0a] text-white" : "bg-[#f8f9fa] border-[#e2e8f0]"}`}>
+              className={`relative rounded-xl flex flex-col border ${plan.featured ? "bg-[#0f172a] border-[#0f172a] text-white" : "bg-white border-[#e2e8f0]"}`}>
               {plan.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0066ff] text-white text-[10px] font-bold tracking-widests uppercase px-4 py-1 rounded-full whitespace-nowrap">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0f172a] text-white text-[10px] font-bold tracking-widests uppercase px-4 py-1 rounded-full whitespace-nowrap">
                   Most Popular
                 </div>
               )}
@@ -141,7 +141,7 @@ export default function PricingPage() {
               </div>
               <div className="p-6 pt-0">
                 <Link href="/intake"
-                  className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-[13px] font-semibold w-full ${plan.featured ? "bg-white text-[#0f172a] hover:bg-[#f8f9fa]/90" : "bg-[#0f172a] text-white hover:bg-[#f8f9fa]"}`}>
+                  className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-[13px] font-semibold w-full ${plan.featured ? "bg-white text-[#0f172a] hover:bg-[#f1f3f5]" : "bg-[#0f172a] text-white hover:bg-[#1e293b]"}`}>
                   Get started <ArrowRight size={13} />
                 </Link>
               </div>
@@ -238,11 +238,11 @@ export default function PricingPage() {
             </div>
             <div className="flex gap-3 flex-shrink-0">
               <Link href="/intake"
-                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
+                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#1e293b] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
                 Start Intake Form <ArrowRight size={14} />
               </Link>
               <Link href="/contact"
-                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#0a0a0a] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
+                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#334155] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
                 Ask a question
               </Link>
             </div>

@@ -107,7 +107,7 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-24 pb-20 md:pt-32 md:pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
-            <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] border border-[#5E6AD2]/25 bg-[#0f172a]/8 px-3 py-1.5 rounded-full mb-8">
+            <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] border border-[#e2e8f0] bg-[#f1f3f5] px-3 py-1.5 rounded-full mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0f172a]" />
               Powered by Claude — Anthropic
             </div>
@@ -128,7 +128,7 @@ export default function HomePage() {
                 Get Started <ArrowRight size={14} />
               </Link>
               <Link href="/services"
-                className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#5E6AD2]/50 text-[#334155] hover:text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
+                className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#94a3b8] text-[#334155] hover:text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
                 How It Works
               </Link>
             </div>
@@ -152,7 +152,7 @@ export default function HomePage() {
       <section className="border-y border-[#e2e8f0] bg-[#f8f9fa]">
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#2a2a2e]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#e2e8f0]">
               {[
                 { stat: "48–72 hrs", label: "From intake to live" },
                 { stat: "88–90%",    label: "Gross margin per client" },
@@ -206,7 +206,7 @@ export default function HomePage() {
               <ul className="space-y-3">
                 {p.points.map((pt) => (
                   <li key={pt} className="text-[14px] text-[#64748b] flex gap-3 leading-relaxed">
-                    <span className="text-[#2a2a2e] mt-0.5 flex-shrink-0">—</span>{pt}
+                    <span className="text-[#e2e8f0] mt-0.5 flex-shrink-0">—</span>{pt}
                   </li>
                 ))}
               </ul>
@@ -240,7 +240,7 @@ export default function HomePage() {
       {/* MODEL ROUTING CALLOUT */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal>
-          <div className="border border-[#5E6AD2]/25 bg-[#0f172a]/5 rounded-xl p-8 sm:p-10">
+          <div className="border border-[#e2e8f0] bg-[#f8f9fa] rounded-xl p-8 sm:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
               <div>
                 <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Built-in Cost Optimization</p>
@@ -289,7 +289,7 @@ export default function HomePage() {
               <div key={t.name}
                 className={`rounded-xl p-7 flex flex-col h-full border ${
                   t.featured
-                    ? "bg-[#0f172a]/10 border-[#5E6AD2]/30"
+                    ? "bg-[#f1f3f5] border-[#e2e8f0]"
                     : "bg-white border-[#e2e8f0]"
                 }`}>
                 <p className={`text-[11px] font-semibold tracking-widests uppercase mb-1 ${t.featured ? "text-[#334155]" : "text-[#0f172a]"}`}>{t.name}</p>
@@ -302,7 +302,7 @@ export default function HomePage() {
                   className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[13px] mt-auto ${
                     t.featured
                       ? "bg-[#0f172a] text-white hover:bg-[#1e293b]"
-                      : "border border-[#e2e8f0] hover:border-[#5E6AD2]/50 text-[#334155] hover:text-[#0f172a]"
+                      : "border border-[#e2e8f0] hover:border-[#94a3b8] text-[#334155] hover:text-[#0f172a]"
                   }`}>
                   Get started <ArrowRight size={13} />
                 </Link>
@@ -350,7 +350,7 @@ export default function HomePage() {
                 Start Intake Form <ArrowRight size={16} />
               </Link>
               <Link href="/pricing"
-                className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#5E6AD2]/50 text-[#64748b] hover:text-[#0f172a] px-8 py-4 rounded-lg font-medium text-[15px]">
+                className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#94a3b8] text-[#64748b] hover:text-[#0f172a] px-8 py-4 rounded-lg font-medium text-[15px]">
                 View Pricing
               </Link>
             </div>

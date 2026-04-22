@@ -26,18 +26,18 @@ export default function ContactPage() {
                   <div>
                     <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#94a3b8] mb-2" htmlFor="name">Name</label>
                     <input type="text" id="name" name="name" placeholder="Your full name"
-                      className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] placeholder-[#9b9b9b] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors" />
+                      className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] placeholder-[#94a3b8] text-[14px] focus:outline-none focus:border-[#0f172a] transition-colors" />
                   </div>
                   <div>
                     <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#94a3b8] mb-2" htmlFor="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="you@company.com"
-                      className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] placeholder-[#9b9b9b] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors" />
+                      className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] placeholder-[#94a3b8] text-[14px] focus:outline-none focus:border-[#0f172a] transition-colors" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#94a3b8] mb-2" htmlFor="type">I am a...</label>
                   <select id="type" name="type"
-                    className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors appearance-none">
+                    className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] text-[14px] focus:outline-none focus:border-[#0f172a] transition-colors appearance-none">
                     <option value="">Select one</option>
                     <option>Business owner</option>
                     <option>Professional (real estate, legal, finance, healthcare)</option>
@@ -48,7 +48,7 @@ export default function ContactPage() {
                 <div>
                   <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#94a3b8] mb-2" htmlFor="plan">Plan interest</label>
                   <select id="plan" name="plan"
-                    className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors appearance-none">
+                    className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] text-[14px] focus:outline-none focus:border-[#0f172a] transition-colors appearance-none">
                     <option value="">Not sure yet</option>
                     <option>Basic — $100/mo</option>
                     <option>Pro — $250/mo</option>
@@ -58,10 +58,10 @@ export default function ContactPage() {
                   <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#94a3b8] mb-2" htmlFor="body">What do you need help with?</label>
                   <textarea id="body" name="body" rows={5}
                     placeholder="Tell us about your business, what you'd want your assistant to do, any tools you use, and any questions..."
-                    className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] placeholder-[#9b9b9b] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors resize-none" />
+                    className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-lg px-4 py-2.5 text-[#0f172a] placeholder-[#94a3b8] text-[14px] focus:outline-none focus:border-[#0f172a] transition-colors resize-none" />
                 </div>
                 <button type="submit"
-                  className="w-full bg-[#0f172a] hover:bg-[#f8f9fa] text-white py-3 rounded-lg font-semibold text-[14px] transition-colors">
+                  className="w-full bg-[#0f172a] hover:bg-[#1e293b] text-white py-3 rounded-lg font-semibold text-[14px] transition-colors">
                   Send Message
                 </button>
                 <p className="text-[#94a3b8] text-[12px] text-center">Opens your email client pre-filled. Or email us at jarvis@simpyhq.com</p>
@@ -109,13 +109,13 @@ export default function ContactPage() {
               </ol>
             </div>
 
-            <Link href="/intake" className="block border border-[#e2e8f0] hover:border-[#0a0a0a] rounded-xl p-6 group transition-colors">
+            <Link href="/intake" className="block border border-[#e2e8f0] hover:border-[#334155] rounded-xl p-6 group transition-colors">
               <p className="font-semibold text-[14px] mb-1">Ready to get started?</p>
               <p className="text-[#64748b] text-[13px] leading-relaxed mb-3">Fill out our intake form — tell us about your business and what you want to automate.</p>
               <p className="text-[#0f172a] text-[13px] font-medium flex items-center gap-1">Start intake form <ArrowRight size={12} /></p>
             </Link>
 
-            <div className="bg-[#0f172a]/10 border border-[#5E6AD2]/20 rounded-xl p-6">
+            <div className="bg-[#f1f3f5] border border-[#e2e8f0] rounded-xl p-6">
               <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-2">Referral Program</p>
               <p className="text-[13px] text-[#64748b] leading-relaxed">
                 Refer a client and receive a <strong className="text-[#0f172a]">$500 credit</strong> toward your next month. No limit on referrals.
