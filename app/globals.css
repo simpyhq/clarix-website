@@ -81,6 +81,21 @@ a, button {
   transform: translateY(0);
 }
 
+/* Stagger children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.stagger.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0ms; }
+.stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:80ms; }
+.stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:160ms; }
+.stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:240ms; }
+.stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:320ms; }
+.stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:400ms; }
+.stagger.visible > *:nth-child(7) { opacity:1; transform:translateY(0); transition-delay:480ms; }
+.stagger.visible > *:nth-child(8) { opacity:1; transform:translateY(0); transition-delay:560ms; }
+
 /* Hover card */
 .hover-card {
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;

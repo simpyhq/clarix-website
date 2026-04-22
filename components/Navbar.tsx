@@ -6,10 +6,11 @@ import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/services", label: "Services" },
-  { href: "/pricing",  label: "Pricing" },
-  { href: "/about",    label: "About" },
-  { href: "/contact",  label: "Contact" },
+  { href: "/services",    label: "Services" },
+  { href: "/pricing",     label: "Pricing" },
+  { href: "/competition", label: "Competition" },
+  { href: "/about",       label: "About" },
+  { href: "/contact",     label: "Contact" },
 ];
 
 export default function Navbar() {
