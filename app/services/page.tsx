@@ -3,18 +3,18 @@ import { ArrowRight, Check } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 const useCases = [
-  { role: "Small Business Owner",   icon: "🏢", desc: "Daily P&L, vendor tracking, invoice alerts, and weekly KPI reports — delivered before you open your laptop." },
-  { role: "Real Estate Agent",      icon: "🏠", desc: "Client follow-ups, listing research, contract deadline alerts, and MLS monitoring on autopilot." },
-  { role: "Attorney",               icon: "⚖️", desc: "Case deadline tracking, client intake automation, document summaries, and billing reminders." },
-  { role: "Financial Advisor",      icon: "📊", desc: "Market briefings, client portfolio updates, regulatory news monitoring, and meeting prep." },
-  { role: "Pastor / Ministry",      icon: "✝️", desc: "Sermon research, congregation communication, event scheduling, and volunteer coordination." },
-  { role: "Watch / Luxury Dealer",  icon: "⌚", desc: "Inventory alerts, price monitoring, buyer follow-ups, and market trend summaries." },
-  { role: "College Student",        icon: "🎓", desc: "Assignment tracking, internship search, daily briefings, health research, and career prep." },
-  { role: "Executive / C-Suite",    icon: "💼", desc: "Board prep, competitive intelligence, travel logistics, and daily priority briefings." },
-  { role: "Contractor / Builder",   icon: "🔨", desc: "Subcontractor tracking, permit deadline alerts, material price monitoring, and bid research." },
-  { role: "Healthcare Professional",icon: "🏥", desc: "Patient follow-up reminders, continuing education monitoring, billing alerts, and schedule management." },
-  { role: "Content Creator",        icon: "🎬", desc: "Trend monitoring, brand deal tracking, content calendar management, and audience analytics." },
-  { role: "Real Estate Investor",   icon: "🏗️", desc: "Deal flow monitoring, market analysis, cap rate research, and portfolio performance tracking." },
+  { role: "Small Business Owner", desc: "Daily P&L, vendor tracking, invoice alerts, and weekly KPI reports — delivered before you open your laptop." },
+  { role: "Real Estate Agent", desc: "Client follow-ups, listing research, contract deadline alerts, and MLS monitoring on autopilot." },
+  { role: "Attorney", desc: "Case deadline tracking, client intake automation, document summaries, and billing reminders." },
+  { role: "Financial Advisor", desc: "Market briefings, client portfolio updates, regulatory news monitoring, and meeting prep." },
+  { role: "Pastor / Ministry", desc: "Sermon research, congregation communication, event scheduling, and volunteer coordination." },
+  { role: "Watch / Luxury Dealer", desc: "Inventory alerts, price monitoring, buyer follow-ups, and market trend summaries." },
+  { role: "College Student", desc: "Assignment tracking, internship search, daily briefings, health research, and career prep." },
+  { role: "Executive / C-Suite", desc: "Board prep, competitive intelligence, travel logistics, and daily priority briefings." },
+  { role: "Contractor / Builder", desc: "Subcontractor tracking, permit deadline alerts, material price monitoring, and bid research." },
+  { role: "Healthcare Professional", desc: "Patient follow-up reminders, continuing education monitoring, billing alerts, and schedule management." },
+  { role: "Content Creator", desc: "Trend monitoring, brand deal tracking, content calendar management, and audience analytics." },
+  { role: "Real Estate Investor", desc: "Deal flow monitoring, market analysis, cap rate research, and portfolio performance tracking." },
 ];
 
 const onboarding = [
@@ -107,8 +107,7 @@ export default function ServicesPage() {
           <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {useCases.map((uc) => (
               <div key={uc.role} className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-5 hover:border-[#0066ff]/30 hover:shadow-sm transition-all">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl">{uc.icon}</span>
+                <div className="mb-3">
                   <h3 className="font-medium text-[#0f172a] text-[14px]">{uc.role}</h3>
                 </div>
                 <p className="text-[#64748b] text-[13px] leading-relaxed">{uc.desc}</p>
