@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-// ── Scroll reveal ─────────────────────────────────────────────────────────────
-function Reveal({ children, delay = 0, className = "" }: {
-  children: React.ReactNode; delay?: number; className?: string;
+function Reveal({ children, delay = 0, className = "", stagger = false }: {
+  children: React.ReactNode; delay?: number; className?: string; stagger?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -20,56 +19,53 @@ function Reveal({ children, delay = 0, className = "" }: {
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={ref} className={`${stagger ? "stagger" : "reveal"} ${className}`}
+      style={!stagger ? { transitionDelay: `${delay}ms` } : undefined}>
       {children}
     </div>
   );
 }
 
-// ── Terminal mockup ───────────────────────────────────────────────────────────
 function Terminal() {
-  const lines: Array<{type: string; text?: string; label?: string; value?: string}> = [
+  const lines: Array<{ type: string; label?: string; value?: string; text?: string }> = [
     { type: "comment", text: "# Jarvis — daily briefing complete" },
     { type: "blank" },
-    { type: "label",  label: "weather",     value: "Norman, OK · 60°F · Rain after 6pm" },
-    { type: "label",  label: "markets",     value: "S&P 7,087 ▼0.31% · BTC $75.7K · NVDA $201" },
-    { type: "label",  label: "canvas",      value: "2 items due tomorrow (METR-1014)" },
-    { type: "label",  label: "internships", value: "8 new listings · 3 DFW · 5 NYC" },
+    { type: "label", label: "weather",     value: "Norman, OK  60°F  Rain after 6pm" },
+    { type: "label", label: "markets",     value: "S&P 7,087 -0.31%  BTC $75.7K  NVDA $201" },
+    { type: "label", label: "canvas",      value: "2 items due tomorrow — METR-1014" },
+    { type: "label", label: "internships", value: "8 new listings — 3 DFW  5 NYC" },
+    { type: "label", label: "model",       value: "gemini-flash (routine)  cost: $0.003" },
     { type: "blank" },
-    { type: "comment", text: "# Email sent → christian.simpson.2018@outlook.com" },
+    { type: "comment", text: "# Email sent to christian@outlook.com" },
     { type: "comment", text: "# Next run in 23h 47m" },
     { type: "blank" },
-    { type: "prompt",  text: "" },
+    { type: "prompt" },
   ];
 
   return (
-    <div className="w-full rounded-xl overflow-hidden border border-[#e0e0e0] shadow-[0_24px_64px_rgba(0,0,0,0.08)]">
-      {/* Chrome bar */}
-      <div className="bg-[#f5f5f5] border-b border-[#e0e0e0] px-4 py-3 flex items-center gap-2">
-        <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-        <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-        <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-        <div className="ml-3 flex-1 bg-white border border-[#e0e0e0] rounded text-center text-[11px] text-[#9b9b9b] py-0.5 max-w-[180px] mx-auto font-mono">
+    <div className="w-full rounded-xl overflow-hidden border border-[#2a2a2e] shadow-2xl">
+      <div className="bg-[#161618] border-b border-[#2a2a2e] px-4 py-3 flex items-center gap-2">
+        <div className="w-3 h-3 rounded-full bg-[#444449]" />
+        <div className="w-3 h-3 rounded-full bg-[#444449]" />
+        <div className="w-3 h-3 rounded-full bg-[#444449]" />
+        <div className="ml-3 flex-1 bg-[#0f0f0f] border border-[#2a2a2e] rounded text-center text-[11px] text-[#444449] py-0.5 max-w-[180px] mx-auto font-mono">
           jarvis@mac-mini
         </div>
       </div>
-      {/* Terminal body */}
-      <div className="bg-[#0e0e0e] px-5 py-5 font-mono text-[13px] leading-7">
+      <div className="bg-[#0a0a0b] px-5 py-5 font-mono text-[13px] leading-7">
         {lines.map((line, i) => (
           <div key={i}>
-            {line.type === "comment" && (
-              <span className="text-[#6b6b6b]">{line.text}</span>
-            )}
+            {line.type === "comment" && <span className="text-[#444449]">{line.text}</span>}
             {line.type === "label" && (
               <div className="flex gap-3">
-                <span className="text-[#0066ff] w-24 flex-shrink-0">{line.label}</span>
-                <span className="text-[#e0e0e0]">{line.value}</span>
+                <span className="text-[#5E6AD2] w-24 flex-shrink-0">{line.label}</span>
+                <span className="text-[#a0a0a8]">{line.value}</span>
               </div>
             )}
             {line.type === "prompt" && (
               <div className="flex items-center gap-1.5 mt-1">
-                <span className="text-[#0066ff]">❯</span>
-                <span className="w-2 h-4 bg-[#0066ff] opacity-80 cursor-blink inline-block" />
+                <span className="text-[#5E6AD2]">❯</span>
+                <span className="w-2 h-4 bg-[#5E6AD2] opacity-80 cursor-blink inline-block" />
               </div>
             )}
             {line.type === "blank" && <div className="h-1" />}
@@ -80,130 +76,83 @@ function Terminal() {
   );
 }
 
-// ── Data ─────────────────────────────────────────────────────────────────────
-
-const capabilities = [
-  { n: "01", title: "Persistent memory",       desc: "Remembers every conversation, decision, and context across time. No re-explaining yourself." },
-  { n: "02", title: "Dedicated hardware",       desc: "Runs on a Mac mini in your hands. Isolated, private, nothing shared with anyone." },
-  { n: "03", title: "Automated workflows",      desc: "Reports, briefings, research, and data pulls run on schedule — without you asking." },
-  { n: "04", title: "Natural communication",    desc: "Text it on WhatsApp, iMessage, email, or Discord like a real team member." },
-  { n: "05", title: "Custom knowledge base",    desc: "Built from a discovery interview: your goals, industry, workflows, and contacts." },
-  { n: "06", title: "Multi-model routing",      desc: "Fast models for routine tasks. Premium models when the stakes are high." },
-];
-
-const steps = [
-  { n: "01", title: "Discovery interview",   desc: "1–3 hours. We map your goals, workflows, contacts, data sources, and pain points." },
-  { n: "02", title: "Hardware setup",        desc: "Mac mini configured with our software, messaging integrations, and memory system." },
-  { n: "03", title: "Knowledge base",        desc: "Industry context, client info, and preferences loaded into the system." },
-  { n: "04", title: "Integrations",          desc: "Accounting, CRM, calendar, email, and file storage connected." },
-  { n: "05", title: "Workflow build",        desc: "Automated reports, tasks, and alerts configured to your specs." },
-  { n: "06", title: "Two-week tuning",       desc: "Daily adjustments based on real usage and feedback." },
-  { n: "07", title: "Handoff & training",    desc: "You learn exactly what to ask, what's automated, and how to get the most from it." },
+const deliverables = [
+  { n: "01", title: "Persistent memory",      desc: "Every conversation, decision, and context retained indefinitely. No re-explaining yourself, ever." },
+  { n: "02", title: "Dedicated hardware",      desc: "Runs on a Mac mini you own. Isolated, private, nothing shared with anyone." },
+  { n: "03", title: "Automated workflows",     desc: "Reports, briefings, research, and data pulls run on schedule — without you asking." },
+  { n: "04", title: "Natural communication",   desc: "Text it on WhatsApp, iMessage, email, or Discord like a real team member." },
+  { n: "05", title: "Custom knowledge base",   desc: "Built from a discovery interview: your goals, industry, workflows, and contacts." },
+  { n: "06", title: "Optimized AI costs",       desc: "We route tasks to the right model — fast and cheap for routine work, premium for high-stakes decisions. Most clients spend $30–80/mo on AI credits." },
 ];
 
 const tiers = [
-  {
-    name: "Basic",
-    price: "$100",
-    freq: "/mo after setup",
-    for: "Individuals & students",
-    items: [
-      "Daily briefings & reminders",
-      "Personal research assistant",
-      "Calendar & deadline tracking",
-      "Health & goal monitoring",
-      "WhatsApp / iMessage access",
-    ],
-  },
-  {
-    name: "Pro",
-    price: "$250",
-    freq: "/mo after setup",
-    for: "Businesses & professionals",
-    featured: true,
-    items: [
-      "Everything in Basic",
-      "Financial reporting & KPIs",
-      "CRM & email automation",
-      "Vendor & deadline management",
-      "Multi-channel delivery",
-      "Dedicated support",
-    ],
-  },
+  { name: "Basic",  price: "$100", for: "Individuals & students",    plan: "/mo · $2,500 setup" },
+  { name: "Pro",    price: "$250", for: "Businesses & professionals", plan: "/mo · $2,500 setup", featured: true },
 ];
 
 const faqs = [
-  { q: "Do I need technical knowledge?",        a: "None. Fill out our intake form, tell us what you want, and we handle everything." },
-  { q: "What are API credits?",                  a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $50–150/month." },
-  { q: "Who owns the hardware and data?",        a: "You do. The Mac mini ships to you. Your data lives on your machine — we don't retain access." },
-  { q: "How long does setup take?",              a: "48–72 hours from completed intake to a live assistant. Complex setups may take up to a week." },
-  { q: "What if I want changes after setup?",    a: "Covered under the monthly fee. Most updates done within 24 hours." },
-  { q: "Can I cancel?",                          a: "Yes, any time. Monthly billing, no contracts. The Mac mini is yours either way." },
+  { q: "Do I need technical knowledge?",      a: "None. Fill out our intake form, tell us what you want, and we handle everything." },
+  { q: "What are API credits?",               a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $30–80/month. We optimize model routing to keep this as low as possible." },
+  { q: "Who owns the hardware and data?",     a: "You do. The Mac mini ships to you. Your data lives on your machine." },
+  { q: "How long does setup take?",           a: "48–72 hours from completed intake to a live assistant." },
+  { q: "What if I want changes after setup?", a: "Covered under the monthly fee. Most updates done within 24 hours." },
+  { q: "Can I cancel?",                       a: "Yes, any time. Monthly billing, no contracts. The Mac mini stays with you." },
 ];
-
-// ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
-    <div className="bg-white text-[#0a0a0a]">
+    <div className="bg-[#0f0f0f] text-[#e8e8e8]">
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-24 pb-20 md:pt-32 md:pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
-          {/* Left col */}
           <div>
-            {/* Tag */}
-            <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] border border-[#0066ff]/20 bg-[#f0f5ff] px-3 py-1.5 rounded-full mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0066ff]" />
-              Powered by Claude · Anthropic
+            <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] border border-[#5E6AD2]/25 bg-[#5E6AD2]/8 px-3 py-1.5 rounded-full mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#5E6AD2]" />
+              Powered by Claude — Anthropic
             </div>
 
-            {/* Headline */}
-            <h1 className="animate-fade-in-up delay-100 text-[2.6rem] sm:text-5xl md:text-6xl font-bold leading-[1.06] tracking-tight mb-7 text-[#0a0a0a]">
+            <h1 className="animate-fade-in-up delay-100 text-[2.6rem] sm:text-5xl md:text-6xl font-bold leading-[1.06] tracking-tight mb-7 text-[#e8e8e8]">
               Your business.<br />
               Your assistant.<br />
-              <span className="text-[#6b6b6b]">From day one.</span>
+              <span className="text-[#444449]">From day one.</span>
             </h1>
 
-            <p className="animate-fade-in-up delay-200 text-[17px] text-[#6b6b6b] leading-relaxed max-w-lg mb-10">
-              A configured, persistent AI system on dedicated hardware — with deep memory of your world. Not a chatbot. A system that knows your business and acts on it.
+            <p className="animate-fade-in-up delay-200 text-[17px] text-[#6b6b72] leading-relaxed max-w-lg mb-10">
+              Not a chatbot subscription. A configured, persistent AI system on dedicated hardware — with deep memory of your world. It becomes more valuable every day you use it.
             </p>
 
-            {/* CTAs */}
             <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-3 mb-12">
               <Link href="/intake"
-                className="inline-flex items-center justify-center gap-2 bg-[#0a0a0a] hover:bg-[#222] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
-                Start intake form <ArrowRight size={14} />
+                className="inline-flex items-center justify-center gap-2 bg-[#5E6AD2] hover:bg-[#7c87e8] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
+                Get Started <ArrowRight size={14} />
               </Link>
-              <Link href="/pricing"
-                className="inline-flex items-center justify-center gap-2 border border-[#e8e8e8] hover:border-[#0a0a0a] text-[#0a0a0a] px-6 py-3 rounded-lg font-medium text-[14px]">
-                View pricing
+              <Link href="/services"
+                className="inline-flex items-center justify-center gap-2 border border-[#2a2a2e] hover:border-[#5E6AD2]/50 text-[#a0a0a8] hover:text-[#e8e8e8] px-6 py-3 rounded-lg font-medium text-[14px]">
+                How It Works
               </Link>
             </div>
 
-            {/* Trust line */}
-            <div className="animate-fade-in delay-500 flex items-center gap-2 text-[13px] text-[#9b9b9b]">
-              <Check size={13} className="text-[#0066ff]" />
+            <div className="animate-fade-in delay-500 flex items-center gap-2 text-[13px] text-[#444449]">
+              <Check size={13} className="text-[#5E6AD2]" />
               No contracts · Hardware yours to keep · Cancel any time
             </div>
           </div>
 
-          {/* Right col — terminal */}
           <div className="animate-fade-in-up delay-400 lg:pt-4">
             <Terminal />
-            <p className="text-[12px] text-[#9b9b9b] mt-3 text-center">
-              Actual output from a live Clarix assistant — running every morning at 9am
+            <p className="text-[12px] text-[#444449] mt-3 text-center">
+              Actual output from a live Clarix assistant — runs every morning at 9am
             </p>
           </div>
         </div>
       </section>
 
-      {/* ── STATS ── */}
-      <section className="border-y border-[#e8e8e8]">
+      {/* STATS */}
+      <section className="border-y border-[#2a2a2e] bg-[#161618]">
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#e8e8e8]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#2a2a2e]">
               {[
                 { stat: "48–72 hrs", label: "From intake to live" },
                 { stat: "88–90%",    label: "Gross margin per client" },
@@ -211,8 +160,8 @@ export default function HomePage() {
                 { stat: "24 / 7",   label: "Always on, always watching" },
               ].map((s) => (
                 <div key={s.stat} className="md:px-8 first:pl-0 last:pr-0">
-                  <p className="text-2xl sm:text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">{s.stat}</p>
-                  <p className="text-[12px] text-[#9b9b9b]">{s.label}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-[#e8e8e8] mb-1 tracking-tight">{s.stat}</p>
+                  <p className="text-[12px] text-[#444449]">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -220,19 +169,20 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── THE PROBLEM ── */}
+      {/* PROBLEM */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-16">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">The Problem</p>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Problem</p>
           <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight mb-5 max-w-2xl">
-            Generic AI tools don&apos;t know you. We fix that.
+            Generic AI tools don&apos;t know you.<br />
+            <span className="text-[#444449]">We fix that.</span>
           </h2>
-          <p className="text-[#6b6b6b] text-[17px] max-w-xl leading-relaxed">
+          <p className="text-[#6b6b72] text-[17px] max-w-xl leading-relaxed">
             Off-the-shelf AI answers questions when asked. It doesn&apos;t know your business, remember your decisions, or act without prompting. That&apos;s the gap we close.
           </p>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <Reveal stagger className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { label: "For Businesses", points: [
               "Financial reports arrive weeks late",
@@ -250,163 +200,161 @@ export default function HomePage() {
               "No assistant that knows your goals",
               "Research and planning is fragmented",
             ]},
-          ].map((p, i) => (
-            <Reveal key={p.label} delay={i * 80}>
-              <div className="hover-card bg-[#f7f7f7] border border-[#e8e8e8] rounded-xl p-6 h-full">
-                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-5">{p.label}</p>
-                <ul className="space-y-3">
-                  {p.points.map((pt) => (
-                    <li key={pt} className="text-[14px] text-[#6b6b6b] flex gap-3 leading-relaxed">
-                      <span className="text-[#d0d0d0] mt-0.5 flex-shrink-0">—</span>{pt}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
+          ].map((p) => (
+            <div key={p.label} className="hover-card bg-[#161618] border border-[#2a2a2e] rounded-xl p-6 h-full">
+              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-5">{p.label}</p>
+              <ul className="space-y-3">
+                {p.points.map((pt) => (
+                  <li key={pt} className="text-[14px] text-[#6b6b72] flex gap-3 leading-relaxed">
+                    <span className="text-[#2a2a2e] mt-0.5 flex-shrink-0">—</span>{pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </div>
+        </Reveal>
       </section>
 
-      {/* ── CAPABILITIES ── */}
-      <section className="border-t border-[#e8e8e8] bg-[#f7f7f7] py-24 md:py-32">
+      {/* WHAT YOU GET */}
+      <section className="border-t border-[#2a2a2e] bg-[#161618] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-16">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">What You Get</p>
-            <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight max-w-xl">
-              A complete system, not a subscription.
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Every Client Gets</p>
+            <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
+              A complete system,<br />
+              <span className="text-[#444449]">not a subscription.</span>
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {capabilities.map((c, i) => (
-              <Reveal key={c.n} delay={i * 60}>
-                <div className="hover-card bg-white border border-[#e8e8e8] rounded-xl p-6 h-full">
-                  <span className="text-[11px] font-mono text-[#9b9b9b] mb-4 block">{c.n}</span>
-                  <h3 className="font-semibold text-[#0a0a0a] text-[15px] mb-2">{c.title}</h3>
-                  <p className="text-[#6b6b6b] text-[13px] leading-relaxed">{c.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ── */}
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
-        <Reveal className="mb-16">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">The Process</p>
-          <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
-            From intake to live<br />
-            <span className="text-[#9b9b9b]">in 48–72 hours.</span>
-          </h2>
-        </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((s, i) => (
-            <Reveal key={s.n} delay={i * 60}>
-              <div className="relative pt-6 border-t-2 border-[#e8e8e8]">
-                <div className="absolute top-0 left-0 w-8 h-0.5 bg-[#0066ff]" />
-                <span className="font-mono text-[11px] text-[#9b9b9b] mb-3 block">{s.n}</span>
-                <h3 className="font-semibold text-[#0a0a0a] text-[14px] mb-2">{s.title}</h3>
-                <p className="text-[#6b6b6b] text-[13px] leading-relaxed">{s.desc}</p>
+          <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {deliverables.map((d) => (
+              <div key={d.n} className="hover-card bg-[#0f0f0f] border border-[#2a2a2e] rounded-xl p-6 h-full">
+                <span className="font-mono text-[11px] text-[#444449] mb-4 block">{d.n}</span>
+                <h3 className="font-semibold text-[#e8e8e8] text-[14px] mb-2">{d.title}</h3>
+                <p className="text-[#6b6b72] text-[13px] leading-relaxed">{d.desc}</p>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </Reveal>
         </div>
       </section>
 
-      {/* ── PRICING ── */}
-      <section className="border-t border-[#e8e8e8] bg-[#f7f7f7] py-24 md:py-32">
+      {/* MODEL ROUTING CALLOUT */}
+      <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
+        <Reveal>
+          <div className="border border-[#5E6AD2]/25 bg-[#5E6AD2]/5 rounded-xl p-8 sm:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+              <div>
+                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Built-in Cost Optimization</p>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight">
+                  We tailor the AI models to your budget.
+                </h2>
+                <p className="text-[#6b6b72] leading-relaxed text-[15px]">
+                  Not every task needs the most expensive model. We configure intelligent routing — fast, cheap models handle routine tasks like briefings and reminders, while premium models are reserved for complex analysis, important emails, and decisions that matter.
+                </p>
+              </div>
+              <div className="space-y-3 font-mono text-[13px]">
+                {[
+                  { task: "Daily briefings",      model: "Gemini Flash",  cost: "~$0.003/run",  color: "text-green-400" },
+                  { task: "Email monitoring",     model: "Ollama (local)", cost: "$0.00/run",   color: "text-green-400" },
+                  { task: "Complex analysis",     model: "Claude Sonnet", cost: "~$0.04/run",  color: "text-yellow-400" },
+                  { task: "Important decisions",  model: "Claude Sonnet", cost: "as needed",   color: "text-yellow-400" },
+                ].map((r) => (
+                  <div key={r.task} className="flex items-center justify-between bg-[#0f0f0f] border border-[#2a2a2e] rounded-lg px-4 py-3">
+                    <div>
+                      <span className="text-[#a0a0a8]">{r.task}</span>
+                      <span className="text-[#444449] mx-2">→</span>
+                      <span className="text-[#5E6AD2]">{r.model}</span>
+                    </div>
+                    <span className={`text-[12px] ${r.color}`}>{r.cost}</span>
+                  </div>
+                ))}
+                <p className="text-[#444449] text-[12px] pt-1">Most clients spend $30–80/mo on API credits. We keep it there.</p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* PRICING */}
+      <section className="border-t border-[#2a2a2e] bg-[#161618] py-24 md:py-32">
         <div className="max-w-5xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-16">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">Pricing</p>
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Pricing</p>
             <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
               Simple pricing.<br />
-              <span className="text-[#9b9b9b]">No surprises.</span>
+              <span className="text-[#444449]">No surprises.</span>
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto">
-            {tiers.map((t, i) => (
-              <Reveal key={t.name} delay={i * 100}>
-                <div className={`rounded-xl p-7 flex flex-col h-full border ${
+          <Reveal stagger className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto">
+            {tiers.map((t) => (
+              <div key={t.name}
+                className={`rounded-xl p-7 flex flex-col h-full border ${
                   t.featured
-                    ? "bg-[#0a0a0a] border-[#0a0a0a] text-white"
-                    : "bg-white border-[#e8e8e8] text-[#0a0a0a]"
+                    ? "bg-[#5E6AD2]/10 border-[#5E6AD2]/30"
+                    : "bg-[#0f0f0f] border-[#2a2a2e]"
                 }`}>
-                  <div className="flex items-start justify-between mb-6">
-                    <div>
-                      <p className={`text-[11px] font-semibold tracking-widest uppercase mb-1 ${t.featured ? "text-[#6b9bff]" : "text-[#0066ff]"}`}>{t.name}</p>
-                      <p className={`text-[13px] ${t.featured ? "text-white/50" : "text-[#9b9b9b]"}`}>{t.for}</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-3xl font-bold">{t.price}</span>
-                      <span className={`text-[12px] ${t.featured ? "text-white/40" : "text-[#9b9b9b]"}`}>{t.freq}</span>
-                    </div>
-                  </div>
-                  <ul className="space-y-3 flex-1 mb-7">
-                    {t.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2.5 text-[13px]">
-                        <Check size={13} className={`mt-0.5 flex-shrink-0 ${t.featured ? "text-[#6b9bff]" : "text-[#0066ff]"}`} />
-                        <span className={t.featured ? "text-white/70" : "text-[#6b6b6b]"}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/intake"
-                    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[13px] ${
-                      t.featured
-                        ? "bg-white text-[#0a0a0a] hover:bg-white/90"
-                        : "bg-[#0a0a0a] text-white hover:bg-[#222]"
-                    }`}>
-                    Get started <ArrowRight size={13} />
-                  </Link>
+                <p className={`text-[11px] font-semibold tracking-widests uppercase mb-1 ${t.featured ? "text-[#7c87e8]" : "text-[#5E6AD2]"}`}>{t.name}</p>
+                <p className="text-[13px] text-[#444449] mb-5">{t.for}</p>
+                <div className="flex items-end gap-1 mb-6">
+                  <span className="text-4xl font-bold text-[#e8e8e8]">{t.price}</span>
+                  <span className="text-[13px] text-[#444449] mb-1">{t.plan}</span>
                 </div>
-              </Reveal>
+                <Link href="/intake"
+                  className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[13px] mt-auto ${
+                    t.featured
+                      ? "bg-[#5E6AD2] text-white hover:bg-[#7c87e8]"
+                      : "border border-[#2a2a2e] hover:border-[#5E6AD2]/50 text-[#a0a0a8] hover:text-[#e8e8e8]"
+                  }`}>
+                  Get started <ArrowRight size={13} />
+                </Link>
+              </div>
             ))}
-          </div>
+          </Reveal>
           <Reveal>
-            <p className="text-center text-[13px] text-[#9b9b9b] mt-8">
-              One-time setup fee varies by plan. <Link href="/pricing" className="text-[#0066ff] hover:underline">Full pricing details →</Link>
+            <p className="text-center text-[13px] text-[#444449] mt-8">
+              <Link href="/pricing" className="text-[#5E6AD2] hover:text-[#7c87e8]">Full pricing details including hourly rates →</Link>
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* ── FAQ ── */}
+      {/* FAQ */}
       <section className="max-w-3xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-14">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">FAQ</p>
+          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">FAQ</p>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Common questions.</h2>
         </Reveal>
         {faqs.map((faq, i) => (
           <Reveal key={faq.q} delay={i * 50}>
-            <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-[#e8e8e8]" : ""}`}>
-              <h3 className="font-semibold text-[#0a0a0a] mb-2 text-[15px]">{faq.q}</h3>
-              <p className="text-[14px] text-[#6b6b6b] leading-relaxed">{faq.a}</p>
+            <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-[#2a2a2e]" : ""}`}>
+              <h3 className="font-semibold text-[#e8e8e8] mb-2 text-[15px]">{faq.q}</h3>
+              <p className="text-[14px] text-[#6b6b72] leading-relaxed">{faq.a}</p>
             </div>
           </Reveal>
         ))}
       </section>
 
-      {/* ── CTA ── */}
-      <section className="border-t border-[#e8e8e8] bg-[#0a0a0a]">
+      {/* CTA */}
+      <section className="border-t border-[#2a2a2e]">
         <Reveal>
           <div className="max-w-4xl mx-auto px-6 sm:px-8 py-24 md:py-32 text-center">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#6b9bff] mb-6">Get Started</p>
-            <h2 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.08] mb-6 text-white tracking-tight">
+            <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-6">Get Started</p>
+            <h2 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.08] mb-6 text-[#e8e8e8] tracking-tight">
               The window is open now.
             </h2>
-            <p className="text-white/40 text-[17px] max-w-xl mx-auto mb-12 leading-relaxed">
+            <p className="text-[#6b6b72] text-[17px] max-w-xl mx-auto mb-12 leading-relaxed">
               In 24 months, every serious business will have a dedicated AI assistant. Clients who set up now will have a compounding advantage over those who wait.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
               <Link href="/intake"
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#0a0a0a] px-8 py-4 rounded-lg font-bold text-[15px]">
-                Start intake form <ArrowRight size={16} />
+                className="inline-flex items-center justify-center gap-2 bg-[#5E6AD2] hover:bg-[#7c87e8] text-white px-8 py-4 rounded-lg font-bold text-[15px]">
+                Start Intake Form <ArrowRight size={16} />
               </Link>
               <Link href="/pricing"
-                className="inline-flex items-center justify-center gap-2 border border-white/15 hover:border-white/40 text-white/70 hover:text-white px-8 py-4 rounded-lg font-medium text-[15px]">
-                View pricing <ArrowUpRight size={14} />
+                className="inline-flex items-center justify-center gap-2 border border-[#2a2a2e] hover:border-[#5E6AD2]/50 text-[#6b6b72] hover:text-[#e8e8e8] px-8 py-4 rounded-lg font-medium text-[15px]">
+                View Pricing
               </Link>
             </div>
-            <p className="text-[12px] text-white/20">
+            <p className="text-[12px] text-[#444449]">
               No contracts · Hardware yours to keep · Cancel any time
             </p>
           </div>
