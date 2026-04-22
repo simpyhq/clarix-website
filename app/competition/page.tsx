@@ -129,9 +129,9 @@ const ourAdvantages = [
 ];
 
 function Tick({ yes }: { yes: boolean | null }) {
-  if (yes === true)  return <Check size={15} className="text-[#5E6AD2]" strokeWidth={2.5} />;
+  if (yes === true)  return <Check size={15} className="text-[#0f172a]" strokeWidth={2.5} />;
   if (yes === false) return <X     size={15} className="text-red-400"   strokeWidth={2.5} />;
-  return <Minus size={15} className="text-[#444449]" strokeWidth={2.5} />;
+  return <Minus size={15} className="text-[#94a3b8]" strokeWidth={2.5} />;
 }
 
 const matrix = [
@@ -148,35 +148,35 @@ const matrix = [
 
 export default function CompetitionPage() {
   return (
-    <div className="bg-[#0f0f0f] text-[#e8e8e8]">
+    <div className="bg-white text-[#0f172a]">
 
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">Competitive Analysis</p>
+          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">Competitive Analysis</p>
           <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5 max-w-3xl">
             Who else is in this space.<br />
-            <span className="text-[#444449]">And why we win.</span>
+            <span className="text-[#94a3b8]">And why we win.</span>
           </h1>
-          <p className="text-[#6b6b72] text-[15px] max-w-xl leading-relaxed">
+          <p className="text-[#64748b] text-[15px] max-w-xl leading-relaxed">
             The AI assistant market is crowded. But the &ldquo;white-glove, dedicated hardware, persistent memory&rdquo; segment is not. Here&apos;s the honest breakdown.
           </p>
         </Reveal>
       </section>
 
       {/* Feature matrix */}
-      <section className="border-t border-[#2a2a2e] bg-[#161618] py-16 md:py-20">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-10">
-            <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">Feature Matrix</p>
+            <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">Feature Matrix</p>
             <h2 className="text-xl sm:text-2xl font-medium tracking-tight">Side by side.</h2>
           </Reveal>
           <Reveal>
-            <div className="overflow-x-auto rounded-xl border border-[#2a2a2e]">
+            <div className="overflow-x-auto rounded-xl border border-[#e2e8f0]">
               <table className="w-full min-w-[600px]">
                 <thead>
-                  <tr className="bg-[#e8e8e8]">
+                  <tr className="bg-[#0f172a]">
                     <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5">Feature</th>
-                    <th className="text-center text-[11px] font-semibold tracking-widests uppercase text-[#7c87e8] px-5 py-3.5">Clarix</th>
+                    <th className="text-center text-[11px] font-semibold tracking-widests uppercase text-[#334155] px-5 py-3.5">Clarix</th>
                     <th className="text-center text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5">ChatGPT</th>
                     <th className="text-center text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5">Copilot</th>
                     <th className="text-center text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5">Consultants</th>
@@ -184,18 +184,18 @@ export default function CompetitionPage() {
                 </thead>
                 <tbody>
                   {matrix.map((row, i) => (
-                    <tr key={row.feature} className={i % 2 === 0 ? "bg-[#161618]" : "bg-[#161618]"}>
-                      <td className="px-5 py-3 text-[13px] font-medium text-[#e8e8e8] border-b border-[#2a2a2e]">{row.feature}</td>
-                      <td className="px-5 py-3 text-center border-b border-[#2a2a2e]"><div className="flex justify-center"><Tick yes={row.clarix} /></div></td>
-                      <td className="px-5 py-3 text-center border-b border-[#2a2a2e]"><div className="flex justify-center"><Tick yes={row.chatgpt} /></div></td>
-                      <td className="px-5 py-3 text-center border-b border-[#2a2a2e]"><div className="flex justify-center"><Tick yes={row.copilot} /></div></td>
-                      <td className="px-5 py-3 text-center border-b border-[#2a2a2e]"><div className="flex justify-center"><Tick yes={row.consultants} /></div></td>
+                    <tr key={row.feature} className={i % 2 === 0 ? "bg-[#f8f9fa]" : "bg-[#f8f9fa]"}>
+                      <td className="px-5 py-3 text-[13px] font-medium text-[#0f172a] border-b border-[#e2e8f0]">{row.feature}</td>
+                      <td className="px-5 py-3 text-center border-b border-[#e2e8f0]"><div className="flex justify-center"><Tick yes={row.clarix} /></div></td>
+                      <td className="px-5 py-3 text-center border-b border-[#e2e8f0]"><div className="flex justify-center"><Tick yes={row.chatgpt} /></div></td>
+                      <td className="px-5 py-3 text-center border-b border-[#e2e8f0]"><div className="flex justify-center"><Tick yes={row.copilot} /></div></td>
+                      <td className="px-5 py-3 text-center border-b border-[#e2e8f0]"><div className="flex justify-center"><Tick yes={row.consultants} /></div></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p className="text-[12px] text-[#444449] mt-3">— = partial or context-dependent</p>
+            <p className="text-[12px] text-[#94a3b8] mt-3">— = partial or context-dependent</p>
           </Reveal>
         </div>
       </section>
@@ -203,28 +203,28 @@ export default function CompetitionPage() {
       {/* Competitor cards */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal className="mb-14">
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">The Landscape</p>
+          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">The Landscape</p>
           <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">Every major player, honestly assessed.</h2>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {competitors.map((c, i) => (
             <Reveal key={c.name} delay={i * 60}>
-              <div className="border border-[#2a2a2e] rounded-xl p-6 h-full hover:border-[#d0d0d0] hover:shadow-sm transition-all">
+              <div className="border border-[#e2e8f0] rounded-xl p-6 h-full hover:border-[#d0d0d0] hover:shadow-sm transition-all">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="font-bold text-[#e8e8e8] text-[16px]">{c.name}</h3>
-                    <p className="text-[12px] text-[#444449] mt-0.5">{c.type} · {c.price}</p>
+                    <h3 className="font-bold text-[#0f172a] text-[16px]">{c.name}</h3>
+                    <p className="text-[12px] text-[#94a3b8] mt-0.5">{c.type} · {c.price}</p>
                   </div>
                   <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: c.color }} />
                 </div>
-                <p className="text-[#6b6b72] text-[13px] leading-relaxed mb-5">{c.summary}</p>
+                <p className="text-[#64748b] text-[13px] leading-relaxed mb-5">{c.summary}</p>
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
-                    <p className="text-[10px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-2">Strengths</p>
+                    <p className="text-[10px] font-semibold tracking-widests uppercase text-[#0f172a] mb-2">Strengths</p>
                     <ul className="space-y-1.5">
                       {c.strengths.map((s) => (
-                        <li key={s} className="flex gap-1.5 text-[12px] text-[#6b6b72]">
-                          <Check size={11} className="text-[#444449] flex-shrink-0 mt-0.5" />
+                        <li key={s} className="flex gap-1.5 text-[12px] text-[#64748b]">
+                          <Check size={11} className="text-[#94a3b8] flex-shrink-0 mt-0.5" />
                           {s}
                         </li>
                       ))}
@@ -234,7 +234,7 @@ export default function CompetitionPage() {
                     <p className="text-[10px] font-semibold tracking-widests uppercase text-red-400 mb-2">Gaps</p>
                     <ul className="space-y-1.5">
                       {c.weaknesses.slice(0, 4).map((w) => (
-                        <li key={w} className="flex gap-1.5 text-[12px] text-[#6b6b72]">
+                        <li key={w} className="flex gap-1.5 text-[12px] text-[#64748b]">
                           <X size={11} className="text-red-300 flex-shrink-0 mt-0.5" />
                           {w}
                         </li>
@@ -242,8 +242,8 @@ export default function CompetitionPage() {
                     </ul>
                   </div>
                 </div>
-                <div className="border-t border-[#2a2a2e] pt-4">
-                  <p className="text-[12px] text-[#e8e8e8] font-semibold">Verdict: <span className="font-normal text-[#6b6b72]">{c.verdict}</span></p>
+                <div className="border-t border-[#e2e8f0] pt-4">
+                  <p className="text-[12px] text-[#0f172a] font-semibold">Verdict: <span className="font-normal text-[#64748b]">{c.verdict}</span></p>
                 </div>
               </div>
             </Reveal>
@@ -252,20 +252,20 @@ export default function CompetitionPage() {
       </section>
 
       {/* Our advantages */}
-      <section className="border-t border-[#2a2a2e] bg-[#161618] py-20 md:py-24">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
-            <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">Our Edge</p>
+            <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">Our Edge</p>
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight max-w-xl">
               Six things no competitor does.
             </h2>
           </Reveal>
           <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {ourAdvantages.map((a, i) => (
-              <div key={a.title} className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-6">
-                <span className="font-mono text-[11px] text-[#444449] mb-4 block">0{i + 1}</span>
-                <h3 className="font-medium text-[#e8e8e8] text-[14px] mb-2">{a.title}</h3>
-                <p className="text-[#6b6b72] text-[13px] leading-relaxed">{a.desc}</p>
+              <div key={a.title} className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-6">
+                <span className="font-mono text-[11px] text-[#94a3b8] mb-4 block">0{i + 1}</span>
+                <h3 className="font-medium text-[#0f172a] text-[14px] mb-2">{a.title}</h3>
+                <p className="text-[#64748b] text-[13px] leading-relaxed">{a.desc}</p>
               </div>
             ))}
           </Reveal>
@@ -275,23 +275,23 @@ export default function CompetitionPage() {
       {/* The gap */}
       <section className="max-w-4xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal>
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">The Gap We Own</p>
+          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">The Gap We Own</p>
           <h2 className="text-2xl sm:text-3xl font-medium tracking-tight mb-6">
             No one else lives here.
           </h2>
-          <p className="text-[#6b6b72] text-[16px] leading-relaxed mb-6">
+          <p className="text-[#64748b] text-[16px] leading-relaxed mb-6">
             Generic AI tools ($20–$200/mo) are cheap and generic. Enterprise AI platforms ($5,000–$30,000/mo) are expensive and require IT departments to deploy. Traditional consultants are human, expensive, and unavailable at 3am.
           </p>
-          <p className="text-[#6b6b72] text-[16px] leading-relaxed mb-10">
-            Clarix at <strong className="text-[#e8e8e8]">$100–$250/mo</strong> occupies a position no one else is selling: <strong className="text-[#e8e8e8]">white-glove, persistent, proactive, and affordable</strong>. That gap isn&apos;t an accident — it exists because nobody built the operational playbook to serve it at this price. We did.
+          <p className="text-[#64748b] text-[16px] leading-relaxed mb-10">
+            Clarix at <strong className="text-[#0f172a]">$100–$250/mo</strong> occupies a position no one else is selling: <strong className="text-[#0f172a]">white-glove, persistent, proactive, and affordable</strong>. That gap isn&apos;t an accident — it exists because nobody built the operational playbook to serve it at this price. We did.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link href="/intake"
-              className="inline-flex items-center justify-center gap-2 bg-[#e8e8e8] hover:bg-white/90 text-[#0f0f0f] px-7 py-3.5 rounded-lg font-bold text-[14px]">
+              className="inline-flex items-center justify-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-7 py-3.5 rounded-lg font-bold text-[14px]">
               Get Started <ArrowRight size={14} />
             </Link>
             <Link href="/pricing"
-              className="inline-flex items-center justify-center gap-2 border border-[#2a2a2e] hover:border-[#0a0a0a] text-[#e8e8e8] px-7 py-3.5 rounded-lg font-medium text-[14px]">
+              className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#0a0a0a] text-[#0f172a] px-7 py-3.5 rounded-lg font-medium text-[14px]">
               View Pricing
             </Link>
           </div>

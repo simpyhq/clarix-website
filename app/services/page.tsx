@@ -76,42 +76,42 @@ const ongoing = [
 
 export default function ServicesPage() {
   return (
-    <div className="bg-[#0f0f0f] text-[#e8e8e8]">
+    <div className="bg-white text-[#0f172a]">
 
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Services</p>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Services</p>
           <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5">
             What we build.<br />
-            <span className="text-[#444449]">What you get.</span>
+            <span className="text-[#94a3b8]">What you get.</span>
           </h1>
-          <p className="text-[#6b6b72] text-[15px] max-w-2xl leading-relaxed">
+          <p className="text-[#64748b] text-[15px] max-w-2xl leading-relaxed">
             A fully configured AI assistant on dedicated hardware, customized through a structured onboarding process. It learns your world during setup and keeps learning through every interaction.
           </p>
         </Reveal>
       </section>
 
       {/* Use Cases */}
-      <section className="border-t border-[#2a2a2e] bg-[#161618] py-20 md:py-24">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Built For Anyone</p>
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Built For Anyone</p>
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight max-w-xl">
               Every profession. Every life.<br />
-              <span className="text-[#444449]">One platform.</span>
+              <span className="text-[#94a3b8]">One platform.</span>
             </h2>
-            <p className="text-[#6b6b72] text-[15px] mt-4 max-w-xl leading-relaxed">
+            <p className="text-[#64748b] text-[15px] mt-4 max-w-xl leading-relaxed">
               If you have workflows, deadlines, data, or communication that takes too much of your time — there&apos;s a Clarix configuration for you.
             </p>
           </Reveal>
           <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {useCases.map((uc) => (
-              <div key={uc.role} className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-5 hover:border-[#0066ff]/30 hover:shadow-sm transition-all">
+              <div key={uc.role} className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-5 hover:border-[#0066ff]/30 hover:shadow-sm transition-all">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-2xl">{uc.icon}</span>
-                  <h3 className="font-medium text-[#e8e8e8] text-[14px]">{uc.role}</h3>
+                  <h3 className="font-medium text-[#0f172a] text-[14px]">{uc.role}</h3>
                 </div>
-                <p className="text-[#6b6b72] text-[13px] leading-relaxed">{uc.desc}</p>
+                <p className="text-[#64748b] text-[13px] leading-relaxed">{uc.desc}</p>
               </div>
             ))}
           </Reveal>
@@ -121,22 +121,22 @@ export default function ServicesPage() {
       {/* Onboarding */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal className="mb-14">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Process</p>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">The Process</p>
           <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">Every client. Every time.</h2>
         </Reveal>
         <div className="space-y-0">
           {onboarding.map((s, i) => (
             <Reveal key={s.n} delay={i * 50}>
-              <div className={`flex gap-6 sm:gap-10 items-start py-7 ${i !== onboarding.length - 1 ? "border-b border-[#2a2a2e]" : ""}`}>
+              <div className={`flex gap-6 sm:gap-10 items-start py-7 ${i !== onboarding.length - 1 ? "border-b border-[#e2e8f0]" : ""}`}>
                 <div className="w-10 flex-shrink-0">
-                  <span className="font-mono text-[13px] text-[#444449]">{s.n}</span>
+                  <span className="font-mono text-[13px] text-[#94a3b8]">{s.n}</span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-4 mb-2">
-                    <h3 className="font-medium text-[#e8e8e8] text-[14px]">{s.title}</h3>
-                    <span className="text-[11px] font-semibold text-[#5E6AD2] bg-[#5E6AD2]/10 px-2.5 py-1 rounded-md flex-shrink-0">{s.time}</span>
+                    <h3 className="font-medium text-[#0f172a] text-[14px]">{s.title}</h3>
+                    <span className="text-[11px] font-semibold text-[#0f172a] bg-[#0f172a]/10 px-2.5 py-1 rounded-md flex-shrink-0">{s.time}</span>
                   </div>
-                  <p className="text-[14px] text-[#6b6b72] leading-relaxed">{s.desc}</p>
+                  <p className="text-[14px] text-[#64748b] leading-relaxed">{s.desc}</p>
                 </div>
               </div>
             </Reveal>
@@ -145,20 +145,20 @@ export default function ServicesPage() {
       </section>
 
       {/* Capabilities */}
-      <section className="border-t border-[#2a2a2e] bg-[#161618] py-20 md:py-24">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Capabilities</p>
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Capabilities</p>
             <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">What your assistant can do.</h2>
           </Reveal>
           <Reveal stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {capabilities.map((cap) => (
-              <div key={cap.category} className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-6">
-                <h3 className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-5">{cap.category}</h3>
+              <div key={cap.category} className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-6">
+                <h3 className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-5">{cap.category}</h3>
                 <ul className="space-y-2.5">
                   {cap.items.map((item) => (
-                    <li key={item} className="flex gap-2.5 text-[13px] text-[#6b6b72] leading-relaxed">
-                      <Check size={12} className="text-[#5E6AD2] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+                    <li key={item} className="flex gap-2.5 text-[13px] text-[#64748b] leading-relaxed">
+                      <Check size={12} className="text-[#0f172a] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
                       {item}
                     </li>
                   ))}
@@ -170,23 +170,23 @@ export default function ServicesPage() {
       </section>
 
       {/* Ongoing */}
-      <section className="border-t border-[#2a2a2e] py-20 md:py-24">
+      <section className="border-t border-[#e2e8f0] py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
             <Reveal>
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Ongoing Service</p>
+              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Ongoing Service</p>
               <h2 className="text-2xl sm:text-3xl font-medium mb-5 tracking-tight">
                 We don&apos;t hand it off<br />and disappear.
               </h2>
-              <p className="text-[#6b6b72] leading-relaxed text-[15px]">
+              <p className="text-[#64748b] leading-relaxed text-[15px]">
                 Every month we apply model updates, tune workflows, add integrations as your needs evolve, and monitor API costs. Your assistant gets better over time — not stale.
               </p>
             </Reveal>
             <Reveal delay={150} className="space-y-4">
               {ongoing.map((item) => (
                 <div key={item} className="flex gap-3 items-start">
-                  <Check size={13} className="text-[#5E6AD2] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
-                  <p className="text-[#6b6b72] text-[14px] leading-relaxed">{item}</p>
+                  <Check size={13} className="text-[#0f172a] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+                  <p className="text-[#64748b] text-[14px] leading-relaxed">{item}</p>
                 </div>
               ))}
             </Reveal>
@@ -195,23 +195,23 @@ export default function ServicesPage() {
       </section>
 
       {/* Hardware */}
-      <section className="border-t border-[#2a2a2e] bg-[#161618] py-20 md:py-24">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
             <Reveal>
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Hardware</p>
+              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">The Hardware</p>
               <h2 className="text-2xl sm:text-3xl font-medium tracking-tight mb-5">
                 Your AI lives<br />on its own machine.
               </h2>
-              <p className="text-[#6b6b72] leading-relaxed mb-4 text-[15px]">
+              <p className="text-[#64748b] leading-relaxed mb-4 text-[15px]">
                 Every client gets a dedicated Mac mini — configured and shipped. Your AI runs 24/7 on hardware you own. Data never touches shared cloud infrastructure.
               </p>
-              <p className="text-[#6b6b72] leading-relaxed text-[15px]">
+              <p className="text-[#64748b] leading-relaxed text-[15px]">
                 When you cancel, you keep the hardware. Your assistant keeps running as long as you have Anthropic credits.
               </p>
             </Reveal>
             <Reveal delay={150}>
-              <div className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-7 space-y-5">
+              <div className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-7 space-y-5">
                 {[
                   { label: "Hardware",      value: "Mac mini M4 (16GB RAM, 256GB SSD)" },
                   { label: "Software",      value: "OpenClaw gateway + Claude API" },
@@ -220,9 +220,9 @@ export default function ServicesPage() {
                   { label: "Updates",       value: "Applied remotely, monthly" },
                   { label: "Data location", value: "On your machine. Nowhere else." },
                 ].map((row, i, arr) => (
-                  <div key={row.label} className={`flex justify-between items-start gap-4 ${i !== arr.length - 1 ? "pb-5 border-b border-[#2a2a2e]" : ""}`}>
-                    <span className="text-[12px] font-semibold tracking-wide uppercase text-[#444449]">{row.label}</span>
-                    <span className="text-[13px] text-[#e8e8e8] text-right font-medium">{row.value}</span>
+                  <div key={row.label} className={`flex justify-between items-start gap-4 ${i !== arr.length - 1 ? "pb-5 border-b border-[#e2e8f0]" : ""}`}>
+                    <span className="text-[12px] font-semibold tracking-wide uppercase text-[#94a3b8]">{row.label}</span>
+                    <span className="text-[13px] text-[#0f172a] text-right font-medium">{row.value}</span>
                   </div>
                 ))}
               </div>
@@ -232,20 +232,20 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-[#2a2a2e] py-16">
+      <section className="border-t border-[#e2e8f0] py-16">
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h2 className="text-lg font-medium mb-1">Ready to see pricing?</h2>
-              <p className="text-[#6b6b72] text-[14px]">One setup fee. Monthly maintenance. No surprises.</p>
+              <p className="text-[#64748b] text-[14px]">One setup fee. Monthly maintenance. No surprises.</p>
             </div>
             <div className="flex gap-3 flex-shrink-0">
               <Link href="/pricing"
-                className="inline-flex items-center gap-2 bg-[#e8e8e8] hover:bg-white/90 text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
+                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
                 View Pricing <ArrowRight size={14} />
               </Link>
               <Link href="/contact"
-                className="inline-flex items-center gap-2 border border-[#2a2a2e] hover:border-[#0a0a0a] text-[#e8e8e8] px-6 py-3 rounded-lg font-medium text-[14px]">
+                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#0a0a0a] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
                 Ask a question
               </Link>
             </div>

@@ -60,16 +60,16 @@ const faqs = [
 
 export default function PricingPage() {
   return (
-    <div className="bg-[#0f0f0f] text-[#e8e8e8]">
+    <div className="bg-white text-[#0f172a]">
 
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Pricing</p>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Pricing</p>
           <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5">
             Simple pricing.<br />
-            <span className="text-[#444449]">No surprises.</span>
+            <span className="text-[#94a3b8]">No surprises.</span>
           </h1>
-          <p className="text-[#6b6b72] text-[15px] max-w-xl leading-relaxed">
+          <p className="text-[#64748b] text-[15px] max-w-xl leading-relaxed">
             One setup fee to get everything built and running. A small monthly fee to keep it sharp. Hourly for anything bigger.
           </p>
         </Reveal>
@@ -78,27 +78,27 @@ export default function PricingPage() {
       {/* Setup fee */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-10">
         <Reveal>
-          <div className="border border-[#2a2a2e] rounded-xl p-8 sm:p-10">
+          <div className="border border-[#e2e8f0] rounded-xl p-8 sm:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
               <div>
-                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">One-Time Setup</p>
+                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">One-Time Setup</p>
                 <div className="flex items-end gap-3 mb-4">
-                  <span className="text-5xl sm:text-6xl font-bold text-[#e8e8e8]">$2,500</span>
-                  <span className="text-[#444449] mb-2 text-[15px]">one-time</span>
+                  <span className="text-5xl sm:text-6xl font-bold text-[#0f172a]">$2,500</span>
+                  <span className="text-[#94a3b8] mb-2 text-[15px]">one-time</span>
                 </div>
-                <p className="text-[#6b6b72] leading-relaxed mb-7 text-[15px]">
+                <p className="text-[#64748b] leading-relaxed mb-7 text-[15px]">
                   Everything you need to go from zero to a fully working AI assistant — hardware, configuration, knowledge base, integrations, and 2 months of Pro support.
                 </p>
                 <Link href="/intake"
-                  className="inline-flex items-center gap-2 bg-[#e8e8e8] hover:bg-white/90 text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
+                  className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
                   Start Intake Form <ArrowRight size={14} />
                 </Link>
               </div>
               <div className="space-y-3">
                 {setupIncludes.map((item) => (
                   <div key={item} className="flex gap-3 items-start">
-                    <Check size={13} className="text-[#5E6AD2] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
-                    <span className="text-[#6b6b72] text-[13px] leading-relaxed">{item}</span>
+                    <Check size={13} className="text-[#0f172a] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+                    <span className="text-[#64748b] text-[13px] leading-relaxed">{item}</span>
                   </div>
                 ))}
               </div>
@@ -110,38 +110,38 @@ export default function PricingPage() {
       {/* Monthly */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-10">
         <Reveal className="mb-6">
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2]">Monthly Plans — after setup</p>
+          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a]">Monthly Plans — after setup</p>
         </Reveal>
         <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl">
           {plans.map((plan) => (
             <div key={plan.name}
-              className={`relative rounded-xl flex flex-col border ${plan.featured ? "bg-[#e8e8e8] border-[#0a0a0a] text-white" : "bg-[#161618] border-[#2a2a2e]"}`}>
+              className={`relative rounded-xl flex flex-col border ${plan.featured ? "bg-[#0f172a] border-[#0a0a0a] text-white" : "bg-[#f8f9fa] border-[#e2e8f0]"}`}>
               {plan.featured && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0066ff] text-white text-[10px] font-bold tracking-widests uppercase px-4 py-1 rounded-full whitespace-nowrap">
                   Most Popular
                 </div>
               )}
-              <div className={`p-6 border-b ${plan.featured ? "border-white/10" : "border-[#2a2a2e]"}`}>
-                <p className={`text-[11px] font-semibold tracking-widests uppercase mb-3 ${plan.featured ? "text-[#7c87e8]" : "text-[#5E6AD2]"}`}>{plan.name}</p>
+              <div className={`p-6 border-b ${plan.featured ? "border-white/10" : "border-[#e2e8f0]"}`}>
+                <p className={`text-[11px] font-semibold tracking-widests uppercase mb-3 ${plan.featured ? "text-[#334155]" : "text-[#0f172a]"}`}>{plan.name}</p>
                 <div className="flex items-end gap-1.5 mb-2">
                   <span className="text-3xl font-bold">{plan.price}</span>
-                  <span className={`text-[13px] mb-0.5 ${plan.featured ? "text-white/40" : "text-[#444449]"}`}>{plan.freq}</span>
+                  <span className={`text-[13px] mb-0.5 ${plan.featured ? "text-white/40" : "text-[#94a3b8]"}`}>{plan.freq}</span>
                 </div>
-                <p className={`text-[12px] ${plan.featured ? "text-white/40" : "text-[#444449]"}`}>{plan.tagline}</p>
+                <p className={`text-[12px] ${plan.featured ? "text-white/40" : "text-[#94a3b8]"}`}>{plan.tagline}</p>
               </div>
               <div className="p-6 flex-1">
                 <ul className="space-y-3">
                   {plan.items.map((f) => (
                     <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed">
-                      <Check size={13} className={`flex-shrink-0 mt-0.5 ${plan.featured ? "text-[#7c87e8]" : "text-[#5E6AD2]"}`} strokeWidth={2.5} />
-                      <span className={plan.featured ? "text-white/60" : "text-[#6b6b72]"}>{f}</span>
+                      <Check size={13} className={`flex-shrink-0 mt-0.5 ${plan.featured ? "text-[#334155]" : "text-[#0f172a]"}`} strokeWidth={2.5} />
+                      <span className={plan.featured ? "text-white/60" : "text-[#64748b]"}>{f}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="p-6 pt-0">
                 <Link href="/intake"
-                  className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-[13px] font-semibold w-full ${plan.featured ? "bg-[#0f0f0f] text-[#e8e8e8] hover:bg-[#161618]/90" : "bg-[#e8e8e8] text-white hover:bg-white/90"}`}>
+                  className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-[13px] font-semibold w-full ${plan.featured ? "bg-white text-[#0f172a] hover:bg-[#f8f9fa]/90" : "bg-[#0f172a] text-white hover:bg-[#f8f9fa]"}`}>
                   Get started <ArrowRight size={13} />
                 </Link>
               </div>
@@ -153,23 +153,23 @@ export default function PricingPage() {
       {/* Hourly */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-20">
         <Reveal>
-          <div className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-7 max-w-2xl">
+          <div className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-7 max-w-2xl">
             <div className="flex items-start gap-5">
-              <div className="w-10 h-10 rounded-lg bg-[#161618] border border-[#2a2a2e] flex items-center justify-center flex-shrink-0">
-                <Clock size={18} className="text-[#e8e8e8]" />
+              <div className="w-10 h-10 rounded-lg bg-[#f8f9fa] border border-[#e2e8f0] flex items-center justify-center flex-shrink-0">
+                <Clock size={18} className="text-[#0f172a]" />
               </div>
               <div>
-                <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-2">Hourly Work</p>
+                <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-2">Hourly Work</p>
                 <div className="flex items-end gap-2 mb-3">
-                  <span className="text-2xl font-bold text-[#e8e8e8]">$125</span>
-                  <span className="text-[13px] text-[#444449] mb-0.5">/hr · billed in 15-min increments</span>
+                  <span className="text-2xl font-bold text-[#0f172a]">$125</span>
+                  <span className="text-[13px] text-[#94a3b8] mb-0.5">/hr · billed in 15-min increments</span>
                 </div>
-                <p className="text-[13px] text-[#6b6b72] leading-relaxed mb-4">
+                <p className="text-[13px] text-[#64748b] leading-relaxed mb-4">
                   For work outside monthly scope — custom integrations, workflow rebuilds, new data sources, or on-site configuration.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {["Custom integrations", "On-site config", "Workflow rebuilds", "New data sources", "Training"].map((t) => (
-                    <span key={t} className="text-[11px] text-[#6b6b72] bg-[#161618] border border-[#2a2a2e] px-2.5 py-1 rounded-md">{t}</span>
+                    <span key={t} className="text-[11px] text-[#64748b] bg-[#f8f9fa] border border-[#e2e8f0] px-2.5 py-1 rounded-md">{t}</span>
                   ))}
                 </div>
               </div>
@@ -179,30 +179,30 @@ export default function PricingPage() {
       </section>
 
       {/* Comparison */}
-      <section className="border-t border-[#2a2a2e] bg-[#161618] py-20 md:py-24">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-10">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Competitive Advantage</p>
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Competitive Advantage</p>
             <h2 className="text-xl sm:text-2xl font-medium tracking-tight">How we stack up.</h2>
           </Reveal>
           <Reveal>
-            <div className="overflow-x-auto rounded-xl border border-[#2a2a2e]">
+            <div className="overflow-x-auto rounded-xl border border-[#e2e8f0]">
               <table className="w-full min-w-[560px]">
                 <thead>
-                  <tr className="bg-[#e8e8e8]">
+                  <tr className="bg-[#0f172a]">
                     <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5 w-1/4">Factor</th>
-                    <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-[#7c87e8] px-5 py-3.5 w-1/4">Clarix</th>
+                    <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-[#334155] px-5 py-3.5 w-1/4">Clarix</th>
                     <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5 w-1/4">Generic AI</th>
                     <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5 w-1/4">Consultants</th>
                   </tr>
                 </thead>
                 <tbody>
                   {compTable.map((row, i) => (
-                    <tr key={row.factor} className={i % 2 === 0 ? "bg-[#161618]" : "bg-[#161618]"}>
-                      <td className="px-5 py-3.5 text-[13px] font-medium text-[#e8e8e8] border-b border-[#2a2a2e]">{row.factor}</td>
-                      <td className="px-5 py-3.5 text-[13px] text-[#5E6AD2] font-medium border-b border-[#2a2a2e]">{row.us}</td>
-                      <td className="px-5 py-3.5 text-[13px] text-[#444449] border-b border-[#2a2a2e]">{row.generic}</td>
-                      <td className="px-5 py-3.5 text-[13px] text-[#444449] border-b border-[#2a2a2e]">{row.trad}</td>
+                    <tr key={row.factor} className={i % 2 === 0 ? "bg-[#f8f9fa]" : "bg-[#f8f9fa]"}>
+                      <td className="px-5 py-3.5 text-[13px] font-medium text-[#0f172a] border-b border-[#e2e8f0]">{row.factor}</td>
+                      <td className="px-5 py-3.5 text-[13px] text-[#0f172a] font-medium border-b border-[#e2e8f0]">{row.us}</td>
+                      <td className="px-5 py-3.5 text-[13px] text-[#94a3b8] border-b border-[#e2e8f0]">{row.generic}</td>
+                      <td className="px-5 py-3.5 text-[13px] text-[#94a3b8] border-b border-[#e2e8f0]">{row.trad}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -215,34 +215,34 @@ export default function PricingPage() {
       {/* FAQ */}
       <section className="max-w-3xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal className="mb-12">
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">FAQ</p>
+          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">FAQ</p>
           <h2 className="text-3xl font-bold tracking-tight">Common questions.</h2>
         </Reveal>
         {faqs.map((faq, i) => (
           <Reveal key={faq.q} delay={i * 50}>
-            <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-[#2a2a2e]" : ""}`}>
-              <h3 className="font-semibold text-[#e8e8e8] mb-2 text-[15px]">{faq.q}</h3>
-              <p className="text-[14px] text-[#6b6b72] leading-relaxed">{faq.a}</p>
+            <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-[#e2e8f0]" : ""}`}>
+              <h3 className="font-semibold text-[#0f172a] mb-2 text-[15px]">{faq.q}</h3>
+              <p className="text-[14px] text-[#64748b] leading-relaxed">{faq.a}</p>
             </div>
           </Reveal>
         ))}
       </section>
 
       {/* CTA */}
-      <section className="border-t border-[#2a2a2e] py-14">
+      <section className="border-t border-[#e2e8f0] py-14">
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h2 className="text-lg font-medium mb-1">Ready to get started?</h2>
-              <p className="text-[#6b6b72] text-[14px]">Fill out the intake form and we&apos;ll follow up within 24 hours.</p>
+              <p className="text-[#64748b] text-[14px]">Fill out the intake form and we&apos;ll follow up within 24 hours.</p>
             </div>
             <div className="flex gap-3 flex-shrink-0">
               <Link href="/intake"
-                className="inline-flex items-center gap-2 bg-[#e8e8e8] hover:bg-white/90 text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
+                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#f8f9fa] text-[#0f0f0f] px-6 py-3 rounded-lg font-semibold text-[14px]">
                 Start Intake Form <ArrowRight size={14} />
               </Link>
               <Link href="/contact"
-                className="inline-flex items-center gap-2 border border-[#2a2a2e] hover:border-[#0a0a0a] text-[#e8e8e8] px-6 py-3 rounded-lg font-medium text-[14px]">
+                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#0a0a0a] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
                 Ask a question
               </Link>
             </div>

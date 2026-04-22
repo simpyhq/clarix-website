@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* ── Linear-inspired dark palette ── */
+/* ── Notion/Linear-docs palette ── */
 :root {
-  --bg:           #0f0f0f;
-  --bg-2:         #161618;
-  --bg-3:         #1c1c1f;
-  --border:       #2a2a2e;
-  --border-2:     #333338;
-  --ink:          #e8e8e8;
-  --ink-2:        #a0a0a8;
-  --ink-3:        #6b6b72;
-  --ink-4:        #444449;
-  --accent:       #5E6AD2;
-  --accent-light: #7c87e8;
-  --accent-bg:    rgba(94,106,210,0.1);
+  --bg:           #ffffff;
+  --bg-2:         #f8f9fa;
+  --bg-3:         #f1f3f5;
+  --border:       #e2e8f0;
+  --border-2:     #cbd5e1;
+  --ink:          #0f172a;
+  --ink-2:        #334155;
+  --ink-3:        #64748b;
+  --ink-4:        #94a3b8;
+  --accent:       #0f172a;
+  --accent-light: #1e293b;
+  --accent-bg:    rgba(15,23,42,0.06);
 }
 
 html { scroll-behavior: smooth; }
@@ -110,11 +110,12 @@ a, button { transition: all 0.15s ease; }
 
 /* ── Card hover ── */
 .hover-card {
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 .hover-card:hover {
   border-color: var(--border-2);
-  background: var(--bg-3);
+  box-shadow: 0 4px 16px rgba(15,23,42,0.06);
+  transform: translateY(-1px);
 }
 
 /* ── Font mono ── */
