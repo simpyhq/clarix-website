@@ -1,131 +1,105 @@
 import Link from "next/link";
-import { Mail, Clock, ClipboardList } from "lucide-react";
+import { Mail, Clock, ArrowRight } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div>
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-20 pb-8">
-        <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-3">Contact</p>
-        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#0D0D0D] mb-5">Get in touch.</h1>
-        <p className="text-[#6B6B6B] text-lg max-w-xl">
-          Tell us what you need and we&apos;ll reply within a few hours — usually faster. No sales funnel, no demo calls, no wait.
+    <div className="bg-white text-[#0a0a0a]">
+
+      <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-8">
+        <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">Contact</p>
+        <h1 className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5">Get in touch.</h1>
+        <p className="text-[#6b6b6b] text-[17px] max-w-xl leading-relaxed">
+          Tell us what you need and we&apos;ll reply within a few hours. No sales funnel, no demo calls, no wait.
         </p>
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 pb-24">
+      <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 items-start">
+
           {/* Form */}
-          <div className="md:col-span-3 bg-white border border-[#E2E0DA] rounded-lg p-8">
-            <form action="mailto:hello@clarix.ai" method="GET" encType="text/plain" className="space-y-5">
+          <div className="md:col-span-3 bg-white border border-[#e8e8e8] rounded-xl p-8">
+            <form action="mailto:jarvis@simpyhq.com" method="GET" encType="text/plain" className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2" htmlFor="name">Name</label>
-                  <input
-                    type="text" id="name" name="name"
-                    placeholder="Your full name"
-                    className="w-full bg-[#F8F7F3] border border-[#E2E0DA] rounded px-4 py-2.5 text-[#0D0D0D] placeholder-[#ABABAB] text-sm focus:outline-none focus:border-[#0F1B3C] transition-colors"
-                  />
+                  <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#9b9b9b] mb-2" htmlFor="name">Name</label>
+                  <input type="text" id="name" name="name" placeholder="Your full name"
+                    className="w-full bg-[#f7f7f7] border border-[#e8e8e8] rounded-lg px-4 py-2.5 text-[#0a0a0a] placeholder-[#9b9b9b] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors" />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2" htmlFor="email">Email</label>
-                  <input
-                    type="email" id="email" name="email"
-                    placeholder="you@company.com"
-                    className="w-full bg-[#F8F7F3] border border-[#E2E0DA] rounded px-4 py-2.5 text-[#0D0D0D] placeholder-[#ABABAB] text-sm focus:outline-none focus:border-[#0F1B3C] transition-colors"
-                  />
+                  <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#9b9b9b] mb-2" htmlFor="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="you@company.com"
+                    className="w-full bg-[#f7f7f7] border border-[#e8e8e8] rounded-lg px-4 py-2.5 text-[#0a0a0a] placeholder-[#9b9b9b] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2" htmlFor="type">I am a...</label>
-                <select
-                  id="type" name="type"
-                  className="w-full bg-[#F8F7F3] border border-[#E2E0DA] rounded px-4 py-2.5 text-[#0D0D0D] text-sm focus:outline-none focus:border-[#0F1B3C] transition-colors appearance-none"
-                >
+                <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#9b9b9b] mb-2" htmlFor="type">I am a...</label>
+                <select id="type" name="type"
+                  className="w-full bg-[#f7f7f7] border border-[#e8e8e8] rounded-lg px-4 py-2.5 text-[#0a0a0a] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors appearance-none">
                   <option value="">Select one</option>
                   <option value="individual">Individual (student, creator, executive)</option>
                   <option value="professional">Professional (real estate, legal, finance, healthcare)</option>
-                  <option value="business">Business owner ($1M–$25M revenue)</option>
+                  <option value="business">Business owner</option>
                   <option value="enterprise">Enterprise / large business</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2" htmlFor="plan">Plan interest</label>
-                <select
-                  id="plan" name="plan"
-                  className="w-full bg-[#F8F7F3] border border-[#E2E0DA] rounded px-4 py-2.5 text-[#0D0D0D] text-sm focus:outline-none focus:border-[#0F1B3C] transition-colors appearance-none"
-                >
+                <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#9b9b9b] mb-2" htmlFor="plan">Plan interest</label>
+                <select id="plan" name="plan"
+                  className="w-full bg-[#f7f7f7] border border-[#e8e8e8] rounded-lg px-4 py-2.5 text-[#0a0a0a] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors appearance-none">
                   <option value="">Not sure yet</option>
-                  <option value="personal">Personal ($500/mo)</option>
-                  <option value="professional">Professional ($750/mo)</option>
-                  <option value="business-standard">Business Standard ($1,000/mo)</option>
-                  <option value="business-premium">Business Premium ($1,500/mo)</option>
+                  <option value="basic">Basic — $100/mo</option>
+                  <option value="pro">Pro — $250/mo</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-2" htmlFor="body">What do you need help with?</label>
-                <textarea
-                  id="body" name="body" rows={5}
-                  placeholder="Tell us about your business, what you'd want your assistant to do, any tools you use (QuickBooks, HubSpot, etc.), and any questions you have..."
-                  className="w-full bg-[#F8F7F3] border border-[#E2E0DA] rounded px-4 py-2.5 text-[#0D0D0D] placeholder-[#ABABAB] text-sm focus:outline-none focus:border-[#0F1B3C] transition-colors resize-none"
-                />
+                <label className="block text-[11px] font-semibold tracking-widests uppercase text-[#9b9b9b] mb-2" htmlFor="body">What do you need help with?</label>
+                <textarea id="body" name="body" rows={5}
+                  placeholder="Tell us about your business, what you'd want your assistant to do, any tools you use, and any questions you have..."
+                  className="w-full bg-[#f7f7f7] border border-[#e8e8e8] rounded-lg px-4 py-2.5 text-[#0a0a0a] placeholder-[#9b9b9b] text-[14px] focus:outline-none focus:border-[#0066ff] transition-colors resize-none" />
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-[#0F1B3C] hover:bg-[#1a2d5a] text-white py-3 rounded font-medium text-sm tracking-wide transition-colors"
-              >
+              <button type="submit"
+                className="w-full bg-[#0a0a0a] hover:bg-[#222] text-white py-3 rounded-lg font-semibold text-[14px] transition-colors">
                 Send Message
               </button>
-              <p className="text-[#ABABAB] text-xs text-center">Opens your email client pre-filled. Or email us directly.</p>
+              <p className="text-[#9b9b9b] text-[12px] text-center">Opens your email client pre-filled. Or email us directly at jarvis@simpyhq.com</p>
             </form>
           </div>
 
           {/* Sidebar */}
-          <div className="md:col-span-2 space-y-5">
-            <div className="bg-white border border-[#E2E0DA] rounded-lg p-6 space-y-5">
-              <a href="mailto:jarvis@simpyhq.com" className="flex items-start gap-3 group">
-                <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
-                  <Mail size={14} className="text-[#0F1B3C]" />
+          <div className="md:col-span-2 space-y-4">
+            <div className="bg-[#f7f7f7] border border-[#e8e8e8] rounded-xl p-6 space-y-5">
+              {[
+                { label: "General", email: "jarvis@simpyhq.com" },
+                { label: "Michael Simpson — Founder", email: "michael@ospipe.com" },
+                { label: "Christian Simpson — Operations", email: "christian.simpson.2018@outlook.com" },
+              ].map((c) => (
+                <a key={c.email} href={`mailto:${c.email}`} className="flex items-start gap-3 group">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-[#e8e8e8] flex items-center justify-center flex-shrink-0">
+                    <Mail size={13} className="text-[#0066ff]" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold tracking-wide uppercase text-[#9b9b9b] mb-0.5">{c.label}</p>
+                    <p className="text-[13px] text-[#0066ff] group-hover:underline">{c.email}</p>
+                  </div>
+                </a>
+              ))}
+              <div className="flex items-start gap-3 pt-1 border-t border-[#e8e8e8]">
+                <div className="w-8 h-8 rounded-lg bg-white border border-[#e8e8e8] flex items-center justify-center flex-shrink-0">
+                  <Clock size={13} className="text-[#0a0a0a]" />
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">General</p>
-                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">jarvis@simpyhq.com</p>
-                </div>
-              </a>
-              <a href="mailto:michael@ospipe.com" className="flex items-start gap-3 group">
-                <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
-                  <Mail size={14} className="text-[#0F1B3C]" />
-                </div>
-                <div>
-                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">Michael Simpson — Founder</p>
-                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">michael@ospipe.com</p>
-                </div>
-              </a>
-              <a href="mailto:christian.simpson.2018@outlook.com" className="flex items-start gap-3 group">
-                <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
-                  <Mail size={14} className="text-[#0F1B3C]" />
-                </div>
-                <div>
-                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">Christian Simpson — Operations</p>
-                  <p className="text-sm text-[#0F1B3C] font-medium group-hover:underline">christian.simpson.2018@outlook.com</p>
-                </div>
-              </a>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded bg-[#F8F7F3] border border-[#E2E0DA] flex items-center justify-center flex-shrink-0">
-                  <Clock size={14} className="text-[#0F1B3C]" />
-                </div>
-                <div>
-                  <p className="text-[12px] font-semibold tracking-wide uppercase text-[#6B6B6B]">Response Time</p>
-                  <p className="text-sm text-[#0D0D0D]">Usually within a few hours</p>
+                  <p className="text-[11px] font-semibold tracking-wide uppercase text-[#9b9b9b] mb-0.5">Response time</p>
+                  <p className="text-[13px] text-[#0a0a0a]">Usually within a few hours</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white border border-[#E2E0DA] rounded-lg p-6">
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-4">What happens next</p>
+            <div className="bg-[#f7f7f7] border border-[#e8e8e8] rounded-xl p-6">
+              <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0066ff] mb-4">What happens next</p>
               <ol className="space-y-3">
                 {[
                   "We reply with a few qualifying questions",
@@ -133,8 +107,8 @@ export default function ContactPage() {
                   "We configure your assistant (48–72 hrs)",
                   "Handoff — live and ready to use",
                 ].map((step, i) => (
-                  <li key={i} className="flex gap-3 text-sm text-[#444] leading-relaxed">
-                    <span className="w-5 h-5 rounded bg-[#0F1B3C] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <li key={i} className="flex gap-3 text-[13px] text-[#6b6b6b] leading-relaxed">
+                    <span className="w-5 h-5 rounded-md bg-[#0a0a0a] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                       {i + 1}
                     </span>
                     {step}
@@ -143,21 +117,19 @@ export default function ContactPage() {
               </ol>
             </div>
 
-            <Link href="/intake" className="block bg-[#0F1B3C] rounded-lg p-6 group hover:bg-[#1a2d5a] transition-colors">
-              <div className="flex items-start gap-3">
-                <ClipboardList size={18} className="text-[#D4A847] flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-white font-semibold text-sm mb-1">Ready to get started?</p>
-                  <p className="text-white/60 text-xs leading-relaxed">Fill out our intake form — tell us about your business and what you want to automate. We&apos;ll come back with a tailored recommendation.</p>
-                  <p className="text-[#D4A847] text-xs font-medium mt-3 group-hover:underline">Start intake form →</p>
-                </div>
-              </div>
+            <Link href="/intake"
+              className="block bg-[#0a0a0a] hover:bg-[#222] rounded-xl p-6 group transition-colors">
+              <p className="text-white font-semibold text-[14px] mb-1">Ready to get started?</p>
+              <p className="text-white/40 text-[13px] leading-relaxed mb-3">Fill out our intake form — tell us about your business and what you want to automate.</p>
+              <p className="text-[#6b9bff] text-[13px] font-medium flex items-center gap-1">
+                Start intake form <ArrowRight size={12} />
+              </p>
             </Link>
 
-            <div className="bg-[#F8F7F3] border border-[#E2E0DA] rounded-lg p-6">
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#B8902A] mb-2">Referral Program</p>
-              <p className="text-sm text-[#6B6B6B] leading-relaxed">
-                Every client who refers a new client receives a <strong className="text-[#0D0D0D]">$500 credit</strong> toward their next month. No limit on referrals.
+            <div className="bg-[#f0f5ff] border border-[#0066ff]/15 rounded-xl p-6">
+              <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0066ff] mb-2">Referral Program</p>
+              <p className="text-[13px] text-[#6b6b6b] leading-relaxed">
+                Refer a client and receive a <strong className="text-[#0a0a0a]">$500 credit</strong> toward your next month. No limit on referrals.
               </p>
             </div>
           </div>

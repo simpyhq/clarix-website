@@ -2,63 +2,59 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[#E2E0DA] bg-[#F8F7F3] mt-24">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-14">
+    <footer className="border-t border-[#e8e8e8] bg-[#f7f7f7]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
 
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-7 h-7 rounded bg-[#0F1B3C] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-md bg-[#0a0a0a] flex items-center justify-center">
                 <span className="text-white text-xs font-bold">C</span>
               </div>
-              <span className="font-semibold text-[#0D0D0D] text-[15px]">Clarix</span>
+              <span className="font-semibold text-[#0a0a0a] text-[15px] tracking-tight">Clarix</span>
             </div>
-            <p className="text-[#6B6B6B] text-sm leading-relaxed max-w-xs">
+            <p className="text-[#6b6b6b] text-[13px] leading-relaxed max-w-xs mb-4">
               Dedicated AI assistants for businesses, professionals, and high-performing individuals. Built, configured, and maintained by us.
             </p>
-            <p className="text-[#6B6B6B] text-sm mt-4">
-              <a href="mailto:hello@clarix.ai" className="hover:text-[#0D0D0D]">hello@clarix.ai</a>
-            </p>
+            <a href="mailto:jarvis@simpyhq.com" className="text-[13px] text-[#0066ff] hover:underline">
+              jarvis@simpyhq.com
+            </a>
           </div>
 
           <div>
-            <h4 className="text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">Product</h4>
+            <h4 className="text-[11px] font-semibold tracking-widest uppercase text-[#9b9b9b] mb-4">Product</h4>
             <ul className="space-y-3">
               {[
                 { href: "/services", label: "Services" },
-                { href: "/pricing", label: "Pricing" },
-                { href: "/intake", label: "Start Intake Form" },
+                { href: "/pricing",  label: "Pricing" },
+                { href: "/intake",   label: "Start Intake Form" },
               ].map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-[#6B6B6B] hover:text-[#0D0D0D]">
-                    {l.label}
-                  </Link>
+                  <Link href={l.href} className="text-[13px] text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors">{l.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-[11px] font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">Company</h4>
+            <h4 className="text-[11px] font-semibold tracking-widest uppercase text-[#9b9b9b] mb-4">Company</h4>
             <ul className="space-y-3">
               {[
-                { href: "/about", label: "About" },
+                { href: "/about",   label: "About" },
                 { href: "/contact", label: "Contact" },
               ].map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-[#6B6B6B] hover:text-[#0D0D0D]">
-                    {l.label}
-                  </Link>
+                  <Link href={l.href} className="text-[13px] text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors">{l.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-[#E2E0DA] mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[#ABABAB] text-xs">© {new Date().getFullYear()} Clarix. All rights reserved.</p>
-          <p className="text-[#ABABAB] text-xs">Powered by Claude — Anthropic</p>
+        <div className="border-t border-[#e8e8e8] mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[#9b9b9b] text-[12px]">© {new Date().getFullYear()} Clarix. All rights reserved.</p>
+          <p className="text-[#9b9b9b] text-[12px]">Powered by Claude — Anthropic</p>
         </div>
       </div>
     </footer>
