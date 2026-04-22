@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --cream: #F8F7F3;
-  --ink: #0D0D0D;
-  --navy: #0F1B3C;
-  --gold: #B8902A;
-  --gold-light: #D4A847;
-  --muted: #6B6B6B;
-  --border: #E2E0DA;
-  --card: #FFFFFF;
+  --bg: #ffffff;
+  --ink: #0a0a0a;
+  --ink-2: #3a3a3a;
+  --ink-3: #6b6b6b;
+  --ink-4: #9b9b9b;
+  --border: #e8e8e8;
+  --border-strong: #d0d0d0;
+  --blue: #0066ff;
+  --blue-dark: #0052cc;
+  --blue-bg: #f0f5ff;
+  --surface: #f7f7f7;
+  --surface-2: #f0f0f0;
 }
 
 html {
@@ -16,61 +20,47 @@ html {
 }
 
 body {
-  background: var(--cream);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .font-display {
-  font-family: var(--font-instrument), Georgia, 'Times New Roman', serif;
+  font-family: var(--font-instrument), Georgia, serif;
 }
 
-/* Refined table styles */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-/* Smooth transitions */
 a, button {
   transition: all 0.15s ease;
 }
 
-/* ── Dark hero animations ── */
+/* ── Animations ── */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-@keyframes float {
-  0%, 100% { transform: perspective(1200px) rotateX(8deg) rotateY(-4deg) translateY(0px); }
-  50%       { transform: perspective(1200px) rotateX(8deg) rotateY(-4deg) translateY(-10px); }
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 0.7; }
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.animate-fade-in {
-  animation: fadeIn 0.6s ease both;
-}
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-.animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
-}
+.animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-fade-in    { animation: fadeIn 0.5s ease both; }
+.animate-slide-right { animation: slideInRight 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.cursor-blink       { animation: blink 1s step-end infinite; }
 
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
@@ -78,37 +68,30 @@ a, button {
 .delay-400 { animation-delay: 0.4s; }
 .delay-500 { animation-delay: 0.5s; }
 .delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
 
-/* Scroll-reveal */
+/* Scroll reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(16px);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
 }
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Hover card */
+.hover-card {
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.gradient-text-gold {
-  background: linear-gradient(135deg, #D4A847 0%, #f0c96e 50%, #D4A847 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.hover-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 
-/* Card hover glow */
-.card-glow {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-.card-glow:hover {
-  border-color: rgba(212, 168, 71, 0.4);
-  box-shadow: 0 0 30px rgba(212, 168, 71, 0.08);
+/* Terminal text */
+.font-mono {
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
 }

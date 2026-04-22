@@ -1,68 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check, Zap, Brain, Lock, Clock, MessageSquare, BarChart3, Folder, Cpu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-// ─── Data ───────────────────────────────────────────────────────────────────
-
-const deliverables = [
-  { icon: Cpu,           title: "Dedicated Mac mini",      desc: "Your AI lives on its own machine. Isolated, private, nothing in the cloud." },
-  { icon: Brain,         title: "Custom knowledge base",   desc: "Built from a deep discovery interview: your goals, workflows, contacts, and preferences." },
-  { icon: Clock,         title: "Persistent memory",       desc: "Remembers every conversation and decision across time. No re-explaining yourself." },
-  { icon: Zap,           title: "Proactive monitoring",    desc: "Watches for deadlines, flags issues, and surfaces opportunities without being asked." },
-  { icon: MessageSquare, title: "Natural communication",   desc: "Text it on WhatsApp, iMessage, email, or Discord like a real team member." },
-  { icon: BarChart3,     title: "Automated workflows",     desc: "Reports, research, summaries, and data pulls run on schedule — reliably." },
-  { icon: Folder,        title: "File delivery",           desc: "Outputs land in Dropbox, Google Drive, or email — wherever you want them." },
-  { icon: Lock,          title: "Multi-model intelligence","desc": "Routes tasks to the right AI: fast for routine work, premium for high-stakes decisions." },
-];
-
-const tiers = [
-  { label: "Business", range: "$2M–$50M revenue", plan: "Pro — $250/mo",   desc: "CFO functions, KPI monitoring, financial reporting, vendor management, and industry-specific automation." },
-  { label: "Professional", range: "Real estate · Legal · Finance", plan: "Pro — $250/mo", desc: "Admin automation, client management, research, scheduling, and communication support." },
-  { label: "Individual",   range: "Students · Creators · Executives", plan: "Basic — $100/mo", desc: "Personal briefings, research, health tracking, goal management, and proactive scheduling." },
-];
-
-const steps = [
-  { n: "01", title: "Discovery Interview",   desc: "1–3 hours. Deep dive into your goals, workflows, contacts, and pain points." },
-  { n: "02", title: "Hardware Setup",        desc: "Mac mini configured with our software, messaging integrations, and memory system." },
-  { n: "03", title: "Knowledge Base",        desc: "Industry context, client-specific information, and preferences loaded in." },
-  { n: "04", title: "Integrations",          desc: "Accounting, CRM, calendar, email, and file storage connected." },
-  { n: "05", title: "Workflow Build",        desc: "Automated reports, scheduled tasks, and alerts configured to your specs." },
-  { n: "06", title: "Two-Week Tuning",       desc: "Daily adjustments based on real usage and feedback." },
-  { n: "07", title: "Handoff & Training",    desc: "You learn exactly what to ask, what's automated, and how to get the most from it." },
-];
-
-const faqs = [
-  { q: "Do I need any technical knowledge?",       a: "None at all. Fill out our intake form, tell us what you want, and we handle everything." },
-  { q: "What are API credits and what do they cost?", a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $50–150/month depending on usage." },
-  { q: "Who owns the hardware and data?",          a: "You do. The Mac mini is shipped to you and it's yours. Your data lives on your machine." },
-  { q: "How long does setup take?",                a: "48–72 hours from completed intake form to live assistant. Complex setups may take up to a week." },
-  { q: "What if I want to change something?",      a: "Every plan includes a tuning period. Ongoing changes are covered under the monthly fee — usually updated within 24 hours." },
-  { q: "Can I cancel?",                            a: "Yes, any time. Monthly billing only — no annual contracts. The Mac mini stays with you either way." },
-];
-
-// ─── Scroll reveal hook ──────────────────────────────────────────────────────
-
-function useReveal() {
+// ── Scroll reveal ─────────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0, className = "" }: {
+  children: React.ReactNode; delay?: number; className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
-      { threshold: 0.1 }
+      ([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
+      { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  return ref;
-}
-
-// ─── Reusable reveal wrapper ─────────────────────────────────────────────────
-
-function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useReveal();
   return (
     <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
@@ -70,150 +26,184 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-// ─── Mock product screenshot (built purely with divs) ────────────────────────
+// ── Terminal mockup ───────────────────────────────────────────────────────────
+function Terminal() {
+  const lines: Array<{type: string; text?: string; label?: string; value?: string}> = [
+    { type: "comment", text: "# Jarvis — daily briefing complete" },
+    { type: "blank" },
+    { type: "label",  label: "weather",     value: "Norman, OK · 60°F · Rain after 6pm" },
+    { type: "label",  label: "markets",     value: "S&P 7,087 ▼0.31% · BTC $75.7K · NVDA $201" },
+    { type: "label",  label: "canvas",      value: "2 items due tomorrow (METR-1014)" },
+    { type: "label",  label: "internships", value: "8 new listings · 3 DFW · 5 NYC" },
+    { type: "blank" },
+    { type: "comment", text: "# Email sent → christian.simpson.2018@outlook.com" },
+    { type: "comment", text: "# Next run in 23h 47m" },
+    { type: "blank" },
+    { type: "prompt",  text: "" },
+  ];
 
-function ProductMockup() {
   return (
-    <div className="animate-float w-full max-w-2xl mx-auto select-none pointer-events-none">
-      {/* Window chrome */}
-      <div className="rounded-xl overflow-hidden border border-white/10 shadow-[0_40px_120px_rgba(0,0,0,0.8)]">
-        {/* Title bar */}
-        <div className="bg-[#1a1a1a] px-4 py-3 flex items-center gap-2 border-b border-white/5">
-          <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-          <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-          <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-          <div className="ml-4 flex-1 bg-[#2a2a2a] rounded text-center text-[10px] text-white/30 py-0.5 px-3 max-w-[200px] mx-auto">
-            clarix.ai/dashboard
-          </div>
+    <div className="w-full rounded-xl overflow-hidden border border-[#e0e0e0] shadow-[0_24px_64px_rgba(0,0,0,0.08)]">
+      {/* Chrome bar */}
+      <div className="bg-[#f5f5f5] border-b border-[#e0e0e0] px-4 py-3 flex items-center gap-2">
+        <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+        <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+        <div className="w-3 h-3 rounded-full bg-[#28c840]" />
+        <div className="ml-3 flex-1 bg-white border border-[#e0e0e0] rounded text-center text-[11px] text-[#9b9b9b] py-0.5 max-w-[180px] mx-auto font-mono">
+          jarvis@mac-mini
         </div>
-        {/* App body */}
-        <div className="bg-[#111] flex" style={{ height: "340px" }}>
-          {/* Sidebar */}
-          <div className="w-44 bg-[#0d0d0d] border-r border-white/5 p-3 flex flex-col gap-1">
-            <div className="text-[10px] text-white/40 font-semibold tracking-widest uppercase mb-2 px-2">Clarix</div>
-            {["Dashboard", "Briefings", "Internships", "Finance", "Tasks"].map((item, i) => (
-              <div key={item} className={`px-2 py-1.5 rounded text-[11px] ${i === 0 ? "bg-white/10 text-white" : "text-white/40 hover:text-white/70"}`}>
-                {item}
+      </div>
+      {/* Terminal body */}
+      <div className="bg-[#0e0e0e] px-5 py-5 font-mono text-[13px] leading-7">
+        {lines.map((line, i) => (
+          <div key={i}>
+            {line.type === "comment" && (
+              <span className="text-[#6b6b6b]">{line.text}</span>
+            )}
+            {line.type === "label" && (
+              <div className="flex gap-3">
+                <span className="text-[#0066ff] w-24 flex-shrink-0">{line.label}</span>
+                <span className="text-[#e0e0e0]">{line.value}</span>
               </div>
-            ))}
-            <div className="mt-auto text-[10px] text-white/20 px-2">v2.4.0</div>
+            )}
+            {line.type === "prompt" && (
+              <div className="flex items-center gap-1.5 mt-1">
+                <span className="text-[#0066ff]">❯</span>
+                <span className="w-2 h-4 bg-[#0066ff] opacity-80 cursor-blink inline-block" />
+              </div>
+            )}
+            {line.type === "blank" && <div className="h-1" />}
           </div>
-          {/* Main content */}
-          <div className="flex-1 p-5 overflow-hidden">
-            <div className="text-[11px] text-white/40 mb-3">Tuesday, April 21 · Good morning, Christian</div>
-            {/* Stat row */}
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              {[
-                { label: "S&P 500", val: "7,087", chg: "▼ 0.31%", red: true },
-                { label: "BTC",     val: "$75.7K", chg: "▼ 0.26%", red: true },
-                { label: "NVDA",    val: "$201",   chg: "▲ 1.2%",  red: false },
-              ].map((s) => (
-                <div key={s.label} className="bg-white/5 rounded-lg p-2.5 border border-white/5">
-                  <div className="text-[9px] text-white/40 mb-1">{s.label}</div>
-                  <div className="text-[13px] font-semibold text-white">{s.val}</div>
-                  <div className={`text-[9px] ${s.red ? "text-red-400" : "text-green-400"}`}>{s.chg}</div>
-                </div>
-              ))}
-            </div>
-            {/* Briefing card */}
-            <div className="bg-white/5 rounded-lg p-3 border border-white/5 mb-3">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-[10px] font-semibold text-white/70">Daily Briefing</div>
-                <div className="text-[9px] text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded">Sent 9:00am</div>
-              </div>
-              <div className="space-y-1">
-                {["Weather: 60°F, partly cloudy · Rain this evening", "Headline: Fed nominee Warsh vows independence", "Canvas: 2 items due tomorrow (METR-1014)"].map((line) => (
-                  <div key={line} className="text-[9px] text-white/40 flex gap-1.5">
-                    <span className="text-[#D4A847] mt-0.5">·</span>{line}
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Task row */}
-            <div className="flex gap-2">
-              <div className="flex-1 bg-white/5 rounded-lg p-2.5 border border-white/5">
-                <div className="text-[9px] text-white/40 mb-1">Internship Digest</div>
-                <div className="text-[10px] text-white/60">8 new listings · 3 DFW · 5 NYC</div>
-              </div>
-              <div className="flex-1 bg-white/5 rounded-lg p-2.5 border border-[#D4A847]/20">
-                <div className="text-[9px] text-[#D4A847]/70 mb-1">AI is processing</div>
-                <div className="flex gap-1 mt-1">
-                  {[1,2,3].map(i => <div key={i} className="h-1 flex-1 rounded-full bg-[#D4A847]/30" style={{ animationDelay: `${i * 0.2}s` }} />)}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+// ── Data ─────────────────────────────────────────────────────────────────────
+
+const capabilities = [
+  { n: "01", title: "Persistent memory",       desc: "Remembers every conversation, decision, and context across time. No re-explaining yourself." },
+  { n: "02", title: "Dedicated hardware",       desc: "Runs on a Mac mini in your hands. Isolated, private, nothing shared with anyone." },
+  { n: "03", title: "Automated workflows",      desc: "Reports, briefings, research, and data pulls run on schedule — without you asking." },
+  { n: "04", title: "Natural communication",    desc: "Text it on WhatsApp, iMessage, email, or Discord like a real team member." },
+  { n: "05", title: "Custom knowledge base",    desc: "Built from a discovery interview: your goals, industry, workflows, and contacts." },
+  { n: "06", title: "Multi-model routing",      desc: "Fast models for routine tasks. Premium models when the stakes are high." },
+];
+
+const steps = [
+  { n: "01", title: "Discovery interview",   desc: "1–3 hours. We map your goals, workflows, contacts, data sources, and pain points." },
+  { n: "02", title: "Hardware setup",        desc: "Mac mini configured with our software, messaging integrations, and memory system." },
+  { n: "03", title: "Knowledge base",        desc: "Industry context, client info, and preferences loaded into the system." },
+  { n: "04", title: "Integrations",          desc: "Accounting, CRM, calendar, email, and file storage connected." },
+  { n: "05", title: "Workflow build",        desc: "Automated reports, tasks, and alerts configured to your specs." },
+  { n: "06", title: "Two-week tuning",       desc: "Daily adjustments based on real usage and feedback." },
+  { n: "07", title: "Handoff & training",    desc: "You learn exactly what to ask, what's automated, and how to get the most from it." },
+];
+
+const tiers = [
+  {
+    name: "Basic",
+    price: "$100",
+    freq: "/mo after setup",
+    for: "Individuals & students",
+    items: [
+      "Daily briefings & reminders",
+      "Personal research assistant",
+      "Calendar & deadline tracking",
+      "Health & goal monitoring",
+      "WhatsApp / iMessage access",
+    ],
+  },
+  {
+    name: "Pro",
+    price: "$250",
+    freq: "/mo after setup",
+    for: "Businesses & professionals",
+    featured: true,
+    items: [
+      "Everything in Basic",
+      "Financial reporting & KPIs",
+      "CRM & email automation",
+      "Vendor & deadline management",
+      "Multi-channel delivery",
+      "Dedicated support",
+    ],
+  },
+];
+
+const faqs = [
+  { q: "Do I need technical knowledge?",        a: "None. Fill out our intake form, tell us what you want, and we handle everything." },
+  { q: "What are API credits?",                  a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $50–150/month." },
+  { q: "Who owns the hardware and data?",        a: "You do. The Mac mini ships to you. Your data lives on your machine — we don't retain access." },
+  { q: "How long does setup take?",              a: "48–72 hours from completed intake to a live assistant. Complex setups may take up to a week." },
+  { q: "What if I want changes after setup?",    a: "Covered under the monthly fee. Most updates done within 24 hours." },
+  { q: "Can I cancel?",                          a: "Yes, any time. Monthly billing, no contracts. The Mac mini is yours either way." },
+];
+
+// ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
-    <div className="bg-[#080808] text-white min-h-screen">
+    <div className="bg-white text-[#0a0a0a]">
 
-      {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden min-h-screen flex flex-col justify-center pt-24 pb-0">
+      {/* ── HERO ── */}
+      <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-24 pb-20 md:pt-32 md:pb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-        {/* Radial background glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="animate-pulse-glow absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full"
-               style={{ background: "radial-gradient(ellipse, rgba(212,168,71,0.12) 0%, transparent 70%)" }} />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 w-full">
-          <div className="max-w-4xl mb-16">
-
-            {/* Badge */}
-            <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] border border-[#D4A847]/30 bg-[#D4A847]/5 px-3 py-1.5 rounded-full mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4A847] animate-pulse" />
+          {/* Left col */}
+          <div>
+            {/* Tag */}
+            <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] border border-[#0066ff]/20 bg-[#f0f5ff] px-3 py-1.5 rounded-full mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0066ff]" />
               Powered by Claude · Anthropic
             </div>
 
             {/* Headline */}
-            <h1 className="animate-fade-in-up delay-100 text-[2.8rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tight mb-7">
-              <span className="gradient-text">Your Life. Your Work.</span><br />
-              <span className="text-white">An AI That Knows It.</span>
+            <h1 className="animate-fade-in-up delay-100 text-[2.6rem] sm:text-5xl md:text-6xl font-bold leading-[1.06] tracking-tight mb-7 text-[#0a0a0a]">
+              Your business.<br />
+              Your assistant.<br />
+              <span className="text-[#6b6b6b]">From day one.</span>
             </h1>
 
-            {/* Sub */}
-            <p className="animate-fade-in-up delay-200 text-lg sm:text-xl text-white/50 leading-relaxed max-w-2xl mb-10">
-              Not a chatbot subscription. A configured, persistent AI system on dedicated hardware — with deep memory of your world. It becomes more valuable every day.
+            <p className="animate-fade-in-up delay-200 text-[17px] text-[#6b6b6b] leading-relaxed max-w-lg mb-10">
+              A configured, persistent AI system on dedicated hardware — with deep memory of your world. Not a chatbot. A system that knows your business and acts on it.
             </p>
 
             {/* CTAs */}
-            <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-3">
+            <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-3 mb-12">
               <Link href="/intake"
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#080808] hover:bg-white/90 px-7 py-3.5 rounded-lg font-semibold text-[15px]">
-                Get Started <ArrowRight size={16} />
+                className="inline-flex items-center justify-center gap-2 bg-[#0a0a0a] hover:bg-[#222] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
+                Start intake form <ArrowRight size={14} />
               </Link>
-              <Link href="/services"
-                className="inline-flex items-center justify-center gap-2 border border-white/15 hover:border-white/40 text-white/80 hover:text-white px-7 py-3.5 rounded-lg font-medium text-[15px]">
-                How It Works
+              <Link href="/pricing"
+                className="inline-flex items-center justify-center gap-2 border border-[#e8e8e8] hover:border-[#0a0a0a] text-[#0a0a0a] px-6 py-3 rounded-lg font-medium text-[14px]">
+                View pricing
               </Link>
+            </div>
+
+            {/* Trust line */}
+            <div className="animate-fade-in delay-500 flex items-center gap-2 text-[13px] text-[#9b9b9b]">
+              <Check size={13} className="text-[#0066ff]" />
+              No contracts · Hardware yours to keep · Cancel any time
             </div>
           </div>
 
-          {/* Product mockup */}
-          <div className="animate-fade-in delay-500 w-full max-w-3xl">
-            <ProductMockup />
+          {/* Right col — terminal */}
+          <div className="animate-fade-in-up delay-400 lg:pt-4">
+            <Terminal />
+            <p className="text-[12px] text-[#9b9b9b] mt-3 text-center">
+              Actual output from a live Clarix assistant — running every morning at 9am
+            </p>
           </div>
         </div>
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
-             style={{ background: "linear-gradient(to top, #080808, transparent)" }} />
       </section>
 
-      {/* ── STATS BAR ─────────────────────────────────────────────────────── */}
-      <section className="border-y border-white/5 bg-white/[0.02]">
+      {/* ── STATS ── */}
+      <section className="border-y border-[#e8e8e8]">
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x md:divide-white/5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#e8e8e8]">
               {[
                 { stat: "48–72 hrs", label: "From intake to live" },
                 { stat: "88–90%",    label: "Gross margin per client" },
@@ -221,8 +211,8 @@ export default function HomePage() {
                 { stat: "24 / 7",   label: "Always on, always watching" },
               ].map((s) => (
                 <div key={s.stat} className="md:px-8 first:pl-0 last:pr-0">
-                  <p className="gradient-text-gold text-2xl sm:text-3xl font-bold mb-1">{s.stat}</p>
-                  <p className="text-[12px] text-white/40">{s.label}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-[#0a0a0a] mb-1 tracking-tight">{s.stat}</p>
+                  <p className="text-[12px] text-[#9b9b9b]">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -230,45 +220,44 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── THE PROBLEM ───────────────────────────────────────────────────── */}
+      {/* ── THE PROBLEM ── */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-16">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-4">The Problem</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-5">
-            The gap isn&apos;t better AI.<br />
-            <span className="text-white/40">It&apos;s setup and configuration.</span>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">The Problem</p>
+          <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight mb-5 max-w-2xl">
+            Generic AI tools don&apos;t know you. We fix that.
           </h2>
-          <p className="text-white/50 text-lg max-w-2xl">
-            Off-the-shelf AI tools are generic. They don&apos;t know you. They don&apos;t remember yesterday. They don&apos;t proactively help. We remove that barrier.
+          <p className="text-[#6b6b6b] text-[17px] max-w-xl leading-relaxed">
+            Off-the-shelf AI answers questions when asked. It doesn&apos;t know your business, remember your decisions, or act without prompting. That&apos;s the gap we close.
           </p>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
-            { audience: "For Businesses", points: [
+            { label: "For Businesses", points: [
               "Financial reports arrive weeks late",
               "Can't afford a full-time CFO or analyst",
-              "Data locked in QuickBooks and email — uninterpreted",
+              "Data locked in QuickBooks and email",
               "Every deadline falls on the owner",
             ]},
-            { audience: "For Professionals", points: [
+            { label: "For Professionals", points: [
               "Admin consumes 30–50% of billable time",
-              "Client follow-ups and reporting are manual",
+              "Client follow-ups are manual",
               "No system that knows your practice",
             ]},
-            { audience: "For Individuals", points: [
-              "Generic AI tools don't retain context",
+            { label: "For Individuals", points: [
+              "Generic AI has no memory between sessions",
               "No assistant that knows your goals",
-              "Research and planning fragmented across apps",
+              "Research and planning is fragmented",
             ]},
           ].map((p, i) => (
-            <Reveal key={p.audience} delay={i * 100}>
-              <div className="card-glow bg-white/[0.03] border border-white/8 rounded-xl p-6 h-full">
-                <h3 className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-5">{p.audience}</h3>
+            <Reveal key={p.label} delay={i * 80}>
+              <div className="hover-card bg-[#f7f7f7] border border-[#e8e8e8] rounded-xl p-6 h-full">
+                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-5">{p.label}</p>
                 <ul className="space-y-3">
                   {p.points.map((pt) => (
-                    <li key={pt} className="text-[14px] text-white/50 leading-relaxed flex gap-3">
-                      <span className="text-[#D4A847] mt-1 flex-shrink-0">—</span>{pt}
+                    <li key={pt} className="text-[14px] text-[#6b6b6b] flex gap-3 leading-relaxed">
+                      <span className="text-[#d0d0d0] mt-0.5 flex-shrink-0">—</span>{pt}
                     </li>
                   ))}
                 </ul>
@@ -278,23 +267,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── WHAT YOU GET ──────────────────────────────────────────────────── */}
-      <section className="border-y border-white/5 bg-white/[0.02] py-24 md:py-32">
+      {/* ── CAPABILITIES ── */}
+      <section className="border-t border-[#e8e8e8] bg-[#f7f7f7] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-16">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-4">Every Client Gets</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-              A complete system,<br />
-              <span className="text-white/40">not a subscription.</span>
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">What You Get</p>
+            <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight max-w-xl">
+              A complete system, not a subscription.
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {deliverables.map((d, i) => (
-              <Reveal key={d.title} delay={i * 60}>
-                <div className="card-glow bg-white/[0.03] border border-white/8 rounded-xl p-5 h-full">
-                  <d.icon size={18} className="text-[#D4A847] mb-4" />
-                  <h3 className="text-white font-semibold text-[14px] mb-2">{d.title}</h3>
-                  <p className="text-white/40 text-[13px] leading-relaxed">{d.desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {capabilities.map((c, i) => (
+              <Reveal key={c.n} delay={i * 60}>
+                <div className="hover-card bg-white border border-[#e8e8e8] rounded-xl p-6 h-full">
+                  <span className="text-[11px] font-mono text-[#9b9b9b] mb-4 block">{c.n}</span>
+                  <h3 className="font-semibold text-[#0a0a0a] text-[15px] mb-2">{c.title}</h3>
+                  <p className="text-[#6b6b6b] text-[13px] leading-relaxed">{c.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -302,108 +290,125 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ──────────────────────────────────────────────────── */}
+      {/* ── HOW IT WORKS ── */}
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-16">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-4">The Process</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">The Process</p>
+          <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
             From intake to live<br />
-            <span className="text-white/40">in 48–72 hours.</span>
+            <span className="text-[#9b9b9b]">in 48–72 hours.</span>
           </h2>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((s, i) => (
-            <Reveal key={s.n} delay={i * 80}>
-              <div className="relative">
-                <div className="text-5xl font-black text-white/5 mb-4 leading-none">{s.n}</div>
-                <div className="absolute top-2 left-0 w-6 h-px bg-[#D4A847]/40" />
-                <h3 className="font-semibold text-white text-[14px] mb-2">{s.title}</h3>
-                <p className="text-white/40 text-[13px] leading-relaxed">{s.desc}</p>
+            <Reveal key={s.n} delay={i * 60}>
+              <div className="relative pt-6 border-t-2 border-[#e8e8e8]">
+                <div className="absolute top-0 left-0 w-8 h-0.5 bg-[#0066ff]" />
+                <span className="font-mono text-[11px] text-[#9b9b9b] mb-3 block">{s.n}</span>
+                <h3 className="font-semibold text-[#0a0a0a] text-[14px] mb-2">{s.title}</h3>
+                <p className="text-[#6b6b6b] text-[13px] leading-relaxed">{s.desc}</p>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* ── PRICING / TIERS ───────────────────────────────────────────────── */}
-      <section className="border-t border-white/5 bg-white/[0.02] py-24 md:py-32">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+      {/* ── PRICING ── */}
+      <section className="border-t border-[#e8e8e8] bg-[#f7f7f7] py-24 md:py-32">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-16">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-4">Who It&apos;s For</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-              No client too small.<br />
-              <span className="text-white/40">No client too large.</span>
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">Pricing</p>
+            <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
+              Simple pricing.<br />
+              <span className="text-[#9b9b9b]">No surprises.</span>
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto">
             {tiers.map((t, i) => (
-              <Reveal key={t.label} delay={i * 100}>
-                <div className={`card-glow rounded-xl p-7 flex flex-col h-full border ${i === 0 ? "bg-[#D4A847]/5 border-[#D4A847]/20" : "bg-white/[0.03] border-white/8"}`}>
-                  <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-1">{t.label}</p>
-                  <p className="text-[12px] text-white/30 mb-5">{t.range}</p>
-                  <p className="text-[14px] text-white/50 leading-relaxed flex-1 mb-6">{t.desc}</p>
-                  <div className="border-t border-white/5 pt-5 flex items-center justify-between">
-                    <span className="text-[13px] font-semibold text-white">{t.plan}</span>
-                    <Link href="/pricing" className="text-[12px] text-[#D4A847] hover:text-[#f0c96e] flex items-center gap-1">
-                      Details <ArrowRight size={12} />
-                    </Link>
+              <Reveal key={t.name} delay={i * 100}>
+                <div className={`rounded-xl p-7 flex flex-col h-full border ${
+                  t.featured
+                    ? "bg-[#0a0a0a] border-[#0a0a0a] text-white"
+                    : "bg-white border-[#e8e8e8] text-[#0a0a0a]"
+                }`}>
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <p className={`text-[11px] font-semibold tracking-widest uppercase mb-1 ${t.featured ? "text-[#6b9bff]" : "text-[#0066ff]"}`}>{t.name}</p>
+                      <p className={`text-[13px] ${t.featured ? "text-white/50" : "text-[#9b9b9b]"}`}>{t.for}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-3xl font-bold">{t.price}</span>
+                      <span className={`text-[12px] ${t.featured ? "text-white/40" : "text-[#9b9b9b]"}`}>{t.freq}</span>
+                    </div>
                   </div>
+                  <ul className="space-y-3 flex-1 mb-7">
+                    {t.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5 text-[13px]">
+                        <Check size={13} className={`mt-0.5 flex-shrink-0 ${t.featured ? "text-[#6b9bff]" : "text-[#0066ff]"}`} />
+                        <span className={t.featured ? "text-white/70" : "text-[#6b6b6b]"}>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/intake"
+                    className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[13px] ${
+                      t.featured
+                        ? "bg-white text-[#0a0a0a] hover:bg-white/90"
+                        : "bg-[#0a0a0a] text-white hover:bg-[#222]"
+                    }`}>
+                    Get started <ArrowRight size={13} />
+                  </Link>
                 </div>
               </Reveal>
             ))}
           </div>
+          <Reveal>
+            <p className="text-center text-[13px] text-[#9b9b9b] mt-8">
+              One-time setup fee varies by plan. <Link href="/pricing" className="text-[#0066ff] hover:underline">Full pricing details →</Link>
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── FAQ ───────────────────────────────────────────────────────────── */}
+      {/* ── FAQ ── */}
       <section className="max-w-3xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-14">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-4">FAQ</p>
-          <h2 className="text-3xl sm:text-4xl font-bold">Common questions.</h2>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0066ff] mb-4">FAQ</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Common questions.</h2>
         </Reveal>
-        <div className="space-y-0">
-          {faqs.map((faq, i) => (
-            <Reveal key={faq.q} delay={i * 60}>
-              <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-white/5" : ""}`}>
-                <h3 className="font-semibold text-white mb-2 text-[15px]">{faq.q}</h3>
-                <p className="text-[14px] text-white/40 leading-relaxed">{faq.a}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        {faqs.map((faq, i) => (
+          <Reveal key={faq.q} delay={i * 50}>
+            <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-[#e8e8e8]" : ""}`}>
+              <h3 className="font-semibold text-[#0a0a0a] mb-2 text-[15px]">{faq.q}</h3>
+              <p className="text-[14px] text-[#6b6b6b] leading-relaxed">{faq.a}</p>
+            </div>
+          </Reveal>
+        ))}
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section className="relative border-t border-white/5 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="animate-pulse-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
-               style={{ background: "radial-gradient(ellipse, rgba(212,168,71,0.1) 0%, transparent 70%)" }} />
-        </div>
+      {/* ── CTA ── */}
+      <section className="border-t border-[#e8e8e8] bg-[#0a0a0a]">
         <Reveal>
-          <div className="max-w-4xl mx-auto px-6 sm:px-8 py-24 md:py-32 text-center relative">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#D4A847] mb-6">Get Started</p>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <div className="max-w-4xl mx-auto px-6 sm:px-8 py-24 md:py-32 text-center">
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#6b9bff] mb-6">Get Started</p>
+            <h2 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.08] mb-6 text-white tracking-tight">
               The window is open now.
             </h2>
-            <p className="text-white/40 text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-              In 24 months, everyone will have an AI assistant. Clients who get set up properly now will have a compounding advantage over those who wait.
+            <p className="text-white/40 text-[17px] max-w-xl mx-auto mb-12 leading-relaxed">
+              In 24 months, every serious business will have a dedicated AI assistant. Clients who set up now will have a compounding advantage over those who wait.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
               <Link href="/intake"
-                className="inline-flex items-center justify-center gap-2 bg-[#D4A847] hover:bg-[#c49a30] text-[#080808] px-8 py-4 rounded-lg font-bold text-[15px]">
-                Start Intake Form <ArrowRight size={16} />
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-white/90 text-[#0a0a0a] px-8 py-4 rounded-lg font-bold text-[15px]">
+                Start intake form <ArrowRight size={16} />
               </Link>
               <Link href="/pricing"
                 className="inline-flex items-center justify-center gap-2 border border-white/15 hover:border-white/40 text-white/70 hover:text-white px-8 py-4 rounded-lg font-medium text-[15px]">
-                View Pricing
+                View pricing <ArrowUpRight size={14} />
               </Link>
             </div>
-
-            {/* Social proof micro-line */}
-            <div className="mt-12 flex items-center justify-center gap-2 text-[12px] text-white/25">
-              <Check size={12} className="text-green-400" />
+            <p className="text-[12px] text-white/20">
               No contracts · Hardware yours to keep · Cancel any time
-            </div>
+            </p>
           </div>
         </Reveal>
       </section>
