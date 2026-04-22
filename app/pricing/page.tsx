@@ -65,11 +65,11 @@ export default function PricingPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Pricing</p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5">
+          <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5">
             Simple pricing.<br />
             <span className="text-[#444449]">No surprises.</span>
           </h1>
-          <p className="text-[#6b6b72] text-[17px] max-w-xl leading-relaxed">
+          <p className="text-[#6b6b72] text-[15px] max-w-xl leading-relaxed">
             One setup fee to get everything built and running. A small monthly fee to keep it sharp. Hourly for anything bigger.
           </p>
         </Reveal>
@@ -183,7 +183,7 @@ export default function PricingPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-10">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Competitive Advantage</p>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">How we stack up.</h2>
+            <h2 className="text-xl sm:text-2xl font-medium tracking-tight">How we stack up.</h2>
           </Reveal>
           <Reveal>
             <div className="overflow-x-auto rounded-xl border border-[#2a2a2e]">
@@ -233,7 +233,7 @@ export default function PricingPage() {
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
-              <h2 className="text-xl font-bold mb-1">Ready to get started?</h2>
+              <h2 className="text-lg font-medium mb-1">Ready to get started?</h2>
               <p className="text-[#6b6b72] text-[14px]">Fill out the intake form and we&apos;ll follow up within 24 hours.</p>
             </div>
             <div className="flex gap-3 flex-shrink-0">

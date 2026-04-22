@@ -9,7 +9,7 @@ export default function AboutPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">About</p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5 max-w-3xl">
+          <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5 max-w-3xl">
             Built for a $25M energy company.<br />
             <span className="text-[#444449]">Now available to everyone.</span>
           </h1>
@@ -59,7 +59,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Approach</p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight max-w-xl">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight max-w-xl">
               Why this works when everything else doesn&apos;t.
             </h2>
           </Reveal>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             ].map((item) => (
               <div key={item.n} className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-6">
                 <span className="font-mono text-[11px] text-[#444449] mb-4 block">{item.n}</span>
-                <h3 className="font-semibold text-[#e8e8e8] text-[14px] mb-2">{item.title}</h3>
+                <h3 className="font-medium text-[#e8e8e8] text-[14px] mb-2">{item.title}</h3>
                 <p className="text-[#6b6b72] text-[13px] leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -86,7 +86,7 @@ export default function AboutPage() {
       <section className="border-t border-[#2a2a2e] py-20 md:py-24">
         <Reveal>
           <div className="max-w-4xl mx-auto px-6 sm:px-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">Want to see it in action?</h2>
+            <h2 className="text-2xl sm:text-3xl font-medium mb-5 tracking-tight">Want to see it in action?</h2>
             <p className="text-[#6b6b72] text-[16px] max-w-lg mx-auto mb-10">
               Fill out the intake form and we&apos;ll show you exactly what your assistant would look like — before you commit to anything.
             </p>

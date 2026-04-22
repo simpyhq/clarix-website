@@ -153,11 +153,11 @@ export default function CompetitionPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
           <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">Competitive Analysis</p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5 max-w-3xl">
+          <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5 max-w-3xl">
             Who else is in this space.<br />
             <span className="text-[#444449]">And why we win.</span>
           </h1>
-          <p className="text-[#6b6b72] text-[17px] max-w-xl leading-relaxed">
+          <p className="text-[#6b6b72] text-[15px] max-w-xl leading-relaxed">
             The AI assistant market is crowded. But the &ldquo;white-glove, dedicated hardware, persistent memory&rdquo; segment is not. Here&apos;s the honest breakdown.
           </p>
         </Reveal>
@@ -168,7 +168,7 @@ export default function CompetitionPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-10">
             <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">Feature Matrix</p>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Side by side.</h2>
+            <h2 className="text-xl sm:text-2xl font-medium tracking-tight">Side by side.</h2>
           </Reveal>
           <Reveal>
             <div className="overflow-x-auto rounded-xl border border-[#2a2a2e]">
@@ -204,7 +204,7 @@ export default function CompetitionPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal className="mb-14">
           <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">The Landscape</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Every major player, honestly assessed.</h2>
+          <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">Every major player, honestly assessed.</h2>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {competitors.map((c, i) => (
@@ -256,7 +256,7 @@ export default function CompetitionPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
             <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">Our Edge</p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight max-w-xl">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight max-w-xl">
               Six things no competitor does.
             </h2>
           </Reveal>
@@ -264,7 +264,7 @@ export default function CompetitionPage() {
             {ourAdvantages.map((a, i) => (
               <div key={a.title} className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-6">
                 <span className="font-mono text-[11px] text-[#444449] mb-4 block">0{i + 1}</span>
-                <h3 className="font-bold text-[#e8e8e8] text-[14px] mb-2">{a.title}</h3>
+                <h3 className="font-medium text-[#e8e8e8] text-[14px] mb-2">{a.title}</h3>
                 <p className="text-[#6b6b72] text-[13px] leading-relaxed">{a.desc}</p>
               </div>
             ))}
@@ -276,7 +276,7 @@ export default function CompetitionPage() {
       <section className="max-w-4xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal>
           <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">The Gap We Own</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
+          <h2 className="text-2xl sm:text-3xl font-medium tracking-tight mb-6">
             No one else lives here.
           </h2>
           <p className="text-[#6b6b72] text-[16px] leading-relaxed mb-6">

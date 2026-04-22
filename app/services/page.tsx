@@ -81,11 +81,11 @@ export default function ServicesPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
         <Reveal>
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Services</p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5">
+          <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5">
             What we build.<br />
             <span className="text-[#444449]">What you get.</span>
           </h1>
-          <p className="text-[#6b6b72] text-[17px] max-w-2xl leading-relaxed">
+          <p className="text-[#6b6b72] text-[15px] max-w-2xl leading-relaxed">
             A fully configured AI assistant on dedicated hardware, customized through a structured onboarding process. It learns your world during setup and keeps learning through every interaction.
           </p>
         </Reveal>
@@ -96,7 +96,7 @@ export default function ServicesPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Built For Anyone</p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight max-w-xl">
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight max-w-xl">
               Every profession. Every life.<br />
               <span className="text-[#444449]">One platform.</span>
             </h2>
@@ -109,7 +109,7 @@ export default function ServicesPage() {
               <div key={uc.role} className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-5 hover:border-[#0066ff]/30 hover:shadow-sm transition-all">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-2xl">{uc.icon}</span>
-                  <h3 className="font-semibold text-[#e8e8e8] text-[14px]">{uc.role}</h3>
+                  <h3 className="font-medium text-[#e8e8e8] text-[14px]">{uc.role}</h3>
                 </div>
                 <p className="text-[#6b6b72] text-[13px] leading-relaxed">{uc.desc}</p>
               </div>
@@ -122,7 +122,7 @@ export default function ServicesPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-24">
         <Reveal className="mb-14">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Process</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Every client. Every time.</h2>
+          <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">Every client. Every time.</h2>
         </Reveal>
         <div className="space-y-0">
           {onboarding.map((s, i) => (
@@ -133,7 +133,7 @@ export default function ServicesPage() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-4 mb-2">
-                    <h3 className="font-semibold text-[#e8e8e8] text-[15px]">{s.title}</h3>
+                    <h3 className="font-medium text-[#e8e8e8] text-[14px]">{s.title}</h3>
                     <span className="text-[11px] font-semibold text-[#5E6AD2] bg-[#5E6AD2]/10 px-2.5 py-1 rounded-md flex-shrink-0">{s.time}</span>
                   </div>
                   <p className="text-[14px] text-[#6b6b72] leading-relaxed">{s.desc}</p>
@@ -149,7 +149,7 @@ export default function ServicesPage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-14">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Capabilities</p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">What your assistant can do.</h2>
+            <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">What your assistant can do.</h2>
           </Reveal>
           <Reveal stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {capabilities.map((cap) => (
@@ -175,7 +175,7 @@ export default function ServicesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
             <Reveal>
               <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Ongoing Service</p>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-medium mb-5 tracking-tight">
                 We don&apos;t hand it off<br />and disappear.
               </h2>
               <p className="text-[#6b6b72] leading-relaxed text-[15px]">
@@ -200,7 +200,7 @@ export default function ServicesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
             <Reveal>
               <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Hardware</p>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-5">
+              <h2 className="text-2xl sm:text-3xl font-medium tracking-tight mb-5">
                 Your AI lives<br />on its own machine.
               </h2>
               <p className="text-[#6b6b72] leading-relaxed mb-4 text-[15px]">
@@ -236,7 +236,7 @@ export default function ServicesPage() {
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
-              <h2 className="text-xl font-bold mb-1">Ready to see pricing?</h2>
+              <h2 className="text-lg font-medium mb-1">Ready to see pricing?</h2>
               <p className="text-[#6b6b72] text-[14px]">One setup fee. Monthly maintenance. No surprises.</p>
             </div>
             <div className="flex gap-3 flex-shrink-0">

@@ -9,8 +9,8 @@ export default function ContactPage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-8">
         <Reveal>
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Contact</p>
-          <h1 className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-5">Get in touch.</h1>
-          <p className="text-[#6b6b72] text-[17px] max-w-xl leading-relaxed">
+          <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5">Get in touch.</h1>
+          <p className="text-[#6b6b72] text-[15px] max-w-xl leading-relaxed">
             Tell us what you need and we&apos;ll reply within a few hours. No sales funnel, no demo calls, no wait.
           </p>
         </Reveal>

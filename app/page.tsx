@@ -112,13 +112,13 @@ export default function HomePage() {
               Powered by Claude — Anthropic
             </div>
 
-            <h1 className="animate-fade-in-up delay-100 text-[2.6rem] sm:text-5xl md:text-6xl font-bold leading-[1.06] tracking-tight mb-7 text-[#e8e8e8]">
+            <h1 className="animate-fade-in-up delay-100 text-[2.2rem] sm:text-[2.8rem] md:text-5xl font-medium leading-[1.06] tracking-tight mb-7 text-[#e8e8e8]">
               Your business.<br />
               Your assistant.<br />
               <span className="text-[#444449]">From day one.</span>
             </h1>
 
-            <p className="animate-fade-in-up delay-200 text-[17px] text-[#6b6b72] leading-relaxed max-w-lg mb-10">
+            <p className="animate-fade-in-up delay-200 text-[15px] text-[#6b6b72] leading-relaxed max-w-lg mb-10">
               Not a chatbot subscription. A configured, persistent AI system on dedicated hardware — with deep memory of your world. It becomes more valuable every day you use it.
             </p>
 
@@ -160,7 +160,7 @@ export default function HomePage() {
                 { stat: "24 / 7",   label: "Always on, always watching" },
               ].map((s) => (
                 <div key={s.stat} className="md:px-8 first:pl-0 last:pr-0">
-                  <p className="text-2xl sm:text-3xl font-bold text-[#e8e8e8] mb-1 tracking-tight">{s.stat}</p>
+                  <p className="text-xl sm:text-2xl font-medium text-[#e8e8e8] mb-1 tracking-tight">{s.stat}</p>
                   <p className="text-[12px] text-[#444449]">{s.label}</p>
                 </div>
               ))}
@@ -173,11 +173,11 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-16">
           <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">The Problem</p>
-          <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight mb-5 max-w-2xl">
+          <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight mb-5 max-w-2xl">
             Generic AI tools don&apos;t know you.<br />
             <span className="text-[#444449]">We fix that.</span>
           </h2>
-          <p className="text-[#6b6b72] text-[17px] max-w-xl leading-relaxed">
+          <p className="text-[#6b6b72] text-[15px] max-w-xl leading-relaxed">
             Off-the-shelf AI answers questions when asked. It doesn&apos;t know your business, remember your decisions, or act without prompting. That&apos;s the gap we close.
           </p>
         </Reveal>
@@ -220,7 +220,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-16">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Every Client Gets</p>
-            <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight">
               A complete system,<br />
               <span className="text-[#444449]">not a subscription.</span>
             </h2>
@@ -229,7 +229,7 @@ export default function HomePage() {
             {deliverables.map((d) => (
               <div key={d.n} className="hover-card bg-[#0f0f0f] border border-[#2a2a2e] rounded-xl p-6 h-full">
                 <span className="font-mono text-[11px] text-[#444449] mb-4 block">{d.n}</span>
-                <h3 className="font-semibold text-[#e8e8e8] text-[14px] mb-2">{d.title}</h3>
+                <h3 className="font-medium text-[#e8e8e8] text-[14px] mb-2">{d.title}</h3>
                 <p className="text-[#6b6b72] text-[13px] leading-relaxed">{d.desc}</p>
               </div>
             ))}
@@ -244,7 +244,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
               <div>
                 <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Built-in Cost Optimization</p>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight">
+                <h2 className="text-xl sm:text-2xl font-medium mb-4 tracking-tight">
                   We tailor the AI models to your budget.
                 </h2>
                 <p className="text-[#6b6b72] leading-relaxed text-[15px]">
@@ -279,7 +279,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-6 sm:px-8">
           <Reveal className="mb-16">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#5E6AD2] mb-4">Pricing</p>
-            <h2 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.1] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight">
               Simple pricing.<br />
               <span className="text-[#444449]">No surprises.</span>
             </h2>
@@ -321,7 +321,7 @@ export default function HomePage() {
       <section className="max-w-3xl mx-auto px-6 sm:px-8 py-24 md:py-32">
         <Reveal className="mb-14">
           <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-4">FAQ</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Common questions.</h2>
+          <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">Common questions.</h2>
         </Reveal>
         {faqs.map((faq, i) => (
           <Reveal key={faq.q} delay={i * 50}>
@@ -338,10 +338,10 @@ export default function HomePage() {
         <Reveal>
           <div className="max-w-4xl mx-auto px-6 sm:px-8 py-24 md:py-32 text-center">
             <p className="text-[11px] font-semibold tracking-widests uppercase text-[#5E6AD2] mb-6">Get Started</p>
-            <h2 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.08] mb-6 text-[#e8e8e8] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.08] mb-6 text-[#e8e8e8] tracking-tight">
               The window is open now.
             </h2>
-            <p className="text-[#6b6b72] text-[17px] max-w-xl mx-auto mb-12 leading-relaxed">
+            <p className="text-[#6b6b72] text-[15px] max-w-xl mx-auto mb-12 leading-relaxed">
               In 24 months, every serious business will have a dedicated AI assistant. Clients who set up now will have a compounding advantage over those who wait.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">

@@ -21,10 +21,26 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist), system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Headings — restrained weight, tight tracking */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* Only these should be semibold/bold */
+.font-bold   { font-weight: 600 !important; }
+.font-semibold { font-weight: 500 !important; }
+
+/* Body text sizing */
+p { line-height: 1.65; }
 
 .font-display {
   font-family: var(--font-instrument), Georgia, serif;
