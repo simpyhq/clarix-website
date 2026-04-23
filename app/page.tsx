@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 function Reveal({ children, delay = 0, className = "", stagger = false }: {
@@ -28,17 +28,15 @@ function Reveal({ children, delay = 0, className = "", stagger = false }: {
 
 function Terminal() {
   const lines: Array<{ type: string; label?: string; value?: string; text?: string }> = [
-    { type: "comment", text: "# Jarvis — daily briefing complete" },
+    { type: "comment", text: "# Wednesday, 9:04am — Jarvis morning briefing" },
     { type: "blank" },
-    { type: "label", label: "weather",     value: "Norman, OK  60°F  Rain after 6pm" },
-    { type: "label", label: "markets",     value: "S&P 7,087 -0.31%  BTC $75.7K  NVDA $201" },
-    { type: "label", label: "canvas",      value: "2 items due tomorrow — METR-1014" },
-    { type: "label", label: "internships", value: "8 new listings — 3 DFW  5 NYC" },
-    { type: "label", label: "model",       value: "gemini-flash (routine)  cost: $0.003" },
+    { type: "label", label: "weather",     value: "Fort Worth, TX  74°F  Partly cloudy" },
+    { type: "label", label: "markets",     value: "S&P +0.4%  BTC $83K  NVDA up after hours" },
+    { type: "label", label: "calendar",    value: "Client call at 2pm — brief prepped" },
+    { type: "label", label: "email",       value: "3 new — 1 flagged urgent (vendor re: contract)" },
+    { type: "label", label: "action",      value: "Draft reply ready — check your inbox" },
     { type: "blank" },
-    { type: "comment", text: "# Email sent to christian@outlook.com" },
-    { type: "comment", text: "# Next run in 23h 47m" },
-    { type: "blank" },
+    { type: "comment", text: "# Sent to WhatsApp · cost: $0.004" },
     { type: "prompt" },
   ];
 
@@ -76,27 +74,13 @@ function Terminal() {
   );
 }
 
-const deliverables = [
-  { n: "01", title: "Persistent memory",      desc: "Every conversation, decision, and context retained indefinitely. No re-explaining yourself, ever." },
-  { n: "02", title: "Dedicated hardware",      desc: "Runs on a Mac mini you own. Isolated, private, nothing shared with anyone." },
-  { n: "03", title: "Automated workflows",     desc: "Reports, briefings, research, and data pulls run on schedule — without you asking." },
-  { n: "04", title: "Natural communication",   desc: "Text it on WhatsApp, iMessage, email, or Discord like a real team member." },
-  { n: "05", title: "Custom knowledge base",   desc: "Built from a discovery interview: your goals, industry, workflows, and contacts." },
-  { n: "06", title: "Optimized AI costs",       desc: "We route tasks to the right model — fast and cheap for routine work, premium for high-stakes decisions. Most clients spend $30–80/mo on AI credits." },
-];
-
-const tiers = [
-  { name: "Basic",  price: "$100", for: "Individuals & students",    plan: "/mo · $2,500 setup" },
-  { name: "Pro",    price: "$250", for: "Businesses & professionals", plan: "/mo · $2,500 setup", featured: true },
-];
-
 const faqs = [
   { q: "Do I need technical knowledge?",      a: "None. Fill out our intake form, tell us what you want, and we handle everything." },
   { q: "What are API credits?",               a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $30–80/month. We optimize model routing to keep this as low as possible." },
-  { q: "Who owns the hardware and data?",     a: "You do. The Mac mini ships to you. Your data lives on your machine." },
+  { q: "Who owns the hardware and data?",     a: "You do. The Mac mini ships to you. Your data lives on your machine — not on our servers, not in the cloud." },
   { q: "How long does setup take?",           a: "We come to you in the DFW area for a hands-on setup session. Most clients are live the same day or next day." },
-  { q: "Where do you serve clients?",         a: "We're based in the Dallas-Fort Worth area and handle all setups in person. Ongoing support is fully remote via Tailscale — no need for us to be on-site after the initial setup." },
-  { q: "What if I want changes after setup?", a: "Covered under the monthly fee. Support is handled remotely. If on-site work is needed, it's billed at $125/hr including travel." },
+  { q: "Where do you serve clients?",         a: "We're based in Dallas-Fort Worth and handle all initial setups in person. Ongoing support is fully remote — no need for us on-site after that." },
+  { q: "What if I want changes after setup?", a: "Covered under the monthly fee. Support is handled remotely. If on-site work is ever needed, it's billed at $125/hr." },
   { q: "Can I cancel?",                       a: "Yes, any time. Monthly billing, no contracts. The Mac mini stays with you." },
 ];
 
@@ -109,18 +93,22 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
             <div className="animate-fade-in inline-flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] border border-[#e2e8f0] bg-[#f1f3f5] px-3 py-1.5 rounded-full mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0f172a]" />
-              Powered by Claude — Anthropic
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              Live in DFW — Currently accepting clients
             </div>
 
             <h1 className="animate-fade-in-up delay-100 text-[2.2rem] sm:text-[2.8rem] md:text-5xl font-medium leading-[1.06] tracking-tight mb-7 text-[#0f172a]">
-              Your business.<br />
-              Your assistant.<br />
-              <span className="text-[#94a3b8]">From day one.</span>
+              An AI that knows<br />
+              your business.<br />
+              <span className="text-[#94a3b8]">Not just questions.</span>
             </h1>
 
-            <p className="animate-fade-in-up delay-200 text-[15px] text-[#64748b] leading-relaxed max-w-lg mb-10">
-              Not a chatbot subscription. A configured, persistent AI system on dedicated hardware — with deep memory of your world. It becomes more valuable every day you use it.
+            <p className="animate-fade-in-up delay-200 text-[15px] text-[#64748b] leading-relaxed max-w-lg mb-6">
+              You&apos;ve tried ChatGPT. It&apos;s useful for 10 minutes. This is different — a configured assistant that runs on hardware you own, knows your clients, your workflows, and your goals, and does things without being asked.
+            </p>
+
+            <p className="animate-fade-in-up delay-250 text-[15px] text-[#64748b] leading-relaxed max-w-lg mb-10">
+              We build it, configure it, and maintain it. You just talk to it.
             </p>
 
             <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-3 mb-12">
@@ -130,134 +118,162 @@ export default function HomePage() {
               </Link>
               <Link href="/services"
                 className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#94a3b8] text-[#334155] hover:text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
-                How It Works
+                See How It Works
               </Link>
             </div>
 
-            <div className="animate-fade-in delay-500 flex items-center gap-2 text-[13px] text-[#94a3b8]">
-              <Check size={13} className="text-[#0f172a]" />
-              No contracts · Hardware yours to keep · Cancel any time
-            </div>
+            <p className="animate-fade-in delay-500 text-[13px] text-[#94a3b8]">
+              $2,500 setup · $100–$250/mo · No contracts · Hardware yours to keep
+            </p>
           </div>
 
           <div className="animate-fade-in-up delay-400 lg:pt-4">
             <Terminal />
             <p className="text-[12px] text-[#94a3b8] mt-3 text-center">
-              Actual output from a live Clarix assistant — runs every morning at 9am
+              This is what it looks like every morning — real output from a live system
             </p>
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="border-y border-[#e2e8f0] bg-[#f8f9fa]">
-        <Reveal>
-          <div className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#e2e8f0]">
+      {/* ORIGIN STORY */}
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
+            <Reveal>
+              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-5">Where This Came From</p>
+              <h2 className="text-2xl sm:text-3xl font-medium leading-[1.1] tracking-tight mb-6">
+                We built this for ourselves first.
+              </h2>
+              <p className="text-[#64748b] leading-relaxed text-[15px] mb-4">
+                Michael Simpson runs a 25-person energy company in Fort Worth. A few years ago, hiring a full-time CFO wasn&apos;t in the budget. So he built one — an AI called Hank that handles financial reporting, vendor tracking, and daily operations briefings. It runs on a Mac mini in his office and checks in every morning before he opens his laptop.
+              </p>
+              <p className="text-[#64748b] leading-relaxed text-[15px] mb-4">
+                Christian — his son, finance student at OU — built his own version. Internship tracking, class deadlines, market briefings, research. Same architecture, different life.
+              </p>
+              <p className="text-[#64748b] leading-relaxed text-[15px]">
+                When they started telling people about it, the response was always the same: <em className="text-[#0f172a] not-italic font-medium">&ldquo;I want that. How do I get that?&rdquo;</em> That&apos;s why Clarix exists.
+              </p>
+            </Reveal>
+
+            <Reveal delay={150} className="space-y-0">
               {[
-                { stat: "Same day", label: "In-person DFW setup" },
-                { stat: "88–90%",    label: "Gross margin per client" },
-                { stat: "$100–$250", label: "Monthly after setup" },
-                { stat: "24 / 7",   label: "Always on, always watching" },
-              ].map((s) => (
-                <div key={s.stat} className="md:px-8 first:pl-0 last:pr-0">
-                  <p className="text-xl sm:text-2xl font-medium text-[#0f172a] mb-1 tracking-tight">{s.stat}</p>
-                  <p className="text-[12px] text-[#94a3b8]">{s.label}</p>
+                { label: "The first client",  value: "CHP Energy Services — $25M company, live since 2024" },
+                { label: "What it replaced",  value: "Functions that would have cost $150K+/yr in human labor" },
+                { label: "Where it runs",     value: "A Mac mini. On your desk. Under your control." },
+                { label: "Who maintains it",  value: "Us. Monthly, remotely. You don't touch it." },
+                { label: "Service area",      value: "Dallas-Fort Worth for setup. Remote support everywhere." },
+              ].map((item, i, arr) => (
+                <div key={item.label} className={`py-5 ${i !== arr.length - 1 ? "border-b border-[#e2e8f0]" : ""}`}>
+                  <p className="text-[11px] font-semibold tracking-widest uppercase text-[#94a3b8] mb-1.5">{item.label}</p>
+                  <p className="text-[14px] text-[#0f172a] leading-relaxed">{item.value}</p>
                 </div>
               ))}
-            </div>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      {/* PROBLEM */}
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
-        <Reveal className="mb-16">
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">The Problem</p>
-          <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight mb-5 max-w-2xl">
-            Generic AI tools don&apos;t know you.<br />
-            <span className="text-[#94a3b8]">We fix that.</span>
+      {/* DAY IN THE LIFE */}
+      <section className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-28">
+        <Reveal className="mb-14">
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">A Typical Tuesday</p>
+          <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight max-w-2xl">
+            What it actually does<br />
+            <span className="text-[#94a3b8]">while you sleep.</span>
           </h2>
-          <p className="text-[#64748b] text-[15px] max-w-xl leading-relaxed">
-            Off-the-shelf AI answers questions when asked. It doesn&apos;t know your business, remember your decisions, or act without prompting. That&apos;s the gap we close.
-          </p>
         </Reveal>
 
-        <Reveal stagger className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-0 max-w-3xl">
           {[
-            { label: "For Businesses", points: [
-              "Financial reports arrive weeks late",
-              "Can't afford a full-time CFO or analyst",
-              "Data locked in QuickBooks and email",
-              "Every deadline falls on the owner",
-            ]},
-            { label: "For Professionals", points: [
-              "Admin consumes 30–50% of billable time",
-              "Client follow-ups are manual",
-              "No system that knows your practice",
-            ]},
-            { label: "For Individuals", points: [
-              "Generic AI has no memory between sessions",
-              "No assistant that knows your goals",
-              "Research and planning is fragmented",
-            ]},
-          ].map((p) => (
-            <div key={p.label} className="hover-card bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-6 h-full">
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-5">{p.label}</p>
-              <ul className="space-y-3">
-                {p.points.map((pt) => (
-                  <li key={pt} className="text-[14px] text-[#64748b] flex gap-3 leading-relaxed">
-                    <span className="text-[#e2e8f0] mt-0.5 flex-shrink-0">—</span>{pt}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            { time: "6:30am",  event: "Morning briefing delivered to your WhatsApp. Weather, calendar, overnight emails flagged by priority, market summary if relevant." },
+            { time: "7:15am",  event: "You reply \"draft a response to that vendor email.\" It does. You review and send in 30 seconds." },
+            { time: "9:00am",  event: "Automated P&L pulled from QuickBooks. Summary in your inbox before your first meeting." },
+            { time: "2:00pm",  event: "Client meeting. You mentioned a competitor three weeks ago. Your assistant already has context notes ready if you ask." },
+            { time: "5:00pm",  event: "End-of-day digest. Three things that need your attention tomorrow, flagged automatically." },
+            { time: "11:00pm", event: "You're asleep. It's monitoring email, watching for anything urgent, and preparing tomorrow's briefing." },
+          ].map((item, i, arr) => (
+            <Reveal key={item.time} delay={i * 60}>
+              <div className={`flex gap-6 sm:gap-10 items-start py-6 ${i !== arr.length - 1 ? "border-b border-[#e2e8f0]" : ""}`}>
+                <div className="w-16 flex-shrink-0">
+                  <span className="font-mono text-[12px] text-[#94a3b8]">{item.time}</span>
+                </div>
+                <p className="text-[14px] text-[#64748b] leading-relaxed">{item.event}</p>
+              </div>
+            </Reveal>
           ))}
-        </Reveal>
+        </div>
       </section>
 
-      {/* WHAT YOU GET */}
-      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-24 md:py-32">
+      {/* WHAT MAKES IT DIFFERENT */}
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <Reveal className="mb-16">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Every Client Gets</p>
-            <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight">
-              A complete system,<br />
-              <span className="text-[#94a3b8]">not a subscription.</span>
+          <Reveal className="mb-14">
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Why It&apos;s Different</p>
+            <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight max-w-2xl">
+              Not a chatbot.<br />
+              <span className="text-[#94a3b8]">A system.</span>
             </h2>
           </Reveal>
-          <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {deliverables.map((d) => (
-              <div key={d.n} className="hover-card bg-white border border-[#e2e8f0] rounded-xl p-6 h-full">
-                <span className="font-mono text-[11px] text-[#94a3b8] mb-4 block">{d.n}</span>
-                <h3 className="font-medium text-[#0f172a] text-[14px] mb-2">{d.title}</h3>
-                <p className="text-[#64748b] text-[13px] leading-relaxed">{d.desc}</p>
-              </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              {
+                title: "It remembers everything",
+                desc: "Every conversation, decision, client name, and preference is stored permanently. Tell it something once — it knows it forever. No re-explaining yourself to a blank slate every session.",
+              },
+              {
+                title: "It acts without being asked",
+                desc: "Scheduled briefings, automated reports, proactive alerts. It doesn't wait for you to open an app. It shows up in your WhatsApp or inbox like a real team member.",
+              },
+              {
+                title: "It runs on hardware you own",
+                desc: "Your AI lives on a Mac mini at your location. Not in a shared cloud. Not on our servers. You own it. If you cancel, it keeps running as long as you have API credits.",
+              },
+              {
+                title: "We configure it for your specific life",
+                desc: "We spend hours during onboarding learning your industry, your clients, your workflows, and your goals. It's not generic. It knows the difference between a regular Tuesday and a Tuesday before quarter-end.",
+              },
+              {
+                title: "We keep it running",
+                desc: "Software updates, model upgrades, new integrations as your needs change — we handle all of it remotely every month. You never have to maintain it.",
+              },
+              {
+                title: "You talk to it like a person",
+                desc: "WhatsApp, iMessage, Discord, or email. No new apps. No dashboards to learn. Just text it like you'd text a sharp person on your team.",
+              },
+            ].map((item) => (
+              <Reveal key={item.title}>
+                <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 h-full hover:border-[#94a3b8] transition-colors">
+                  <h3 className="font-semibold text-[#0f172a] text-[14px] mb-3">{item.title}</h3>
+                  <p className="text-[#64748b] text-[13px] leading-relaxed">{item.desc}</p>
+                </div>
+              </Reveal>
             ))}
-          </Reveal>
+          </div>
         </div>
       </section>
 
       {/* MODEL ROUTING CALLOUT */}
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 py-24 md:py-32">
+      <section className="max-w-6xl mx-auto px-6 sm:px-8 py-20 md:py-28">
         <Reveal>
           <div className="border border-[#e2e8f0] bg-[#f8f9fa] rounded-xl p-8 sm:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
               <div>
-                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Built-in Cost Optimization</p>
+                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">On Cost</p>
                 <h2 className="text-xl sm:text-2xl font-medium mb-4 tracking-tight">
-                  We tailor the AI models to your budget.
+                  We&apos;re obsessive about keeping AI costs low.
                 </h2>
                 <p className="text-[#64748b] leading-relaxed text-[15px]">
-                  Not every task needs the most expensive model. We configure intelligent routing — fast, cheap models handle routine tasks like briefings and reminders, while premium models are reserved for complex analysis, important emails, and decisions that matter.
+                  Not every task needs the most expensive model. Routine briefings run on fast, cheap models. Complex analysis and important decisions get premium models. Most clients land at $30–80/month in API credits — we&apos;ve seen it, we monitor it, and we optimize it ongoing.
                 </p>
               </div>
               <div className="space-y-3 font-mono text-[13px]">
                 {[
-                  { task: "Daily briefings",      model: "Gemini Flash",  cost: "~$0.003/run",  color: "text-green-400" },
-                  { task: "Email monitoring",     model: "Ollama (local)", cost: "$0.00/run",   color: "text-green-400" },
-                  { task: "Complex analysis",     model: "Claude Sonnet", cost: "~$0.04/run",  color: "text-yellow-400" },
-                  { task: "Important decisions",  model: "Claude Sonnet", cost: "as needed",   color: "text-yellow-400" },
+                  { task: "Daily briefings",      model: "Gemini Flash",   cost: "~$0.003/run",  color: "text-green-500" },
+                  { task: "Email monitoring",     model: "Ollama (local)",  cost: "$0.00/run",    color: "text-green-500" },
+                  { task: "Complex analysis",     model: "Claude Sonnet",  cost: "~$0.04/run",   color: "text-yellow-500" },
+                  { task: "Important decisions",  model: "Claude Sonnet",  cost: "as needed",    color: "text-yellow-500" },
                 ].map((r) => (
                   <div key={r.task} className="flex items-center justify-between bg-white border border-[#e2e8f0] rounded-lg px-4 py-3">
                     <div>
@@ -276,24 +292,30 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-24 md:py-32">
+      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-28">
         <div className="max-w-5xl mx-auto px-6 sm:px-8">
-          <Reveal className="mb-16">
+          <Reveal className="mb-14">
             <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Pricing</p>
             <h2 className="text-2xl sm:text-3xl md:text-[2.4rem] font-medium leading-[1.1] tracking-tight">
-              Simple pricing.<br />
+              One setup. One monthly fee.<br />
               <span className="text-[#94a3b8]">No surprises.</span>
             </h2>
+            <p className="text-[#64748b] text-[15px] mt-4 max-w-xl leading-relaxed">
+              $2,500 to set it up — that covers the discovery session, hardware configuration, and your first two months of support. After that, $100–$250/month keeps everything running and improving.
+            </p>
           </Reveal>
           <Reveal stagger className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto">
-            {tiers.map((t) => (
+            {[
+              { name: "Basic",  price: "$100", for: "Individuals & students",    plan: "/mo · after $2,500 setup" },
+              { name: "Pro",    price: "$250", for: "Businesses & professionals", plan: "/mo · after $2,500 setup", featured: true },
+            ].map((t) => (
               <div key={t.name}
                 className={`rounded-xl p-7 flex flex-col h-full border ${
                   t.featured
                     ? "bg-[#f1f3f5] border-[#e2e8f0]"
                     : "bg-white border-[#e2e8f0]"
                 }`}>
-                <p className={`text-[11px] font-semibold tracking-widests uppercase mb-1 ${t.featured ? "text-[#334155]" : "text-[#0f172a]"}`}>{t.name}</p>
+                <p className="text-[11px] font-semibold tracking-widest uppercase mb-1 text-[#0f172a]">{t.name}</p>
                 <p className="text-[13px] text-[#94a3b8] mb-5">{t.for}</p>
                 <div className="flex items-end gap-1 mb-6">
                   <span className="text-4xl font-bold text-[#0f172a]">{t.price}</span>
@@ -312,16 +334,16 @@ export default function HomePage() {
           </Reveal>
           <Reveal>
             <p className="text-center text-[13px] text-[#94a3b8] mt-8">
-              <Link href="/pricing" className="text-[#0f172a] hover:text-[#334155]">Full pricing details including hourly rates →</Link>
+              <Link href="/pricing" className="text-[#0f172a] hover:text-[#334155]">Full pricing breakdown including hourly rates →</Link>
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="max-w-3xl mx-auto px-6 sm:px-8 py-24 md:py-32">
+      <section className="max-w-3xl mx-auto px-6 sm:px-8 py-20 md:py-28">
         <Reveal className="mb-14">
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">FAQ</p>
+          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">FAQ</p>
           <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">Common questions.</h2>
         </Reveal>
         {faqs.map((faq, i) => (
@@ -337,13 +359,13 @@ export default function HomePage() {
       {/* CTA */}
       <section className="border-t border-[#e2e8f0]">
         <Reveal>
-          <div className="max-w-4xl mx-auto px-6 sm:px-8 py-24 md:py-32 text-center">
-            <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-6">Get Started</p>
+          <div className="max-w-4xl mx-auto px-6 sm:px-8 py-20 md:py-28 text-center">
+            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-6">Ready?</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.08] mb-6 text-[#0f172a] tracking-tight">
-              The window is open now.
+              Let&apos;s see if it&apos;s a fit.
             </h2>
-            <p className="text-[#64748b] text-[15px] max-w-xl mx-auto mb-12 leading-relaxed">
-              In 24 months, every serious business will have a dedicated AI assistant. Clients who set up now will have a compounding advantage over those who wait.
+            <p className="text-[#64748b] text-[15px] max-w-lg mx-auto mb-12 leading-relaxed">
+              Fill out the intake form and we&apos;ll show you exactly what your assistant would look like — before you spend anything.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
               <Link href="/intake"
@@ -352,7 +374,7 @@ export default function HomePage() {
               </Link>
               <Link href="/pricing"
                 className="inline-flex items-center justify-center gap-2 border border-[#e2e8f0] hover:border-[#94a3b8] text-[#64748b] hover:text-[#0f172a] px-8 py-4 rounded-lg font-medium text-[15px]">
-                View Pricing
+                See Full Pricing
               </Link>
             </div>
             <p className="text-[12px] text-[#94a3b8]">
