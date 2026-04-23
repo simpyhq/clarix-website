@@ -94,8 +94,9 @@ const faqs = [
   { q: "Do I need technical knowledge?",      a: "None. Fill out our intake form, tell us what you want, and we handle everything." },
   { q: "What are API credits?",               a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $30–80/month. We optimize model routing to keep this as low as possible." },
   { q: "Who owns the hardware and data?",     a: "You do. The Mac mini ships to you. Your data lives on your machine." },
-  { q: "How long does setup take?",           a: "48–72 hours from completed intake to a live assistant." },
-  { q: "What if I want changes after setup?", a: "Covered under the monthly fee. Most updates done within 24 hours." },
+  { q: "How long does setup take?",           a: "We come to you in the DFW area for a hands-on setup session. Most clients are live the same day or next day." },
+  { q: "Where do you serve clients?",         a: "We're based in the Dallas-Fort Worth area and handle all setups in person. Ongoing support is fully remote via Tailscale — no need for us to be on-site after the initial setup." },
+  { q: "What if I want changes after setup?", a: "Covered under the monthly fee. Support is handled remotely. If on-site work is needed, it's billed at $125/hr including travel." },
   { q: "Can I cancel?",                       a: "Yes, any time. Monthly billing, no contracts. The Mac mini stays with you." },
 ];
 
@@ -154,7 +155,7 @@ export default function HomePage() {
           <div className="max-w-6xl mx-auto px-6 sm:px-8 py-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:divide-x divide-[#e2e8f0]">
               {[
-                { stat: "48–72 hrs", label: "From intake to live" },
+                { stat: "Same day", label: "In-person DFW setup" },
                 { stat: "88–90%",    label: "Gross margin per client" },
                 { stat: "$100–$250", label: "Monthly after setup" },
                 { stat: "24 / 7",   label: "Always on, always watching" },
