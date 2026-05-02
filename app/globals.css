@@ -1,22 +1,35 @@
 @import "tailwindcss";
 
-/* ── Notion/Linear-docs palette ── */
+/* ── Dark / Gold luxury palette ── */
 :root {
-  --bg:           #ffffff;
-  --bg-2:         #f8f9fa;
-  --bg-3:         #f1f3f5;
-  --border:       #e2e8f0;
-  --border-2:     #cbd5e1;
-  --ink:          #0f172a;
-  --ink-2:        #334155;
-  --ink-3:        #64748b;
-  --ink-4:        #94a3b8;
-  --accent:       #0f172a;
-  --accent-light: #1e293b;
-  --accent-bg:    rgba(15,23,42,0.06);
+  --bg:           #080a0f;
+  --bg-2:         #0c0f1a;
+  --bg-3:         #121620;
+  --gold:         #c9a84c;
+  --gold-soft:    rgba(201,168,76,0.55);
+  --gold-border:  rgba(201,168,76,0.18);
+  --gold-bg:      rgba(201,168,76,0.06);
+  --ink:          #f0ead8;
+  --ink-2:        #c8bfa8;
+  --ink-3:        #8a8070;
+  --ink-4:        rgba(201,168,76,0.4);
+  --border:       rgba(201,168,76,0.12);
+  --border-2:     rgba(201,168,76,0.25);
 }
 
 html { scroll-behavior: smooth; }
+
+/* Grain overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
 
 body {
   background: var(--bg);
@@ -28,23 +41,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Headings — restrained weight, tight tracking */
-h1, h2, h3, h4, h5, h6 {
+/* Headings — Playfair Display */
+h1, h2, h3 {
+  font-family: var(--font-playfair), Georgia, serif;
+  line-height: 1.15;
+}
+
+h4, h5, h6 {
   font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-/* Only these should be semibold/bold */
-.font-bold   { font-weight: 600 !important; }
-.font-semibold { font-weight: 500 !important; }
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}
 
-/* Body text sizing */
 p { line-height: 1.65; }
-
-.font-display {
-  font-family: var(--font-instrument), Georgia, serif;
-}
 
 a, button { transition: all 0.15s ease; }
 
@@ -95,14 +108,14 @@ a, button { transition: all 0.15s ease; }
   transform: translateY(14px);
   transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-.stagger.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0ms; }
-.stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:70ms; }
-.stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:140ms; }
-.stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:210ms; }
-.stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:280ms; }
-.stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:350ms; }
-.stagger.visible > *:nth-child(7) { opacity:1; transform:translateY(0); transition-delay:420ms; }
-.stagger.visible > *:nth-child(8) { opacity:1; transform:translateY(0); transition-delay:490ms; }
+.stagger.visible > *:nth-child(1)  { opacity:1; transform:translateY(0); transition-delay:0ms; }
+.stagger.visible > *:nth-child(2)  { opacity:1; transform:translateY(0); transition-delay:70ms; }
+.stagger.visible > *:nth-child(3)  { opacity:1; transform:translateY(0); transition-delay:140ms; }
+.stagger.visible > *:nth-child(4)  { opacity:1; transform:translateY(0); transition-delay:210ms; }
+.stagger.visible > *:nth-child(5)  { opacity:1; transform:translateY(0); transition-delay:280ms; }
+.stagger.visible > *:nth-child(6)  { opacity:1; transform:translateY(0); transition-delay:350ms; }
+.stagger.visible > *:nth-child(7)  { opacity:1; transform:translateY(0); transition-delay:420ms; }
+.stagger.visible > *:nth-child(8)  { opacity:1; transform:translateY(0); transition-delay:490ms; }
 .stagger.visible > *:nth-child(9)  { opacity:1; transform:translateY(0); transition-delay:560ms; }
 .stagger.visible > *:nth-child(10) { opacity:1; transform:translateY(0); transition-delay:630ms; }
 .stagger.visible > *:nth-child(11) { opacity:1; transform:translateY(0); transition-delay:700ms; }
@@ -114,7 +127,7 @@ a, button { transition: all 0.15s ease; }
 }
 .hover-card:hover {
   border-color: var(--border-2);
-  box-shadow: 0 4px 16px rgba(15,23,42,0.06);
+  box-shadow: 0 4px 24px rgba(201,168,76,0.08);
   transform: translateY(-1px);
 }
 

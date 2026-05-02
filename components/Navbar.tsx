@@ -2,15 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/services",    label: "Services" },
-  { href: "/pricing",     label: "Pricing" },
-  { href: "/competition", label: "Competition" },
-  { href: "/about",       label: "About" },
-  { href: "/contact",     label: "Contact" },
+  { href: "/about",    label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/pricing",  label: "Pricing" },
 ];
 
 export default function Navbar() {
@@ -18,53 +15,123 @@ export default function Navbar() {
   const path = usePathname();
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e2e8f0]">
+    <nav
+      style={{
+        background: "var(--bg)",
+        borderBottom: "1px solid var(--gold-border)",
+      }}
+      className="sticky top-0 z-50"
+    >
       <div className="max-w-6xl mx-auto px-6 sm:px-8">
         <div className="flex items-center justify-between h-[58px]">
 
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded bg-[#0f172a] flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold tracking-tight">C</span>
-            </div>
-            <span className="font-semibold text-[#0f172a] text-[15px] tracking-tight">Clarix</span>
+          {/* Logo */}
+          <Link
+            href="/"
+            style={{
+              fontFamily: "var(--font-playfair), Georgia, serif",
+              color: "var(--gold)",
+              letterSpacing: "0.18em",
+              fontSize: "17px",
+              fontWeight: 500,
+            }}
+          >
+            CLARIX
           </Link>
 
-          <div className="hidden md:flex items-center gap-7">
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8">
             {links.map((l) => (
-              <Link key={l.href} href={l.href}
-                className={`text-[13px] font-medium transition-colors ${
-                  path === l.href ? "text-[#0f172a]" : "text-[#64748b] hover:text-[#0f172a]"
-                }`}>
+              <Link
+                key={l.href}
+                href={l.href}
+                style={{
+                  color: path === l.href ? "var(--ink)" : "var(--ink-3)",
+                  fontSize: "13px",
+                  transition: "color 0.15s ease",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--ink)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = path === l.href ? "var(--ink)" : "var(--ink-3)"; }}
+              >
                 {l.label}
               </Link>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
-            <Link href="/intake"
-              className="text-[13px] bg-[#0f172a] hover:bg-[#1e293b] text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-              Get Started
+          {/* CTA */}
+          <div className="hidden md:flex items-center">
+            <Link
+              href="/intake"
+              style={{
+                border: "1px solid var(--gold-soft)",
+                color: "var(--gold)",
+                background: "transparent",
+                fontSize: "13px",
+                padding: "8px 18px",
+                borderRadius: "6px",
+                transition: "all 0.15s ease",
+                fontWeight: 500,
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.background = "var(--gold)";
+                el.style.color = "var(--bg)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.background = "transparent";
+                el.style.color = "var(--gold)";
+              }}
+            >
+              Request Access
             </Link>
           </div>
 
-          <button className="md:hidden text-[#334155] p-1" onClick={() => setOpen(!open)}>
-            {open ? <X size={20} /> : <Menu size={20} />}
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden p-1 text-xl"
+            style={{ color: "var(--ink-3)" }}
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            {open ? "✕" : "☰"}
           </button>
         </div>
 
+        {/* Mobile menu */}
         {open && (
-          <div className="md:hidden py-5 border-t border-[#e2e8f0] flex flex-col gap-4">
+          <div
+            style={{
+              background: "var(--bg)",
+              borderTop: "1px solid var(--gold-border)",
+            }}
+            className="md:hidden py-6 flex flex-col gap-5"
+          >
             {links.map((l) => (
-              <Link key={l.href} href={l.href}
-                className="text-[14px] text-[#64748b] hover:text-[#0f172a] font-medium"
-                onClick={() => setOpen(false)}>
+              <Link
+                key={l.href}
+                href={l.href}
+                style={{ color: "var(--ink-3)", fontSize: "15px" }}
+                onClick={() => setOpen(false)}
+              >
                 {l.label}
               </Link>
             ))}
-            <Link href="/intake"
-              className="text-[13px] bg-[#0f172a] text-white px-5 py-2.5 rounded-lg font-semibold text-center mt-1"
-              onClick={() => setOpen(false)}>
-              Get Started
+            <Link
+              href="/intake"
+              style={{
+                border: "1px solid var(--gold-soft)",
+                color: "var(--gold)",
+                background: "transparent",
+                fontSize: "14px",
+                padding: "10px 18px",
+                borderRadius: "6px",
+                textAlign: "center",
+                marginTop: "4px",
+              }}
+              onClick={() => setOpen(false)}
+            >
+              Request Access
             </Link>
           </div>
         )}

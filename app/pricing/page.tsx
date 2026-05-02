@@ -1,254 +1,314 @@
+"use client";
+
 import Link from "next/link";
-import { Check, ArrowRight, Clock } from "lucide-react";
-import { Reveal } from "@/components/Reveal";
+import { useEffect, useRef } from "react";
 
-const setupIncludes = [
-  "Initial discovery consultation (1–3 hours)",
-  "Dedicated Mac mini M4 — configured and shipped to you",
-  "Full software installation and gateway setup",
-  "Custom knowledge base built from your intake form",
-  "Channel integrations (WhatsApp, iMessage, Discord, email)",
-  "Scheduled workflows and automated reports",
-  "2 months of Pro-level support included",
-  "Handoff session and usage walkthrough",
-];
+function Reveal({ children, delay = 0, className = "" }: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
+      { threshold: 0.08 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
 
-const plans = [
-  {
-    name: "Basic", price: "$100", freq: "/mo",
-    tagline: "Keep your assistant running and current.",
-    featured: false,
-    items: [
-      "24/7 keep-alive monitoring",
-      "Monthly software and model updates",
-      "Security patches applied remotely",
-      "Email support for issues",
-    ],
-  },
-  {
-    name: "Pro", price: "$250", freq: "/mo",
-    tagline: "Active optimization and hands-on support.",
-    featured: true,
-    items: [
-      "Everything in Basic",
-      "Workflow optimization and tuning",
-      "New skills and capability additions",
-      "Multi-model LLM configuration",
-      "2 hrs dedicated support/month",
-      "Priority response within 24 hours",
-    ],
-  },
-];
+const goldDot = (
+  <span
+    style={{
+      display: "inline-block",
+      width: "5px",
+      height: "5px",
+      borderRadius: "50%",
+      background: "var(--gold)",
+      marginRight: "12px",
+      flexShrink: 0,
+      marginTop: "6px",
+    }}
+  />
+);
 
-const compTable = [
-  { factor: "Knows you deeply",       us: "✓ Built via discovery",     generic: "✗ Stateless",           trad: "✓ But expensive" },
-  { factor: "Persistent memory",      us: "✓ Indefinitely",            generic: "✗ Session only",         trad: "Partial" },
-  { factor: "Proactive & autonomous", us: "✓ Cron jobs, alerts",       generic: "✗ Reactive only",        trad: "✗ Billed hourly" },
-  { factor: "Dedicated hardware",     us: "✓ You own it",              generic: "✗ Shared cloud",         trad: "N/A" },
-  { factor: "Available 24/7",         us: "✓",                         generic: "✓",                      trad: "✗" },
-  { factor: "Monthly cost",           us: "$100–$250/mo",              generic: "$20–200/mo (no config)",  trad: "$5K–30K/mo" },
-];
-
-const faqs = [
-  { q: "What's included in the $2,500 setup fee?",     a: "Everything to go from zero to live: discovery consultation, a dedicated Mac mini M4 configured and shipped, full software setup, custom knowledge base, channel integrations, automated workflows, and 2 months of Pro support." },
-  { q: "What's the difference between Basic and Pro?", a: "Basic keeps your assistant running and up to date. Pro adds active optimization: new skills, workflow improvements, LLM tuning, and 2 hours of hands-on support each month." },
-  { q: "When would I use the hourly rate?",            a: "For larger projects outside monthly scope — custom integrations, significant workflow rebuilds, new data sources, or on-site configuration. Billed in 15-minute increments at $125/hr." },
-  { q: "What are API credits?",                        a: "Your assistant uses Claude by Anthropic. You pay Anthropic directly — typically $50–150/month depending on usage. Separate from the monthly service fee." },
-  { q: "Who owns the hardware?",                       a: "You do. The Mac mini ships to you permanently. Your data lives on your machine. We maintain it remotely." },
-  { q: "Can I cancel?",                                a: "Yes, any time. Monthly billing only — no contracts. The Mac mini stays with you." },
-];
+function AccessButton() {
+  return (
+    <Link
+      href="/intake"
+      style={{
+        border: "1px solid var(--gold-soft)",
+        color: "var(--gold)",
+        background: "transparent",
+        padding: "11px 24px",
+        borderRadius: "6px",
+        fontSize: "13px",
+        fontWeight: 500,
+        display: "inline-block",
+        transition: "all 0.15s ease",
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLAnchorElement;
+        el.style.background = "var(--gold)";
+        el.style.color = "var(--bg)";
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLAnchorElement;
+        el.style.background = "transparent";
+        el.style.color = "var(--gold)";
+      }}
+    >
+      Request Access →
+    </Link>
+  );
+}
 
 export default function PricingPage() {
   return (
-    <div className="bg-white text-[#0f172a]">
+    <div style={{ background: "var(--bg)", color: "var(--ink)" }}>
 
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 pb-16">
+      {/* HEADER */}
+      <section className="text-center px-6 sm:px-8 pt-28 pb-20 max-w-3xl mx-auto">
+        <p
+          style={{
+            color: "var(--gold)",
+            fontSize: "10px",
+            letterSpacing: "0.25em",
+            textTransform: "uppercase",
+            marginBottom: "20px",
+          }}
+        >
+          Pricing
+        </p>
+        <h1
+          className="font-serif"
+          style={{ fontSize: "clamp(2rem, 5vw, 3rem)", marginBottom: "20px", color: "var(--ink)" }}
+        >
+          Reserved for a select few.
+        </h1>
+        <p style={{ color: "var(--ink-2)", fontSize: "15px", lineHeight: 1.7, maxWidth: "520px", margin: "0 auto" }}>
+          We accept a limited number of principals each quarter. Engagements begin with a private onboarding.
+        </p>
+      </section>
+
+      {/* ONBOARDING FEE */}
+      <section className="px-6 sm:px-8 pb-16 max-w-2xl mx-auto">
         <Reveal>
-          <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Pricing</p>
-          <h1 className="text-3xl sm:text-4xl font-medium leading-[1.08] tracking-tight mb-5">
-            Simple pricing.<br />
-            <span className="text-[#94a3b8]">No surprises.</span>
-          </h1>
-          <p className="text-[#64748b] text-[15px] max-w-xl leading-relaxed">
-            One setup fee to get everything built and running. A small monthly fee to keep it sharp. Hourly for anything bigger.
+          <div
+            style={{
+              background: "var(--bg-2)",
+              border: "1px solid var(--gold-border)",
+              borderRadius: "8px",
+              padding: "40px 36px",
+            }}
+          >
+            <p
+              style={{
+                color: "var(--gold)",
+                fontSize: "10px",
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                marginBottom: "16px",
+              }}
+            >
+              Onboarding
+            </p>
+
+            <div style={{ marginBottom: "8px" }}>
+              <span
+                className="font-serif"
+                style={{ fontSize: "2.8rem", color: "var(--ink)", lineHeight: 1 }}
+              >
+                $5,000
+              </span>
+              <span style={{ color: "var(--ink-3)", fontSize: "13px", marginLeft: "10px" }}>
+                one-time
+              </span>
+            </div>
+
+            <p style={{ color: "var(--ink-2)", fontSize: "14px", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px" }}>
+              A dedicated engagement to build your system from the ground up. Includes discovery,
+              hardware configuration, knowledge architecture, integrations, and 2 months of retained support.
+            </p>
+
+            <ul style={{ listStyle: "none", padding: 0, marginBottom: "32px" }}>
+              {[
+                "Private discovery consultation (2–4 hours)",
+                "Dedicated Mac mini M4 — configured and shipped",
+                "Full software installation and system setup",
+                "Custom knowledge base from your onboarding",
+                "Channel integrations (WhatsApp, iMessage, email, and more)",
+                "Automated workflows and scheduled intelligence",
+                "2 months of Principals support included",
+              ].map((item) => (
+                <li
+                  key={item}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    color: "var(--ink-2)",
+                    fontSize: "14px",
+                    marginBottom: "12px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {goldDot}
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <AccessButton />
+          </div>
+        </Reveal>
+      </section>
+
+      {/* RETAINER PLANS */}
+      <section className="px-6 sm:px-8 pb-16 max-w-3xl mx-auto">
+        <Reveal delay={100}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Retained */}
+            <div
+              style={{
+                background: "var(--bg-2)",
+                border: "1px solid var(--border)",
+                borderRadius: "8px",
+                padding: "32px 28px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <p
+                style={{
+                  color: "var(--gold)",
+                  fontSize: "10px",
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  marginBottom: "12px",
+                }}
+              >
+                Retained
+              </p>
+              <div style={{ marginBottom: "8px" }}>
+                <span className="font-serif" style={{ fontSize: "2.2rem", color: "var(--ink)" }}>$250</span>
+                <span style={{ color: "var(--ink-3)", fontSize: "13px", marginLeft: "8px" }}>/mo</span>
+              </div>
+              <p style={{ color: "var(--ink-2)", fontSize: "14px", marginBottom: "24px", lineHeight: 1.6 }}>
+                Active maintenance and reliability monitoring.
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, marginBottom: "28px", flexGrow: 1 }}>
+                {[
+                  "24/7 keep-alive monitoring",
+                  "Monthly model and software updates",
+                  "Security maintenance",
+                  "Email support",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      color: "var(--ink-2)",
+                      fontSize: "13px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {goldDot}
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <AccessButton />
+            </div>
+
+            {/* Principals — elevated */}
+            <div
+              style={{
+                background: "var(--bg-2)",
+                border: "1px solid var(--gold-border)",
+                borderRadius: "8px",
+                padding: "32px 28px",
+                display: "flex",
+                flexDirection: "column",
+                boxShadow: "0 0 40px rgba(201,168,76,0.05)",
+              }}
+            >
+              <p
+                style={{
+                  color: "var(--gold)",
+                  fontSize: "10px",
+                  letterSpacing: "0.25em",
+                  textTransform: "uppercase",
+                  marginBottom: "12px",
+                }}
+              >
+                Principals
+              </p>
+              <div style={{ marginBottom: "8px" }}>
+                <span className="font-serif" style={{ fontSize: "2.2rem", color: "var(--ink)" }}>$500</span>
+                <span style={{ color: "var(--ink-3)", fontSize: "13px", marginLeft: "8px" }}>/mo</span>
+              </div>
+              <p style={{ color: "var(--ink-2)", fontSize: "14px", marginBottom: "24px", lineHeight: 1.6 }}>
+                Ongoing optimization and a dedicated relationship.
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, marginBottom: "28px", flexGrow: 1 }}>
+                {[
+                  "Everything in Retained",
+                  "Workflow optimization and tuning",
+                  "New capabilities and integrations",
+                  "2 hrs dedicated support/month",
+                  "Priority response within 24 hours",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      color: "var(--ink-2)",
+                      fontSize: "13px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {goldDot}
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <AccessButton />
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* BESPOKE */}
+      <section className="px-6 sm:px-8 py-16 text-center max-w-xl mx-auto">
+        <Reveal delay={150}>
+          <p style={{ color: "var(--ink-2)", fontSize: "15px", marginBottom: "10px" }}>
+            Bespoke engagements available by arrangement.
+          </p>
+          <p style={{ color: "var(--ink-3)", fontSize: "13px" }}>
+            Questions answered privately.{" "}
+            <a
+              href="mailto:jarvis@simpyhq.com"
+              style={{ color: "var(--gold)", textDecoration: "none" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = "underline"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = "none"; }}
+            >
+              jarvis@simpyhq.com
+            </a>
           </p>
         </Reveal>
       </section>
 
-      {/* Setup fee */}
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-10">
-        <Reveal>
-          <div className="border border-[#e2e8f0] rounded-xl p-8 sm:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-              <div>
-                <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">One-Time Setup</p>
-                <div className="flex items-end gap-3 mb-4">
-                  <span className="text-5xl sm:text-6xl font-bold text-[#0f172a]">$2,500</span>
-                  <span className="text-[#94a3b8] mb-2 text-[15px]">one-time</span>
-                </div>
-                <p className="text-[#64748b] leading-relaxed mb-7 text-[15px]">
-                  Everything you need to go from zero to a fully working AI assistant — hardware, configuration, knowledge base, integrations, and 2 months of Pro support.
-                </p>
-                <Link href="/intake"
-                  className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#1e293b] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
-                  Start Intake Form <ArrowRight size={14} />
-                </Link>
-              </div>
-              <div className="space-y-3">
-                {setupIncludes.map((item) => (
-                  <div key={item} className="flex gap-3 items-start">
-                    <Check size={13} className="text-[#0f172a] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
-                    <span className="text-[#64748b] text-[13px] leading-relaxed">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Monthly */}
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-10">
-        <Reveal className="mb-6">
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a]">Monthly Plans — after setup</p>
-        </Reveal>
-        <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl">
-          {plans.map((plan) => (
-            <div key={plan.name}
-              className={`relative rounded-xl flex flex-col border ${plan.featured ? "bg-[#0f172a] border-[#0f172a] text-white" : "bg-white border-[#e2e8f0]"}`}>
-              {plan.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0f172a] text-white text-[10px] font-bold tracking-widests uppercase px-4 py-1 rounded-full whitespace-nowrap">
-                  Most Popular
-                </div>
-              )}
-              <div className={`p-6 border-b ${plan.featured ? "border-white/10" : "border-[#e2e8f0]"}`}>
-                <p className={`text-[11px] font-semibold tracking-widests uppercase mb-3 ${plan.featured ? "text-[#334155]" : "text-[#0f172a]"}`}>{plan.name}</p>
-                <div className="flex items-end gap-1.5 mb-2">
-                  <span className="text-3xl font-bold">{plan.price}</span>
-                  <span className={`text-[13px] mb-0.5 ${plan.featured ? "text-white/40" : "text-[#94a3b8]"}`}>{plan.freq}</span>
-                </div>
-                <p className={`text-[12px] ${plan.featured ? "text-white/40" : "text-[#94a3b8]"}`}>{plan.tagline}</p>
-              </div>
-              <div className="p-6 flex-1">
-                <ul className="space-y-3">
-                  {plan.items.map((f) => (
-                    <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed">
-                      <Check size={13} className={`flex-shrink-0 mt-0.5 ${plan.featured ? "text-[#334155]" : "text-[#0f172a]"}`} strokeWidth={2.5} />
-                      <span className={plan.featured ? "text-white/60" : "text-[#64748b]"}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="p-6 pt-0">
-                <Link href="/intake"
-                  className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-[13px] font-semibold w-full ${plan.featured ? "bg-white text-[#0f172a] hover:bg-[#f1f3f5]" : "bg-[#0f172a] text-white hover:bg-[#1e293b]"}`}>
-                  Get started <ArrowRight size={13} />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </Reveal>
-      </section>
-
-      {/* Hourly */}
-      <section className="max-w-6xl mx-auto px-6 sm:px-8 pb-20">
-        <Reveal>
-          <div className="bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl p-7 max-w-2xl">
-            <div className="flex items-start gap-5">
-              <div className="w-10 h-10 rounded-lg bg-[#f8f9fa] border border-[#e2e8f0] flex items-center justify-center flex-shrink-0">
-                <Clock size={18} className="text-[#0f172a]" />
-              </div>
-              <div>
-                <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-2">Hourly Work</p>
-                <div className="flex items-end gap-2 mb-3">
-                  <span className="text-2xl font-bold text-[#0f172a]">$125</span>
-                  <span className="text-[13px] text-[#94a3b8] mb-0.5">/hr · billed in 15-min increments</span>
-                </div>
-                <p className="text-[13px] text-[#64748b] leading-relaxed mb-4">
-                  For work outside monthly scope — custom integrations, workflow rebuilds, new data sources, or on-site configuration.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {["Custom integrations", "On-site config", "Workflow rebuilds", "New data sources", "Training"].map((t) => (
-                    <span key={t} className="text-[11px] text-[#64748b] bg-[#f8f9fa] border border-[#e2e8f0] px-2.5 py-1 rounded-md">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Comparison */}
-      <section className="border-t border-[#e2e8f0] bg-[#f8f9fa] py-20 md:py-24">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <Reveal className="mb-10">
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-[#0f172a] mb-4">Competitive Advantage</p>
-            <h2 className="text-xl sm:text-2xl font-medium tracking-tight">How we stack up.</h2>
-          </Reveal>
-          <Reveal>
-            <div className="overflow-x-auto rounded-xl border border-[#e2e8f0]">
-              <table className="w-full min-w-[560px]">
-                <thead>
-                  <tr className="bg-[#0f172a]">
-                    <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5 w-1/4">Factor</th>
-                    <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-[#334155] px-5 py-3.5 w-1/4">Clarix</th>
-                    <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5 w-1/4">Generic AI</th>
-                    <th className="text-left text-[11px] font-semibold tracking-widests uppercase text-white/40 px-5 py-3.5 w-1/4">Consultants</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {compTable.map((row, i) => (
-                    <tr key={row.factor} className={i % 2 === 0 ? "bg-[#f8f9fa]" : "bg-[#f8f9fa]"}>
-                      <td className="px-5 py-3.5 text-[13px] font-medium text-[#0f172a] border-b border-[#e2e8f0]">{row.factor}</td>
-                      <td className="px-5 py-3.5 text-[13px] text-[#0f172a] font-medium border-b border-[#e2e8f0]">{row.us}</td>
-                      <td className="px-5 py-3.5 text-[13px] text-[#94a3b8] border-b border-[#e2e8f0]">{row.generic}</td>
-                      <td className="px-5 py-3.5 text-[13px] text-[#94a3b8] border-b border-[#e2e8f0]">{row.trad}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="max-w-3xl mx-auto px-6 sm:px-8 py-20 md:py-24">
-        <Reveal className="mb-12">
-          <p className="text-[11px] font-semibold tracking-widests uppercase text-[#0f172a] mb-4">FAQ</p>
-          <h2 className="text-3xl font-bold tracking-tight">Common questions.</h2>
-        </Reveal>
-        {faqs.map((faq, i) => (
-          <Reveal key={faq.q} delay={i * 50}>
-            <div className={`py-6 ${i !== faqs.length - 1 ? "border-b border-[#e2e8f0]" : ""}`}>
-              <h3 className="font-semibold text-[#0f172a] mb-2 text-[15px]">{faq.q}</h3>
-              <p className="text-[14px] text-[#64748b] leading-relaxed">{faq.a}</p>
-            </div>
-          </Reveal>
-        ))}
-      </section>
-
-      {/* CTA */}
-      <section className="border-t border-[#e2e8f0] py-14">
-        <Reveal>
-          <div className="max-w-6xl mx-auto px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div>
-              <h2 className="text-lg font-medium mb-1">Ready to get started?</h2>
-              <p className="text-[#64748b] text-[14px]">Fill out the intake form and we&apos;ll follow up within 24 hours.</p>
-            </div>
-            <div className="flex gap-3 flex-shrink-0">
-              <Link href="/intake"
-                className="inline-flex items-center gap-2 bg-[#0f172a] hover:bg-[#1e293b] text-white px-6 py-3 rounded-lg font-semibold text-[14px]">
-                Start Intake Form <ArrowRight size={14} />
-              </Link>
-              <Link href="/contact"
-                className="inline-flex items-center gap-2 border border-[#e2e8f0] hover:border-[#334155] text-[#0f172a] px-6 py-3 rounded-lg font-medium text-[14px]">
-                Ask a question
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-      </section>
     </div>
   );
 }
