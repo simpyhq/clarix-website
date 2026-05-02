@@ -1,129 +1,133 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-
-function Reveal({ children, delay = 0, className = "" }: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
-      { threshold: 0.08 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return (
-    <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
-      {children}
-    </div>
-  );
-}
+import { Reveal } from "@/components/Reveal";
 
 export default function AboutPage() {
   return (
     <div style={{ background: "var(--bg)", color: "var(--ink)" }}>
 
-      {/* HERO */}
-      <section className="px-6 sm:px-8 pt-28 pb-16 max-w-3xl mx-auto">
-        <p
-          className="animate-fade-in"
-          style={{
-            color: "var(--gold)",
-            fontSize: "10px",
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            marginBottom: "20px",
-          }}
-        >
-          About
-        </p>
-        <h1
-          className="animate-fade-in-up delay-100 font-serif"
-          style={{
-            fontSize: "clamp(2rem, 5vw, 3rem)",
-            fontStyle: "italic",
-            lineHeight: 1.15,
-            color: "var(--ink)",
-          }}
-        >
-          We build intelligence for people<br />who move at a different pace.
-        </h1>
+      {/* ── HEADER ── */}
+      <section className="px-6 sm:px-8 pt-24 pb-20 max-w-4xl mx-auto">
+        <Reveal>
+          <p className="eyebrow" style={{ marginBottom: "24px" }}>About</p>
+          <h1
+            className="font-serif"
+            style={{
+              fontSize: "clamp(2.2rem, 5.5vw, 4rem)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              lineHeight: 1.1,
+              marginBottom: "0",
+              color: "var(--ink)",
+              maxWidth: "700px",
+            }}
+          >
+            We build intelligence for people who move at a different pace.
+          </h1>
+        </Reveal>
       </section>
 
-      {/* BODY */}
-      <section className="px-6 sm:px-8 pb-20 max-w-2xl mx-auto">
-        <Reveal>
-          <p style={{ color: "var(--ink-2)", fontSize: "15px", lineHeight: 1.8, marginBottom: "24px" }}>
-            Clarix serves a small number of principals — executives, founders, and individuals who
-            require a different standard of attention. We build private AI systems that know your world:
-            your priorities, your relationships, your schedule, your work.
+      {/* ── BODY ── */}
+      <section className="px-6 sm:px-8 pb-24 max-w-3xl mx-auto">
+        <Reveal delay={100}>
+          <div
+            style={{
+              height: "1px",
+              background: "linear-gradient(90deg, var(--gold), transparent)",
+              opacity: 0.35,
+              marginBottom: "48px",
+            }}
+          />
+          <p
+            style={{
+              color: "var(--ink-2)",
+              fontSize: "17px",
+              lineHeight: 1.8,
+              marginBottom: "28px",
+            }}
+          >
+            Clarix serves a small number of principals — executives, founders, and individuals who require a different standard of attention. We build private AI systems that know your world: your priorities, your relationships, your schedule, your work.
           </p>
-          <p style={{ color: "var(--ink-2)", fontSize: "15px", lineHeight: 1.8 }}>
-            Every engagement begins with a private discovery process. We architect your system from
-            the ground up, configure it to your channels and workflows, and maintain it as your life
-            evolves. The result is not software. It is infrastructure.
+          <p
+            style={{
+              color: "var(--ink-2)",
+              fontSize: "17px",
+              lineHeight: 1.8,
+            }}
+          >
+            Every engagement begins with a private discovery process. We architect your system from the ground up, configure it to your channels and workflows, and maintain it as your life evolves. The result is not software. It is infrastructure.
           </p>
         </Reveal>
       </section>
 
-      {/* DIVIDER */}
-      <div
-        className="mx-auto"
-        style={{
-          maxWidth: "600px",
-          height: "1px",
-          background: "var(--gold)",
-          opacity: 0.18,
-          margin: "0 24px 48px",
-        }}
-      />
+      {/* ── NUMBERED TRUTHS ── */}
+      <section className="px-6 sm:px-8 pb-28 max-w-3xl mx-auto">
+        <div style={{ borderTop: "1px solid var(--border)" }}>
+          {[
+            { num: "I", label: "Discretion", body: "Your system is yours alone. No shared models. No cloud sync. Your data remains on hardware you own." },
+            { num: "II", label: "Continuity", body: "Unlike software that resets, your system learns and accumulates context over time. Each interaction makes it sharper." },
+            { num: "III", label: "Partnership", body: "We don't hand you software and disappear. We maintain, evolve, and optimize — a retained relationship, not a transaction." },
+          ].map((item, i) => (
+            <Reveal key={item.num} delay={i * 100}>
+              <div
+                style={{
+                  borderBottom: "1px solid var(--border)",
+                  padding: "36px 0",
+                  display: "grid",
+                  gridTemplateColumns: "56px 1fr",
+                  gap: "24px",
+                  alignItems: "start",
+                }}
+              >
+                <span
+                  className="font-serif"
+                  style={{
+                    color: "var(--gold)",
+                    opacity: 0.45,
+                    fontSize: "14px",
+                    fontStyle: "italic",
+                    paddingTop: "4px",
+                  }}
+                >
+                  {item.num}
+                </span>
+                <div>
+                  <h3
+                    className="font-serif"
+                    style={{
+                      fontSize: "19px",
+                      color: "var(--ink)",
+                      marginBottom: "10px",
+                      fontWeight: 400,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {item.label}
+                  </h3>
+                  <p style={{ color: "var(--ink-2)", fontSize: "15px", lineHeight: 1.7 }}>{item.body}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-      {/* CLOSING */}
-      <section className="px-6 sm:px-8 py-20 max-w-2xl mx-auto text-center">
-        <Reveal delay={100}>
+      {/* ── CLOSING ── */}
+      <section className="px-6 sm:px-8 py-28 max-w-2xl mx-auto text-center">
+        <Reveal>
           <p
             className="font-serif"
             style={{
-              fontSize: "clamp(1.3rem, 3vw, 1.8rem)",
+              fontSize: "clamp(1.3rem, 3vw, 1.9rem)",
               fontStyle: "italic",
-              color: "var(--ink)",
-              marginBottom: "32px",
-              lineHeight: 1.4,
+              color: "var(--ink-2)",
+              lineHeight: 1.5,
+              marginBottom: "36px",
+              fontWeight: 400,
             }}
           >
             Engagements are accepted by referral or direct inquiry.
           </p>
-          <Link
-            href="/intake"
-            style={{
-              border: "1px solid var(--gold-soft)",
-              color: "var(--gold)",
-              background: "transparent",
-              padding: "12px 28px",
-              borderRadius: "6px",
-              fontSize: "14px",
-              fontWeight: 500,
-              display: "inline-block",
-              transition: "all 0.15s ease",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.background = "var(--gold)";
-              el.style.color = "var(--bg)";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLAnchorElement;
-              el.style.background = "transparent";
-              el.style.color = "var(--gold)";
-            }}
-          >
+          <Link href="/intake" className="btn-gold">
             Request Access →
           </Link>
         </Reveal>
