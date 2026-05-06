@@ -45,7 +45,7 @@ export default function AboutPage() {
               marginBottom: "28px",
             }}
           >
-            Clarix serves a small number of principals — executives, founders, and individuals who require a different standard of attention. We build private AI systems that know your world: your priorities, your relationships, your schedule, your work.
+            Clarix is an invitation-only private members club. We serve a deliberate number of principals at a time — executives, founders, and individuals who require a different standard of attention. We build private AI systems that know your world: your priorities, your relationships, your schedule, your work.
           </p>
           <p
             style={{
@@ -54,7 +54,7 @@ export default function AboutPage() {
               lineHeight: 1.8,
             }}
           >
-            Every engagement begins with a private discovery process. We architect your system from the ground up, configure it to your channels and workflows, and maintain it as your life evolves. The result is not software. It is infrastructure.
+            Every engagement begins with a private discovery process. We architect your system from the ground up, configure it to your channels and workflows, and maintain it as your life evolves. The result is not software. It is not a subscription. It is infrastructure — and it belongs to you.
           </p>
         </Reveal>
       </section>
@@ -63,7 +63,7 @@ export default function AboutPage() {
       <section className="px-6 sm:px-8 pb-28 max-w-3xl mx-auto">
         <div style={{ borderTop: "1px solid var(--border)" }}>
           {[
-            { num: "I", label: "Discretion", body: "Your system is yours alone. No shared models. No cloud sync. Your data remains on hardware you own." },
+            { num: "I", label: "Discretion", body: "Your system is yours alone. Dedicated infrastructure, isolated by design. No shared models, no co-tenancy, no third-party access." },
             { num: "II", label: "Continuity", body: "Unlike software that resets, your system learns and accumulates context over time. Each interaction makes it sharper." },
             { num: "III", label: "Partnership", body: "We don't hand you software and disappear. We maintain, evolve, and optimize — a retained relationship, not a transaction." },
           ].map((item, i) => (

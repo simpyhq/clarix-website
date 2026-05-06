@@ -259,7 +259,7 @@ export default function HomePage() {
             }}
           >
             "Not a chatbot.<br />Not a subscription.<br />
-            <span style={{ color: "var(--gold)" }}>A system.</span>"
+            <span style={{ color: "var(--gold)" }}>A membership.</span>"
           </p>
         </Reveal>
       </section>
@@ -271,9 +271,9 @@ export default function HomePage() {
         </Reveal>
         <div className="flex flex-col gap-0">
           {[
-            { num: "01", title: "Yours alone.", body: "Your system runs on hardware you own. Your data never passes through shared infrastructure." },
+            { num: "01", title: "Yours alone.", body: "Your system runs on dedicated infrastructure managed entirely by Clarix. No shared models. No public cloud. Your data stays isolated by design." },
             { num: "02", title: "Built from discovery.", body: "We learn your world before we build anything. The result knows your patterns, not just your prompts." },
-            { num: "03", title: "Maintained, not forgotten.", body: "Monthly upkeep, tuning, and evolution. As your life changes, your system does too." },
+            { num: "03", title: "Maintained, not forgotten.", body: "We handle every layer — infrastructure, tuning, and evolution. You never touch a server. As your world changes, your system does too." },
           ].map((item, i) => (
             <Reveal key={item.num} delay={i * 80}>
               <div
@@ -326,7 +326,7 @@ export default function HomePage() {
               fontWeight: 400,
             }}
           >
-            Currently accepting a limited number of engagements.
+            We work with a deliberate number of members at a time.
           </p>
           <Link href="/intake" className="btn-gold" style={{ marginBottom: "20px" }}>
             Request Access →
