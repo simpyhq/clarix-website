@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Clarix",
   },
   other: {
-    "theme-color": "#080a0f",
+    "theme-color": "#FAF8F4",
   },
 };
 

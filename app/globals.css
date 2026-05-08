@@ -2,19 +2,19 @@
 
 /* ── Dark / Gold luxury palette ── */
 :root {
-  --bg:           #080a0f;
-  --bg-2:         #0c0f1a;
-  --bg-3:         #121620;
-  --gold:         #c9a84c;
-  --gold-soft:    rgba(201,168,76,0.55);
-  --gold-border:  rgba(201,168,76,0.18);
-  --gold-bg:      rgba(201,168,76,0.06);
-  --ink:          #f0ead8;
-  --ink-2:        #c8bfa8;
-  --ink-3:        #8a8070;
-  --ink-4:        rgba(201,168,76,0.4);
-  --border:       rgba(201,168,76,0.12);
-  --border-2:     rgba(201,168,76,0.28);
+  --bg:           #FAF8F4;
+  --bg-2:         #F0EDE6;
+  --bg-3:         #E8E4DC;
+  --gold:         #B8963E;
+  --gold-soft:    rgba(184,150,62,0.5);
+  --gold-border:  rgba(184,150,62,0.25);
+  --gold-bg:      rgba(184,150,62,0.06);
+  --ink:          #1A1814;
+  --ink-2:        #4A4540;
+  --ink-3:        #7A756E;
+  --ink-4:        rgba(184,150,62,0.5);
+  --border:       rgba(26,24,20,0.1);
+  --border-2:     rgba(26,24,20,0.2);
 }
 
 html { scroll-behavior: smooth; }
@@ -167,7 +167,7 @@ a, button { transition: all 0.2s ease; }
 }
 .hover-card:hover {
   border-color: var(--gold-border) !important;
-  box-shadow: 0 8px 40px rgba(201,168,76,0.1), 0 0 0 1px rgba(201,168,76,0.12);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
   transform: translateY(-2px);
 }
 
@@ -213,7 +213,7 @@ a, button { transition: all 0.2s ease; }
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(184,150,62,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 

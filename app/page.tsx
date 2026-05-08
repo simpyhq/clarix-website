@@ -152,7 +152,7 @@ export default function HomePage() {
             style={{
               maxWidth: "160px",
               height: "1px",
-              background: "rgba(201,168,76,0.22)",
+              background: "rgba(184,150,62,0.25)",
             }}
           />
         </div>
@@ -175,7 +175,7 @@ export default function HomePage() {
             style={{
               width: "1px",
               height: "40px",
-              background: "linear-gradient(to bottom, transparent, rgba(201,168,76,0.4))",
+              background: "linear-gradient(to bottom, transparent, rgba(184,150,62,0.4))",
             }}
           />
         </div>
