@@ -60,8 +60,8 @@ export async function POST(req: NextRequest) {
     `;
 
     await transporter.sendMail({
-      from: '"Clarix Intake" <jarvis@simpyhq.com>',
-      to: "jarvis@simpyhq.com",
+      from: '"Clarix Intake" <support@clarixhq.ai>',
+      to: "support@clarixhq.ai",
       cc: "christian.simpson.2018@outlook.com",
       subject: `New Intake: ${data.name || "Unknown"} — ${data.client_type || ""}`,
       text,

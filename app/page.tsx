@@ -258,7 +258,7 @@ export default function HomePage() {
               fontWeight: 400,
             }}
           >
-            "Not a chatbot.<br />Not a subscription.<br />
+            "Not a tool.<br />Not a subscription.<br />
             <span style={{ color: "var(--gold)" }}>A membership.</span>"
           </p>
         </Reveal>
@@ -322,17 +322,31 @@ export default function HomePage() {
               fontStyle: "italic",
               color: "var(--ink)",
               lineHeight: 1.4,
-              marginBottom: "36px",
+              marginBottom: "16px",
               fontWeight: 400,
             }}
           >
-            We work with a deliberate number of members at a time.
+            We are currently at capacity.
+          </p>
+          <p
+            style={{
+              color: "var(--ink-2)",
+              fontSize: "15px",
+              lineHeight: 1.75,
+              marginBottom: "36px",
+              maxWidth: "440px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Our client roster is full by design. We maintain a short private waitlist for exceptional candidates.
+            If you believe Clarix is right for you, we encourage you to introduce yourself.
           </p>
           <Link href="/intake" className="btn-gold" style={{ marginBottom: "20px" }}>
-            Request Access →
+            Join the Waitlist →
           </Link>
           <p style={{ color: "var(--ink-3)", fontSize: "12px", marginTop: "20px", letterSpacing: "0.04em" }}>
-            All engagements begin with a private consultation.
+            Waitlist inquiries are reviewed personally. No automated responses.
           </p>
         </Reveal>
       </section>

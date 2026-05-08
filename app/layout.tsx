@@ -20,13 +20,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Clarix — Private AI Systems",
+  title: "Clarix — Private Members Club",
   description:
-    "We build private AI systems for individuals who value discretion, capability, and time.",
+    "An invitation-only private AI membership for principals who require a different standard.",
   openGraph: {
-    title: "Clarix — Private AI Systems",
-    description: "We build private AI systems for individuals who value discretion, capability, and time.",
-    url: "https://clarix.ai",
+    title: "Clarix — Private Members Club",
+    description: "An invitation-only private AI membership for principals who require a different standard.",
+    url: "https://clarixhq.ai",
     siteName: "Clarix",
   },
   other: {

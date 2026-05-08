@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 
@@ -109,6 +110,114 @@ export default function AboutPage() {
             </Reveal>
           ))}
         </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <section
+        className="px-6 sm:px-8 py-24 max-w-4xl mx-auto"
+        style={{ borderTop: "1px solid var(--border)" }}
+      >
+        <Reveal>
+          <p className="eyebrow" style={{ marginBottom: "16px" }}>Get in Touch</p>
+          <p
+            style={{
+              color: "var(--ink-3)",
+              fontSize: "14px",
+              letterSpacing: "0.02em",
+              marginBottom: "40px",
+            }}
+          >
+            For inquiries, reach us directly.
+          </p>
+        </Reveal>
+        <Reveal delay={80} stagger className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { name: "Michael Simpson", role: "Founder", email: "michael@clarixhq.ai" },
+            { name: "Christian Simpson", role: "Operations", email: "christian@clarixhq.ai" },
+            { name: "Support & Onboarding", role: "Clarix", email: "support@clarixhq.ai" },
+          ].map((c) => (
+            <div
+              key={c.email}
+              className="hover-card"
+              style={{
+                background: "var(--bg-2)",
+                border: "1px solid var(--border)",
+                borderRadius: "8px",
+                padding: "28px 24px",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0, left: "24px", right: "24px",
+                  height: "1px",
+                  background: "var(--gold)",
+                  opacity: 0.45,
+                }}
+              />
+              <div
+                style={{
+                  width: "6px", height: "6px",
+                  borderRadius: "50%",
+                  background: "var(--gold)",
+                  marginBottom: "18px",
+                  opacity: 0.8,
+                }}
+              />
+              <p
+                style={{
+                  fontSize: "10px",
+                  fontWeight: 600,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "var(--ink-3)",
+                  marginBottom: "4px",
+                }}
+              >
+                {c.role}
+              </p>
+              <p
+                className="font-serif"
+                style={{
+                  fontSize: "16px",
+                  fontStyle: "italic",
+                  color: "var(--ink)",
+                  marginBottom: "14px",
+                  fontWeight: 400,
+                }}
+              >
+                {c.name}
+              </p>
+              <a
+                href={`mailto:${c.email}`}
+                style={{
+                  fontSize: "13px",
+                  color: "var(--ink-3)",
+                  transition: "color 0.2s ease",
+                  letterSpacing: "0.01em",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--gold)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--ink-3)"; }}
+              >
+                {c.email}
+              </a>
+            </div>
+          ))}
+        </Reveal>
+        <Reveal delay={200}>
+          <p
+            style={{
+              color: "var(--ink-3)",
+              fontSize: "12px",
+              marginTop: "28px",
+              letterSpacing: "0.04em",
+            }}
+          >
+            All inquiries are reviewed personally. Expect a response within 24 hours.
+          </p>
+        </Reveal>
       </section>
 
       {/* ── CLOSING ── */}

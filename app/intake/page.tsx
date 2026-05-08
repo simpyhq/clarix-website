@@ -165,7 +165,39 @@ export default function IntakePage() {
 
   return (
     <div style={{ background: "var(--bg)", color: "var(--ink)" }}>
-      <section className="max-w-3xl mx-auto px-6 sm:px-8 pt-20 pb-10">
+
+      {/* ── WAITLIST BANNER ── */}
+      <div style={{ background: "var(--bg-3)", borderBottom: "1px solid var(--border)" }}>
+        <div
+          style={{
+            maxWidth: "768px",
+            margin: "0 auto",
+            padding: "24px 24px 24px 20px",
+            borderLeft: "3px solid var(--gold)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
+        >
+          <p
+            style={{
+              color: "var(--gold)",
+              fontSize: "10px",
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+            }}
+          >
+            ●  A Note on Availability
+          </p>
+          <p style={{ color: "var(--ink-2)", fontSize: "14px", lineHeight: 1.75 }}>
+            Clarix is currently at capacity. Our waitlist is short and reviewed personally.
+            Submitting this form places you in queue — we will reach out when a position opens that fits your profile.
+          </p>
+        </div>
+      </div>
+
+      <section className="max-w-3xl mx-auto px-6 sm:px-8 pt-16 pb-10">
         <p
           style={{
             color: "var(--gold)",
@@ -175,7 +207,7 @@ export default function IntakePage() {
             marginBottom: "16px",
           }}
         >
-          Access Request
+          Waitlist Request
         </p>
         <h1
           className="font-serif"
@@ -184,7 +216,7 @@ export default function IntakePage() {
           Tell us about yourself and what you need.
         </h1>
         <p style={{ color: "var(--ink-3)", fontSize: "14px", lineHeight: 1.7 }}>
-          The more detail you give us, the better we can configure your system. We&apos;ll follow up within 24 hours.
+          The more detail you provide, the better we can evaluate fit when a position opens. We review every submission personally.
         </p>
       </section>
 
@@ -478,7 +510,7 @@ export default function IntakePage() {
           <div className="text-center">
             {status === "error" && (
               <p style={{ color: "#ef4444", fontSize: "14px", marginBottom: "16px" }}>
-                Something went wrong. Please try again or email us at jarvis@simpyhq.com
+                Something went wrong. Please try again or email us at support@clarixhq.ai
               </p>
             )}
             <button

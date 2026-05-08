@@ -8,7 +8,7 @@ export default function Footer() {
       className="py-8 text-center"
     >
       <p style={{ color: "var(--ink-3)", fontSize: "11px" }}>
-        © 2025 Clarix. Private &amp; Confidential.
+        © 2026 Clarix — Private Members Club. All rights reserved.
       </p>
     </footer>
   );
