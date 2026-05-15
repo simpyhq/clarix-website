@@ -237,7 +237,7 @@ export default function AboutPage() {
             Engagements are accepted by referral or direct inquiry.
           </p>
           <Link href="/intake" className="btn-gold">
-            Request Access →
+            Express Interest →
           </Link>
         </Reveal>
       </section>

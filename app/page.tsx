@@ -127,7 +127,7 @@ export default function HomePage() {
             style={{ marginBottom: "64px" }}
           >
             <Link href="/intake" className="btn-gold">
-              Request Access
+              Express Interest
             </Link>
             <Link
               href="/about"
@@ -319,14 +319,14 @@ export default function HomePage() {
             className="font-serif"
             style={{
               fontSize: "clamp(1.4rem, 3.5vw, 2rem)",
-              fontStyle: "italic",
               color: "var(--ink)",
               lineHeight: 1.4,
               marginBottom: "16px",
-              fontWeight: 400,
+              fontWeight: 600,
+              letterSpacing: "-0.03em",
             }}
           >
-            We are currently at capacity.
+            We are selective by design.
           </p>
           <p
             style={{
@@ -339,14 +339,14 @@ export default function HomePage() {
               marginRight: "auto",
             }}
           >
-            Our client roster is full by design. We maintain a short private waitlist for exceptional candidates.
-            If you believe Clarix is right for you, we encourage you to introduce yourself.
+            Clarix works with a deliberate number of clients. If you have a serious interest in what we build,
+            we invite you to introduce yourself. Every inquiry is reviewed personally.
           </p>
           <Link href="/intake" className="btn-gold" style={{ marginBottom: "20px" }}>
-            Join the Waitlist →
+            Express Interest →
           </Link>
           <p style={{ color: "var(--ink-3)", fontSize: "12px", marginTop: "20px", letterSpacing: "0.04em" }}>
-            Waitlist inquiries are reviewed personally. No automated responses.
+            No automated responses. Expect a direct reply within 24 hours.
           </p>
         </Reveal>
       </section>

@@ -80,7 +80,7 @@ export default function Navbar() {
           {/* CTA */}
           <div className="hidden md:flex items-center">
             <Link href="/intake" className="btn-gold" style={{ padding: "8px 18px", fontSize: "13px" }}>
-              Request Access
+              Express Interest
             </Link>
           </div>
 
@@ -139,7 +139,7 @@ export default function Navbar() {
               style={{ textAlign: "center", marginTop: "8px", fontSize: "14px" }}
               onClick={() => setOpen(false)}
             >
-              Request Access
+              Express Interest
             </Link>
           </div>
         )}

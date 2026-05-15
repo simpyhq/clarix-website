@@ -60,7 +60,7 @@ function StyledInput({ name, type = "text", placeholder, required }: {
       required={required}
       placeholder={placeholder}
       style={inputCls}
-      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = "var(--gold-soft)"; }}
+      onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = "var(--cyan-soft)"; }}
       onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = "var(--border)"; }}
     />
   );
@@ -79,7 +79,7 @@ function StyledTextarea({ name, rows, placeholder, required }: {
       required={required}
       placeholder={placeholder}
       style={{ ...inputCls, resize: "none" }}
-      onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = "var(--gold-soft)"; }}
+      onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = "var(--cyan-soft)"; }}
       onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = "var(--border)"; }}
     />
   );
@@ -95,7 +95,7 @@ function StyledSelect({ name, required, children }: {
       name={name}
       required={required}
       style={{ ...inputCls, appearance: "auto" }}
-      onFocus={(e) => { (e.target as HTMLSelectElement).style.borderColor = "var(--gold-soft)"; }}
+      onFocus={(e) => { (e.target as HTMLSelectElement).style.borderColor = "var(--cyan-soft)"; }}
       onBlur={(e) => { (e.target as HTMLSelectElement).style.borderColor = "var(--border)"; }}
     >
       {children}
@@ -146,7 +146,7 @@ export default function IntakePage() {
         <div className="max-w-md text-center">
           <CheckCircle
             size={40}
-            style={{ color: "var(--gold)", margin: "0 auto 20px" }}
+            style={{ color: "var(--cyan)", margin: "0 auto 20px" }}
             strokeWidth={1.5}
           />
           <h1
@@ -173,7 +173,7 @@ export default function IntakePage() {
             maxWidth: "768px",
             margin: "0 auto",
             padding: "24px 24px 24px 20px",
-            borderLeft: "3px solid var(--gold)",
+            borderLeft: "3px solid var(--cyan)",
             display: "flex",
             flexDirection: "column",
             gap: "8px",
@@ -181,7 +181,7 @@ export default function IntakePage() {
         >
           <p
             style={{
-              color: "var(--gold)",
+              color: "var(--cyan)",
               fontSize: "10px",
               fontWeight: 600,
               letterSpacing: "0.22em",
@@ -191,8 +191,8 @@ export default function IntakePage() {
             ●  A Note on Availability
           </p>
           <p style={{ color: "var(--ink-2)", fontSize: "14px", lineHeight: 1.75 }}>
-            Clarix is currently at capacity. Our waitlist is short and reviewed personally.
-            Submitting this form places you in queue — we will reach out when a position opens that fits your profile.
+            Clarix works with a deliberate number of clients. If you have a serious interest in what we build,
+            we invite you to introduce yourself. Every inquiry is reviewed personally — we will be in touch directly.
           </p>
         </div>
       </div>
@@ -200,23 +200,23 @@ export default function IntakePage() {
       <section className="max-w-3xl mx-auto px-6 sm:px-8 pt-16 pb-10">
         <p
           style={{
-            color: "var(--gold)",
+            color: "var(--cyan)",
             fontSize: "10px",
             letterSpacing: "0.25em",
             textTransform: "uppercase",
             marginBottom: "16px",
           }}
         >
-          Waitlist Request
+          Expression of Interest
         </p>
         <h1
           className="font-serif"
-          style={{ fontSize: "clamp(1.8rem, 4vw, 2.5rem)", marginBottom: "16px", color: "var(--ink)" }}
+          style={{ fontSize: "clamp(1.8rem, 4vw, 2.5rem)", marginBottom: "16px", color: "var(--ink)", fontWeight: 700, letterSpacing: "-0.03em" }}
         >
           Tell us about yourself and what you need.
         </h1>
         <p style={{ color: "var(--ink-3)", fontSize: "14px", lineHeight: 1.7 }}>
-          The more detail you provide, the better we can evaluate fit when a position opens. We review every submission personally.
+          The more context you provide, the better we can evaluate fit. We review every submission personally and respond directly — no automated replies.
         </p>
       </section>
 
@@ -348,7 +348,7 @@ export default function IntakePage() {
                           type="checkbox"
                           name={group.name}
                           value={opt}
-                          style={{ accentColor: "var(--gold)" }}
+                          style={{ accentColor: "var(--cyan)" }}
                         />
                         {opt}
                       </label>
@@ -404,7 +404,7 @@ export default function IntakePage() {
                         type="checkbox"
                         name="automate"
                         value={opt}
-                        style={{ accentColor: "var(--gold)", marginTop: "2px", flexShrink: 0 }}
+                        style={{ accentColor: "var(--cyan)", marginTop: "2px", flexShrink: 0 }}
                       />
                       {opt}
                     </label>
@@ -446,7 +446,7 @@ export default function IntakePage() {
                         type="checkbox"
                         name="channels"
                         value={opt}
-                        style={{ accentColor: "var(--gold)" }}
+                        style={{ accentColor: "var(--cyan)" }}
                       />
                       {opt}
                     </label>
@@ -517,8 +517,8 @@ export default function IntakePage() {
               type="submit"
               disabled={status === "submitting"}
               style={{
-                border: "1px solid var(--gold-soft)",
-                color: status === "submitting" ? "var(--ink-3)" : "var(--gold)",
+                border: "1px solid var(--cyan-soft)",
+                color: status === "submitting" ? "var(--ink-3)" : "var(--cyan)",
                 background: "transparent",
                 padding: "14px 40px",
                 borderRadius: "6px",
@@ -535,13 +535,13 @@ export default function IntakePage() {
               onMouseEnter={(e) => {
                 if (status === "submitting") return;
                 const el = e.currentTarget as HTMLButtonElement;
-                el.style.background = "var(--gold)";
+                el.style.background = "var(--cyan)";
                 el.style.color = "var(--bg)";
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLButtonElement;
                 el.style.background = "transparent";
-                el.style.color = status === "submitting" ? "var(--ink-3)" : "var(--gold)";
+                el.style.color = status === "submitting" ? "var(--ink-3)" : "var(--cyan)";
               }}
             >
               {status === "submitting" ? (
