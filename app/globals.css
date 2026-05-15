@@ -2,21 +2,21 @@
 
 /* ── Dark tech palette ── */
 :root {
-  --bg:           #0E1117;
-  --bg-2:         #151B24;
-  --bg-3:         #1B2330;
-  --bg-4:         #222B3A;
+  --bg:           #1A1F2E;
+  --bg-2:         #222840;
+  --bg-3:         #2A3050;
+  --bg-4:         #323860;
   --cyan:         #38BDF8;
-  --cyan-soft:    rgba(56,189,248,0.45);
-  --cyan-border:  rgba(56,189,248,0.2);
-  --cyan-bg:      rgba(56,189,248,0.05);
-  --ink:          #F0F6FC;
-  --ink-2:        #A0AEBE;
-  --ink-3:        #5A6A7E;
-  --ink-4:        rgba(56,189,248,0.4);
-  --border:       rgba(255,255,255,0.08);
-  --border-2:     rgba(255,255,255,0.14);
-  --grid-color:   rgba(56,189,248,0.025);
+  --cyan-soft:    rgba(56,189,248,0.5);
+  --cyan-border:  rgba(56,189,248,0.25);
+  --cyan-bg:      rgba(56,189,248,0.06);
+  --ink:          #F4F8FF;
+  --ink-2:        #B8C4D8;
+  --ink-3:        #7A8AAE;
+  --ink-4:        rgba(56,189,248,0.5);
+  --border:       rgba(255,255,255,0.1);
+  --border-2:     rgba(255,255,255,0.18);
+  --grid-color:   rgba(56,189,248,0.04);
 }
 
 html { scroll-behavior: smooth; }
