@@ -1,40 +1,60 @@
 @import "tailwindcss";
 
-/* ── Dark / Gold luxury palette ── */
+/* ── Dark tech palette ── */
 :root {
-  --bg:           #FAF8F4;
-  --bg-2:         #F0EDE6;
-  --bg-3:         #E8E4DC;
-  --gold:         #B8963E;
-  --gold-soft:    rgba(184,150,62,0.5);
-  --gold-border:  rgba(184,150,62,0.25);
-  --gold-bg:      rgba(184,150,62,0.06);
-  --ink:          #1A1814;
-  --ink-2:        #4A4540;
-  --ink-3:        #7A756E;
-  --ink-4:        rgba(184,150,62,0.5);
-  --border:       rgba(26,24,20,0.1);
-  --border-2:     rgba(26,24,20,0.2);
+  --bg:           #080C10;
+  --bg-2:         #0D1117;
+  --bg-3:         #161B22;
+  --bg-4:         #1C2128;
+  --cyan:         #00D4FF;
+  --cyan-soft:    rgba(0,212,255,0.45);
+  --cyan-border:  rgba(0,212,255,0.2);
+  --cyan-bg:      rgba(0,212,255,0.05);
+  --ink:          #E6EDF3;
+  --ink-2:        #8B949E;
+  --ink-3:        #484F58;
+  --ink-4:        rgba(0,212,255,0.4);
+  --border:       rgba(255,255,255,0.07);
+  --border-2:     rgba(255,255,255,0.12);
+  --grid-color:   rgba(0,212,255,0.03);
 }
 
 html { scroll-behavior: smooth; }
 
-/* Grain overlay */
+/* Grid overlay */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 1;
+}
+
+/* Scanline effect */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
   z-index: 9999;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 200px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.015) 2px,
+    rgba(0,0,0,0.015) 4px
+  );
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-geist), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-grotesk), system-ui, -apple-system, sans-serif;
   font-weight: 400;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
@@ -42,10 +62,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Headings — Playfair Display */
 h1, h2, h3 {
-  font-family: var(--font-playfair), Georgia, serif;
-  line-height: 1.15;
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
 h4, h5, h6 {
@@ -55,7 +76,13 @@ h4, h5, h6 {
 }
 
 .font-serif {
-  font-family: var(--font-playfair), Georgia, serif;
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.font-mono {
+  font-family: var(--font-mono), 'SF Mono', 'Fira Code', monospace;
 }
 
 p { line-height: 1.65; }
@@ -84,17 +111,25 @@ a, button { transition: all 0.2s ease; }
   50%  { opacity: 0.9; }
   100% { opacity: 0.4; }
 }
-@keyframes goldPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
-  50%       { box-shadow: 0 0 24px 2px rgba(201,168,76,0.12); }
+@keyframes cyanPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0); }
+  50%       { box-shadow: 0 0 32px 4px rgba(0,212,255,0.12); }
 }
 @keyframes lineGrow {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
 }
 @keyframes orbFloat {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-6px); }
+  0%, 100% { transform: translateY(0px) translateX(-50%); }
+  50%       { transform: translateY(-12px) translateX(-50%); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes scan {
+  0%   { top: -10%; }
+  100% { top: 110%; }
 }
 
 .animate-fade-in-up   { animation: fadeInUp  0.75s cubic-bezier(0.16,1,0.3,1) both; }
@@ -102,8 +137,9 @@ a, button { transition: all 0.2s ease; }
 .animate-fade-in-down { animation: fadeInDown 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .animate-scale-in     { animation: scaleIn   0.6s  cubic-bezier(0.16,1,0.3,1) both; }
 .animate-shimmer      { animation: shimmer   3s    ease-in-out infinite; }
-.animate-gold-pulse   { animation: goldPulse 3s    ease-in-out infinite; }
-.animate-orb-float    { animation: orbFloat  5s    ease-in-out infinite; }
+.animate-cyan-pulse   { animation: cyanPulse 3s    ease-in-out infinite; }
+.animate-orb-float    { animation: orbFloat  6s    ease-in-out infinite; }
+.animate-blink        { animation: blink     1s    step-end infinite; }
 
 .delay-50  { animation-delay: 0.05s; }
 .delay-100 { animation-delay: 0.1s; }
@@ -151,7 +187,7 @@ a, button { transition: all 0.2s ease; }
 .stagger.visible > *:nth-child(7)  { opacity:1; transform:translateY(0); transition-delay:600ms; }
 .stagger.visible > *:nth-child(8)  { opacity:1; transform:translateY(0); transition-delay:700ms; }
 
-/* ── Gold line reveal ── */
+/* ── Cyan line reveal ── */
 .line-reveal {
   transform-origin: left center;
   transform: scaleX(0);
@@ -166,60 +202,57 @@ a, button { transition: all 0.2s ease; }
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 .hover-card:hover {
-  border-color: var(--gold-border) !important;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  border-color: var(--cyan-border) !important;
+  box-shadow: 0 0 32px rgba(0,212,255,0.06), 0 8px 40px rgba(0,0,0,0.4);
   transform: translateY(-2px);
 }
 
-/* ── Gold button ── */
+/* ── Cyan button ── */
 .btn-gold {
-  border: 1px solid var(--gold-soft);
-  color: var(--gold);
+  border: 1px solid var(--cyan-soft);
+  color: var(--cyan);
   background: transparent;
   padding: 12px 28px;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 4px;
+  font-size: 13px;
   font-weight: 500;
   display: inline-block;
   transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-mono), monospace;
 }
 .btn-gold:hover {
-  background: var(--gold);
+  background: var(--cyan);
   color: var(--bg);
-  box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+  box-shadow: 0 0 32px rgba(0,212,255,0.25);
 }
 
 /* ── Eyebrow text ── */
 .eyebrow {
-  color: var(--gold);
+  color: var(--cyan);
   font-size: 10px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  font-family: var(--font-geist), system-ui, sans-serif;
-  font-weight: 500;
+  font-family: var(--font-mono), monospace;
+  font-weight: 400;
 }
 
-/* ── Gold rule ── */
+/* ── Cyan rule ── */
 .gold-rule {
   height: 1px;
-  background: var(--gold);
+  background: var(--cyan);
   opacity: 0.18;
 }
 
-/* ── Ambient radial glow (hero background effect) ── */
+/* ── Ambient radial glow ── */
 .ambient-glow {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(184,150,62,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0,212,255,0.045) 0%, transparent 70%);
   pointer-events: none;
-}
-
-/* ── Font mono ── */
-.font-mono {
-  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
 }
 
 /* ── Nav link underline ── */
@@ -234,7 +267,7 @@ a, button { transition: all 0.2s ease; }
   bottom: -1px;
   width: 100%;
   height: 1px;
-  background: var(--gold);
+  background: var(--cyan);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s ease;
@@ -251,4 +284,24 @@ a, button { transition: all 0.2s ease; }
 }
 .mobile-menu-open {
   animation: menuSlide 0.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* ── Terminal cursor ── */
+.cursor::after {
+  content: "_";
+  animation: blink 1s step-end infinite;
+  color: var(--cyan);
+}
+
+/* ── Glitch border ── */
+.glitch-border {
+  position: relative;
+}
+.glitch-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--cyan-border), transparent 60%);
+  z-index: -1;
 }

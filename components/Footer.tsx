@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        borderTop: "1px solid rgba(201,168,76,0.12)",
+        borderTop: "1px solid var(--cyan-border)",
         background: "var(--bg)",
       }}
       className="py-8 text-center"

@@ -14,15 +14,15 @@ export default function AboutPage() {
             className="font-serif"
             style={{
               fontSize: "clamp(2.2rem, 5.5vw, 4rem)",
-              fontStyle: "italic",
-              fontWeight: 400,
+              fontWeight: 700,
               lineHeight: 1.1,
               marginBottom: "0",
               color: "var(--ink)",
               maxWidth: "700px",
+              letterSpacing: "-0.04em",
             }}
           >
-            We build intelligence for people who move at a different pace.
+            We build intelligence for people who move at a <span style={{ color: "var(--cyan)" }}>different pace.</span>
           </h1>
         </Reveal>
       </section>
@@ -33,7 +33,7 @@ export default function AboutPage() {
           <div
             style={{
               height: "1px",
-              background: "linear-gradient(90deg, var(--gold), transparent)",
+              background: "linear-gradient(90deg, var(--cyan), transparent)",
               opacity: 0.35,
               marginBottom: "48px",
             }}
@@ -64,9 +64,9 @@ export default function AboutPage() {
       <section className="px-6 sm:px-8 pb-28 max-w-3xl mx-auto">
         <div style={{ borderTop: "1px solid var(--border)" }}>
           {[
-            { num: "I", label: "Discretion", body: "Your system is yours alone. Dedicated infrastructure, isolated by design. No shared models, no co-tenancy, no third-party access." },
-            { num: "II", label: "Continuity", body: "Unlike software that resets, your system learns and accumulates context over time. Each interaction makes it sharper." },
-            { num: "III", label: "Partnership", body: "We don't hand you software and disappear. We maintain, evolve, and optimize — a retained relationship, not a transaction." },
+            { num: "01", label: "Discretion", body: "Your system is yours alone. Dedicated infrastructure, isolated by design. No shared models, no co-tenancy, no third-party access." },
+            { num: "02", label: "Continuity", body: "Unlike software that resets, your system learns and accumulates context over time. Each interaction makes it sharper." },
+            { num: "03", label: "Partnership", body: "We don't hand you software and disappear. We maintain, evolve, and optimize — a retained relationship, not a transaction." },
           ].map((item, i) => (
             <Reveal key={item.num} delay={i * 100}>
               <div
@@ -80,13 +80,13 @@ export default function AboutPage() {
                 }}
               >
                 <span
-                  className="font-serif"
+                  className="font-mono"
                   style={{
-                    color: "var(--gold)",
-                    opacity: 0.45,
-                    fontSize: "14px",
-                    fontStyle: "italic",
+                    color: "var(--cyan)",
+                    opacity: 0.5,
+                    fontSize: "11px",
                     paddingTop: "4px",
+                    letterSpacing: "0.1em",
                   }}
                 >
                   {item.num}
@@ -95,11 +95,11 @@ export default function AboutPage() {
                   <h3
                     className="font-serif"
                     style={{
-                      fontSize: "19px",
+                      fontSize: "18px",
                       color: "var(--ink)",
                       marginBottom: "10px",
-                      fontWeight: 400,
-                      fontStyle: "italic",
+                      fontWeight: 600,
+                      letterSpacing: "-0.02em",
                     }}
                   >
                     {item.label}
@@ -132,8 +132,8 @@ export default function AboutPage() {
         </Reveal>
         <Reveal delay={80} stagger className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { name: "Michael Simpson", role: "Founder", email: "michael@clarixhq.ai" },
-            { name: "Christian Simpson", role: "Operations", email: "christian@clarixhq.ai" },
+            { name: "Michael Simpson", role: "Co-Founder", email: "michael@clarixhq.ai" },
+            { name: "Christian Simpson", role: "Co-Founder", email: "christian@clarixhq.ai" },
             { name: "Support & Onboarding", role: "Clarix", email: "support@clarixhq.ai" },
           ].map((c) => (
             <div
@@ -153,15 +153,15 @@ export default function AboutPage() {
                   position: "absolute",
                   top: 0, left: "24px", right: "24px",
                   height: "1px",
-                  background: "var(--gold)",
-                  opacity: 0.45,
+                  background: "var(--cyan)",
+                  opacity: 0.35,
                 }}
               />
               <div
                 style={{
                   width: "6px", height: "6px",
                   borderRadius: "50%",
-                  background: "var(--gold)",
+                  background: "var(--cyan)",
                   marginBottom: "18px",
                   opacity: 0.8,
                 }}
@@ -182,10 +182,10 @@ export default function AboutPage() {
                 className="font-serif"
                 style={{
                   fontSize: "16px",
-                  fontStyle: "italic",
                   color: "var(--ink)",
                   marginBottom: "14px",
-                  fontWeight: 400,
+                  fontWeight: 600,
+                  letterSpacing: "-0.01em",
                 }}
               >
                 {c.name}
@@ -198,7 +198,7 @@ export default function AboutPage() {
                   transition: "color 0.2s ease",
                   letterSpacing: "0.01em",
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--gold)"; }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--cyan)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--ink-3)"; }}
               >
                 {c.email}
@@ -227,11 +227,11 @@ export default function AboutPage() {
             className="font-serif"
             style={{
               fontSize: "clamp(1.3rem, 3vw, 1.9rem)",
-              fontStyle: "italic",
               color: "var(--ink-2)",
               lineHeight: 1.5,
               marginBottom: "36px",
-              fontWeight: 400,
+              fontWeight: 600,
+              letterSpacing: "-0.03em",
             }}
           >
             Engagements are accepted by referral or direct inquiry.

@@ -96,16 +96,16 @@ export default function HomePage() {
             className="font-serif animate-fade-in-up delay-100"
             style={{
               fontSize: "clamp(2.6rem, 6.5vw, 4.5rem)",
-              fontStyle: "italic",
               lineHeight: 1.08,
               marginBottom: "28px",
               color: "var(--ink)",
-              fontWeight: 400,
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
             }}
           >
             Your world.<br />
             An intelligence<br />
-            built around it.
+            <span style={{ color: "var(--cyan)" }}>built around it.</span>
           </h1>
 
           <p
@@ -207,7 +207,7 @@ export default function HomePage() {
                   left: "28px",
                   right: "28px",
                   height: "1px",
-                  background: "var(--gold)",
+                  background: "var(--cyan)",
                   opacity: 0.5,
                 }}
               />
@@ -217,7 +217,7 @@ export default function HomePage() {
                   width: "7px",
                   height: "7px",
                   borderRadius: "50%",
-                  background: "var(--gold)",
+                  background: "var(--cyan)",
                   marginBottom: "22px",
                   opacity: 0.85,
                 }}
@@ -259,7 +259,7 @@ export default function HomePage() {
             }}
           >
             "Not a tool.<br />Not a subscription.<br />
-            <span style={{ color: "var(--gold)" }}>A membership.</span>"
+            <span style={{ color: "var(--cyan)" }}>A membership.</span>"
           </p>
         </Reveal>
       </section>
@@ -288,15 +288,15 @@ export default function HomePage() {
                 }}
               >
                 <span
-                  className="font-serif"
-                  style={{ color: "var(--gold)", opacity: 0.5, fontSize: "13px", paddingTop: "4px", fontStyle: "italic" }}
+                  className="font-mono"
+                  style={{ color: "var(--cyan)", opacity: 0.6, fontSize: "11px", paddingTop: "4px", letterSpacing: "0.1em" }}
                 >
                   {item.num}
                 </span>
                 <div>
                   <h3
                     className="font-serif"
-                    style={{ fontSize: "20px", color: "var(--ink)", marginBottom: "10px", fontWeight: 400, fontStyle: "italic" }}
+                    style={{ fontSize: "18px", color: "var(--ink)", marginBottom: "10px", fontWeight: 600, letterSpacing: "-0.02em" }}
                   >
                     {item.title}
                   </h3>

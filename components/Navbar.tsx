@@ -26,8 +26,8 @@ export default function Navbar() {
     <nav
       className="sticky top-0 z-50 animate-fade-in-down"
       style={{
-        background: scrolled ? "rgba(8,10,15,0.96)" : "var(--bg)",
-        borderBottom: "1px solid var(--gold-border)",
+        background: scrolled ? "rgba(8,12,16,0.96)" : "var(--bg)",
+        borderBottom: "1px solid var(--cyan-border)",
         backdropFilter: scrolled ? "blur(16px)" : "none",
         transition: "background 0.4s ease, backdrop-filter 0.4s ease",
       }}
@@ -40,10 +40,11 @@ export default function Navbar() {
             href="/"
             className="font-serif"
             style={{
-              color: "var(--gold)",
+              color: "var(--cyan)",
               letterSpacing: "0.22em",
               fontSize: "16px",
-              fontWeight: 500,
+              fontWeight: 700,
+              fontFamily: "var(--font-mono), monospace",
               transition: "opacity 0.2s ease",
             }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.75"; }}
@@ -109,7 +110,7 @@ export default function Navbar() {
             className="md:hidden mobile-menu-open"
             style={{
               background: "var(--bg)",
-              borderTop: "1px solid var(--gold-border)",
+              borderTop: "1px solid var(--cyan-border)",
               paddingTop: "20px",
               paddingBottom: "24px",
               display: "flex",
