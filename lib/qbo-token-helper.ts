@@ -45,8 +45,18 @@ async function kvGet(key: string): Promise<unknown> {
   const body = await res.json();
   // Upstash returns { result: <value | null> }
   if (body.result === null || body.result === undefined) return null;
-  // Client tokens are stored as JSON strings
-  return JSON.parse(body.result);
+  // Client tokens are stored as JSON strings, but some existing records were
+  // written double-encoded (JSON.stringify'd twice) by an earlier version of
+  // kvSet. Parse repeatedly until we land on an object (or give up after a
+  // few tries) so both single- and double-encoded legacy records read
+  // correctly — fixed 2026-08-21 after a refresh-and-persist cycle wrote a
+  // double-encoded record that then failed to parse back into fields
+  // (corrupted_record) on the very next read.
+  let parsed: unknown = body.result;
+  for (let i = 0; i < 3 && typeof parsed === "string"; i++) {
+    parsed = JSON.parse(parsed);
+  }
+  return parsed;
 }
 
 /**
@@ -60,7 +70,12 @@ async function kvSet(key: string, value: unknown): Promise<void> {
       Authorization: `Bearer ${KV_REST_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(JSON.stringify(value)),
+    // Single-encode only — previously this double-stringified (bug), which
+    // produced records kvGet's old single-parse couldn't read back correctly
+    // after a refresh cycle. kvGet now tolerates both old double-encoded and
+    // new single-encoded records, but new writes should be single-encoded
+    // going forward.
+    body: JSON.stringify(value),
   });
   if (!res.ok) throw new Error(`KV SET failed: ${res.status}`);
 }

@@ -27,7 +27,10 @@ async function kvSet(key: string, value: unknown): Promise<void> {
       Authorization: `Bearer ${KV_REST_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(JSON.stringify(value)),
+    // Single-encode (was double-JSON.stringify — bug fixed 2026-08-21, see
+    // lib/qbo-token-helper.ts for full explanation; that file's kvGet
+    // tolerates both old double-encoded and new single-encoded records).
+    body: JSON.stringify(value),
   });
   if (!res.ok) throw new Error(`KV SET failed: ${res.status}`);
 }
