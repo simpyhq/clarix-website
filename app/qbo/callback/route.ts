@@ -16,6 +16,22 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
+const KV_REST_URL = process.env.KV_REST_API_URL || "";
+const KV_REST_TOKEN = process.env.KV_REST_API_TOKEN || "";
+
+async function kvSet(key: string, value: unknown): Promise<void> {
+  const url = `${KV_REST_URL}/set/${encodeURIComponent(key)}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${KV_REST_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(JSON.stringify(value)),
+  });
+  if (!res.ok) throw new Error(`KV SET failed: ${res.status}`);
+}
+
 const INTUIT_TOKEN_URL = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer";
 
 export async function GET(request: NextRequest) {
@@ -73,8 +89,26 @@ export async function GET(request: NextRequest) {
     // never log actual token values
   });
 
-  // TODO (Hank, follow-up step): persist { state, realmId, tokens } to
-  // permanent storage here instead of just logging.
+  // Persist tokens to KV so /api/qbo-token can serve live access tokens.
+  // Key schema: "qbo:<clientSlug>" — clientSlug comes from the `state` param
+  // passed through the OAuth flow (set at connect time).
+  const clientSlug = state || realmId; // fall back to realmId if state wasn't set
+  const expiresAt = Date.now() + (tokens.expires_in ?? 3600) * 1000;
+
+  const tokenRecord = {
+    accessToken: tokens.access_token,
+    refreshToken: tokens.refresh_token,
+    realmId,
+    expiresAt,
+  };
+
+  try {
+    await kvSet(`qbo:${clientSlug}`, tokenRecord);
+    console.log("QBO token persisted to KV for client:", clientSlug);
+  } catch (kvErr) {
+    console.error("QBO callback: failed to write token to KV:", kvErr);
+    // Still show success to user — they connected. Log alert for debugging.
+  }
 
   return htmlResponse("QuickBooks connected successfully. You can close this window.", 200, true);
 }
