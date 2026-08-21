@@ -90,20 +90,31 @@ export async function GET(request: NextRequest) {
   });
 
   // Persist tokens to KV so /api/qbo-token can serve live access tokens.
-  // Key schema: "qbo:<clientSlug>" — clientSlug comes from the `state` param
-  // passed through the OAuth flow (set at connect time).
+  // Key schema: "qbo:client:<clientSlug>" — clientSlug comes from the `state`
+  // param passed through the OAuth flow (set at connect time). This matches
+  // the schema lib/qbo-token-helper.ts reads (corrected 2026-08-21 — this
+  // route and the helper had drifted onto two different key/field formats,
+  // which is why live, real connections like mikemills-buck showed as
+  // "not connected"/"corrupted_record" via the token API even though the
+  // underlying QBO connection itself was fine).
   const clientSlug = state || realmId; // fall back to realmId if state wasn't set
-  const expiresAt = Date.now() + (tokens.expires_in ?? 3600) * 1000;
+  const now = Date.now();
+  const expiresAt = now + (tokens.expires_in ?? 3600) * 1000;
+  const refreshTokenExpiresAt =
+    now + (tokens.x_refresh_token_expires_in ?? 100 * 24 * 3600) * 1000;
 
   const tokenRecord = {
-    accessToken: tokens.access_token,
-    refreshToken: tokens.refresh_token,
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
     realmId,
-    expiresAt,
+    expires_at: expiresAt,
+    refresh_token_expires_at: refreshTokenExpiresAt,
+    connected_at: new Date(now).toISOString(),
+    updated_at: new Date(now).toISOString(),
   };
 
   try {
-    await kvSet(`qbo:${clientSlug}`, tokenRecord);
+    await kvSet(`qbo:client:${clientSlug}`, tokenRecord);
     console.log("QBO token persisted to KV for client:", clientSlug);
   } catch (kvErr) {
     console.error("QBO callback: failed to write token to KV:", kvErr);

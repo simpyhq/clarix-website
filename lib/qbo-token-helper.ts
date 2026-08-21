@@ -7,12 +7,18 @@
 // data, only updates refreshed tokens in-place. The OAuth callback route
 // (app/qbo/callback/route.ts) is the sole creator of token records.
 //
-// KV schema per client key "qbo:<clientSlug>":
+// KV schema per client key "qbo:client:<clientSlug>" (matches the schema
+// actually written by app/qbo/callback/route.ts — corrected 2026-08-21,
+// this helper was previously reading the wrong key/field names and always
+// returned "not connected" or "corrupted_record" for real, live clients):
 //   {
-//     accessToken: string,
-//     refreshToken: string,
+//     access_token: string,
+//     refresh_token: string,
 //     realmId: string,
-//     expiresAt: number,  // epoch ms when accessToken expires
+//     expires_at: number,               // epoch ms when access_token expires
+//     refresh_token_expires_at: number, // epoch ms when refresh_token expires (~100 days)
+//     connected_at: string,             // ISO timestamp of initial connection
+//     updated_at: string,               // ISO timestamp of last successful refresh/write
 //   }
 
 export type ValidAccessTokenResult =
@@ -100,7 +106,7 @@ async function refreshAccessToken(
 export async function getValidAccessToken(
   clientSlug: string,
 ): Promise<ValidAccessTokenResult> {
-  const kvKey = `qbo:${clientSlug}`;
+  const kvKey = `qbo:client:${clientSlug}`;
 
   let record: Record<string, unknown> | null;
   try {
@@ -118,15 +124,19 @@ export async function getValidAccessToken(
   }
 
   const {
-    accessToken,
-    refreshToken,
+    access_token: accessToken,
+    refresh_token: refreshToken,
     realmId,
-    expiresAt,
+    expires_at: expiresAt,
+    refresh_token_expires_at: refreshTokenExpiresAt,
+    connected_at: connectedAt,
   } = record as {
-    accessToken?: string;
-    refreshToken?: string;
+    access_token?: string;
+    refresh_token?: string;
     realmId?: string;
-    expiresAt?: number;
+    expires_at?: number;
+    refresh_token_expires_at?: number;
+    connected_at?: string;
   };
 
   if (!accessToken || !refreshToken || !realmId) {
@@ -145,12 +155,17 @@ export async function getValidAccessToken(
     const refreshed = await refreshAccessToken(refreshToken);
     const newExpiresAt = now + refreshed.expiresIn * 1000;
 
-    // Store the refreshed token back in KV.
+    // Store the refreshed token back in KV, preserving fields this helper
+    // doesn't own (connected_at, refresh_token_expires_at) rather than
+    // dropping them on every refresh.
     const updatedRecord = {
-      accessToken: refreshed.accessToken,
-      refreshToken,
+      access_token: refreshed.accessToken,
+      refresh_token: refreshToken,
       realmId,
-      expiresAt: newExpiresAt,
+      expires_at: newExpiresAt,
+      refresh_token_expires_at: refreshTokenExpiresAt,
+      connected_at: connectedAt,
+      updated_at: new Date(now).toISOString(),
     };
 
     try {
