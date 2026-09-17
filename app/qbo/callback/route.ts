@@ -1,20 +1,18 @@
 // File: app/qbo/callback/route.ts
-// (Next.js App Router API route — adjust path if using Pages Router, see note at bottom)
+// (Next.js App Router API route)
 //
 // Handles the QuickBooks Online OAuth2 redirect from Intuit.
-// Exchanges the authorization `code` for access + refresh tokens.
+// Exchanges the authorization `code` for access + refresh tokens,
+// fetches CompanyInfo to record the company name, guards against realm
+// collisions, and renders a dynamic success page.
 //
-// Required environment variables (set in Vercel project settings):
+// Required environment variables:
 //   QBO_CLIENT_ID
 //   QBO_CLIENT_SECRET
 //   QBO_REDIRECT_URI   = https://clarixhq.ai/qbo/callback (or www. version, whichever is canonical)
-//
-// Where tokens go: this stub logs them and returns a success page.
-// Hank will wire up real storage (KV, DB, or webhook forward) once this
-// route is live and reachable — no additional Vercel-side changes needed
-// for that follow-up step.
 
 import { NextRequest, NextResponse } from "next/server";
+import { getQboTokens, saveQboTokens, QboTokenRecord } from "@/lib/qbo-token-helper";
 
 const KV_REST_URL = process.env.KV_REST_API_URL || "";
 const KV_REST_TOKEN = process.env.KV_REST_API_TOKEN || "";
@@ -27,12 +25,35 @@ async function kvSet(key: string, value: unknown): Promise<void> {
       Authorization: `Bearer ${KV_REST_TOKEN}`,
       "Content-Type": "application/json",
     },
-    // Single-encode (was double-JSON.stringify — bug fixed 2026-08-21, see
-    // lib/qbo-token-helper.ts for full explanation; that file's kvGet
-    // tolerates both old double-encoded and new single-encoded records).
     body: JSON.stringify(value),
   });
   if (!res.ok) throw new Error(`KV SET failed: ${res.status}`);
+}
+
+async function kvGetAllKeys(pattern: string): Promise<string[]> {
+  // Upstash REST API: GET /keys/<pattern> returns { result: ["key1","key2",...] }
+  const url = `${KV_REST_URL}/keys/${encodeURIComponent(pattern)}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${KV_REST_TOKEN}` },
+  });
+  if (!res.ok) return [];
+  const body = await res.json();
+  return Array.isArray(body.result) ? body.result : [];
+}
+
+async function kvGetRaw(key: string): Promise<unknown> {
+  const url = `${KV_REST_URL}/get/${encodeURIComponent(key)}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${KV_REST_TOKEN}` },
+  });
+  if (!res.ok) return null;
+  const body = await res.json();
+  if (body.result === null || body.result === undefined) return null;
+  let parsed: unknown = body.result;
+  for (let i = 0; i < 3 && typeof parsed === "string"; i++) {
+    parsed = JSON.parse(parsed);
+  }
+  return parsed;
 }
 
 const INTUIT_TOKEN_URL = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer";
@@ -42,7 +63,7 @@ export async function GET(request: NextRequest) {
 
   const code = searchParams.get("code");
   const realmId = searchParams.get("realmId");
-  const state = searchParams.get("state"); // customer identifier, if provided
+  const state = searchParams.get("state"); // customer identifier (client slug)
   const error = searchParams.get("error");
 
   if (error) {
@@ -53,12 +74,39 @@ export async function GET(request: NextRequest) {
     return htmlResponse("Missing required parameters (code/realmId).", 400);
   }
 
+  const clientSlug = state || realmId; // fall back to realmId if state wasn't set
   const clientId = process.env.QBO_CLIENT_ID!;
   const clientSecret = process.env.QBO_CLIENT_SECRET!;
   const redirectUri = process.env.QBO_REDIRECT_URI!;
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
+  // --- Realm collision guard ---
+  // Before exchanging the code, check if this realmId already belongs to a
+  // DIFFERENT slug's record. If so, refuse to write — the user selected the
+  // wrong company at the Intuit picker.
+  try {
+    const allQboClientKeys = await kvGetAllKeys("qbo:client:*");
+    for (const key of allQboClientKeys) {
+      if (key === `qbo:client:${clientSlug}`) continue; // skip self
+      const existingRecord = (await kvGetRaw(key)) as Record<string, unknown> | null;
+      if (existingRecord?.realmId === realmId) {
+        const otherSlug = key.replace("qbo:client:", "");
+        return htmlResponse(
+          `This QuickBooks company (realmId ${realmId}) is already connected to client "${otherSlug}". ` +
+          "Please go back to the Intuit company picker and select the correct QuickBooks company for your account. " +
+          "If you need assistance, contact support.",
+          409
+        );
+      }
+    }
+  } catch (kvErr) {
+    // Non-critical: if KV scanning fails, proceed anyway; the collision
+    // guard is a defense-in-depth measure, not a hard prerequisite.
+    console.error("QBO callback: realm collision scan failed (proceeding):", kvErr);
+  }
+
+  // --- Exchange authorization code for tokens ---
   const tokenResp = await fetch(INTUIT_TOKEN_URL, {
     method: "POST",
     headers: {
@@ -89,42 +137,73 @@ export async function GET(request: NextRequest) {
     customer: state || "unknown",
     realmId,
     connected_at: new Date().toISOString(),
-    // never log actual token values
   });
 
-  // Persist tokens to KV so /api/qbo-token can serve live access tokens.
-  // Key schema: "qbo:client:<clientSlug>" — clientSlug comes from the `state`
-  // param passed through the OAuth flow (set at connect time). This matches
-  // the schema lib/qbo-token-helper.ts reads (corrected 2026-08-21 — this
-  // route and the helper had drifted onto two different key/field formats,
-  // which is why live, real connections like mikemills-buck showed as
-  // "not connected"/"corrupted_record" via the token API even though the
-  // underlying QBO connection itself was fine).
-  const clientSlug = state || realmId; // fall back to realmId if state wasn't set
+  // --- Fetch CompanyInfo ---
+  let companyName = "Unknown Company";
+  try {
+    const companyResp = await fetch(
+      `https://quickbooks.api.intuit.com/v3/company/${realmId}/companyinfo/${realmId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${tokens.access_token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    if (companyResp.ok) {
+      const companyData = await companyResp.json();
+      companyName = companyData?.CompanyInfo?.CompanyName || companyData?.CompanyName || "Unknown Company";
+      console.log("QBO CompanyInfo fetched:", companyName);
+    } else {
+      console.warn("QBO CompanyInfo fetch failed:", companyResp.status);
+    }
+  } catch (ciErr) {
+    console.error("QBO CompanyInfo fetch error (non-fatal):", ciErr);
+  }
+
+  // --- Persist tokens to KV ---
   const now = Date.now();
   const expiresAt = now + (tokens.expires_in ?? 3600) * 1000;
   const refreshTokenExpiresAt =
     now + (tokens.x_refresh_token_expires_in ?? 100 * 24 * 3600) * 1000;
 
-  const tokenRecord = {
+  const tokenRecord: QboTokenRecord = {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     realmId,
+    company_name: companyName,
     expires_at: expiresAt,
     refresh_token_expires_at: refreshTokenExpiresAt,
     connected_at: new Date(now).toISOString(),
     updated_at: new Date(now).toISOString(),
+    needs_reauth: false,
   };
 
+  let kvConfirmed = false;
   try {
-    await kvSet(`qbo:client:${clientSlug}`, tokenRecord);
+    await saveQboTokens(clientSlug, tokenRecord);
     console.log("QBO token persisted to KV for client:", clientSlug);
+    kvConfirmed = true;
   } catch (kvErr) {
     console.error("QBO callback: failed to write token to KV:", kvErr);
-    // Still show success to user — they connected. Log alert for debugging.
   }
 
-  return htmlResponse("QuickBooks connected successfully. You can close this window.", 200, true);
+  // Render the result page — only show "Connected" if KV write succeeded.
+  if (kvConfirmed) {
+    return htmlResponse(
+      `QuickBooks connected successfully for <strong>${escapeHtml(companyName)}</strong> (${escapeHtml(clientSlug)}). You can close this window.`,
+      200,
+      true
+    );
+  }
+
+  return htmlResponse(
+    "The connection was established but we encountered a storage error. <br/>" +
+    "Your QuickBooks data is safe — please contact support to confirm your tokens were saved.",
+    200,
+    false
+  );
 }
 
 function htmlResponse(message: string, status: number, success = false) {
@@ -135,15 +214,15 @@ function htmlResponse(message: string, status: number, success = false) {
 <style>
   body { font-family: -apple-system, sans-serif; background:#0a0a0a; color:#eee;
          display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
-  .card { text-align:center; max-width:420px; padding:2rem; }
+  .card { text-align:center; max-width:480px; padding:2rem; }
   h1 { color:${color}; font-size:1.25rem; margin-bottom:0.5rem; }
-  p { color:#999; font-size:0.9rem; }
+  p { color:#999; font-size:0.9rem; line-height:1.5; }
 </style>
 </head>
 <body>
   <div class="card">
     <h1>${success ? "✓ Connected" : "Connection Issue"}</h1>
-    <p>${escapeHtml(message)}</p>
+    <p>${message}</p>
   </div>
 </body>
 </html>`;
@@ -160,12 +239,3 @@ function escapeHtml(str: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
-
-/*
- * PAGES ROUTER VERSION (only needed if the site uses /pages instead of /app):
- * File would be: pages/api/qbo/callback.ts
- * Note: route would resolve to /api/qbo/callback, not /qbo/callback —
- * the redirect URI registered in Intuit would need to match whichever
- * path is actually used. Confirm with Hank which router the app uses
- * before implementing.
- */
