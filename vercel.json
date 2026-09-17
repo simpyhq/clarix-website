@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/qbo-refresh",
+      "schedule": "40 * * * *"
+    },
+    {
+      "path": "/api/cron/qbo-health",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
