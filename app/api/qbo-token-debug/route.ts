@@ -1,6 +1,8 @@
 // Metadata for one client's QuickBooks connection. Never returns tokens.
-// Accepts the same credentials as /api/qbo-token. A per-client key can only
-// read that slug. The shared-secret query param follows QBO_ALLOW_SHARED_SECRET.
+// Credentials belong in headers only. A query-string secret is rejected and
+// is not used, because request URLs are written to access logs.
+// X-QBO-Client-Key is scoped to this slug. X-QBO-Shared-Secret follows
+// QBO_ALLOW_SHARED_SECRET.
 
 import { NextRequest, NextResponse } from "next/server";
 import { QboCorruptRecordError, QboStorageError } from "@/lib/qbo-records";
@@ -19,11 +21,14 @@ function json(body: unknown, status = 200): NextResponse {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
+  if (searchParams.has("secret")) {
+    return json({ error: true, reason: "use_header" }, 400);
+  }
   const slug = searchParams.get("slug");
   const auth = await authorizeQboApiRequest({
     slug,
     clientKey: request.headers.get("x-qbo-client-key"),
-    sharedSecret: searchParams.get("secret") || request.headers.get("x-qbo-shared-secret"),
+    sharedSecret: request.headers.get("x-qbo-shared-secret"),
   });
   if (auth === "storage_error") return json({ error: true, reason: "storage_error" });
   if (auth !== "ok") return json({ error: true }, 401);

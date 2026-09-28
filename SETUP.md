@@ -86,7 +86,11 @@ Known failures stay HTTP 200 so existing agents that read the JSON body keep wor
 
 `detail` is only one of `reauth_required`, `refresh_request_failed`, or `retry`. Intuit's response body is not returned. An access token whose `expires_at` is in the past is not returned; the caller gets `refresh_in_progress` and should retry.
 
-`/api/qbo-token-debug?slug=<slug>` uses the same credentials and returns metadata only (company, realm, expiry, a sanitized refresh error). It does not return tokens.
+`GET /api/qbo-token-debug?slug=<slug>` returns metadata only (company, realm, expiry, a sanitized refresh error). It does not return access or refresh tokens. Send the credential in a header, never in the query string, because query strings are written to access logs. Use `X-QBO-Client-Key`, or `X-QBO-Shared-Secret` while the shared secret is still allowed. A `secret` query parameter is rejected with `400` and `{ "error": true, "reason": "use_header" }` and is not checked as a password.
+
+## Website chat
+
+`POST /api/chat` and `GET /api/chat` return `410`. The route used to call OpenRouter with `OPENROUTER_CHAT_KEY` and no authentication. The only caller in this repo is `components/ChatWidget.tsx`, and no page or layout renders that widget, so nothing legitimate depends on the endpoint. The widget file is left in place for the marketing-page work. Do not turn the route back on without authentication and a rate limit.
 
 These reason strings are the live contract the Mac mini agents already depend on. Internal refresh results use `not_connected`, `reauth_required`, and `refresh_request_failed`; the token route maps those onto the table above instead of renaming the public `reason` values.
 
@@ -156,3 +160,5 @@ Automated coverage is `npm test`. Before relying on a production deploy, also:
 6. `GET /api/qbo-token?client=<slug>&secret=<shared>` still returns `{ accessToken, realmId }` while the shared-secret flag is on.
 7. Issue a key, call with `X-QBO-Client-Key`, and confirm that key returns 401 for a different slug.
 8. Force a refresh failure (or inspect a `refresh_in_progress` response) and confirm the JSON has no Intuit error body.
+9. `POST /api/chat` returns 410 and does not call an AI provider.
+10. `GET /api/qbo-token-debug?slug=<slug>&secret=<shared>` returns 400 and does not include the secret or any token. The same slug with header `X-QBO-Shared-Secret` returns metadata and still no token.

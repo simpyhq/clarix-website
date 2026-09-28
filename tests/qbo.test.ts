@@ -7,6 +7,8 @@ import { GET as connectGet } from "../app/qbo/connect/route";
 import { POST as issueKeyPost } from "../app/api/qbo-client-key/route";
 import { GET as healthGet } from "../app/api/cron/qbo-health/route";
 import { GET as refreshCronGet } from "../app/api/cron/qbo-refresh/route";
+import { POST as chatPost, GET as chatGet } from "../app/api/chat/route";
+import { GET as tokenDebugGet } from "../app/api/qbo-token-debug/route";
 import { GET as tokenGet } from "../app/api/qbo-token/route";
 import { hashClientApiKey, issueClientApiKey, presentedKeyMatches } from "../lib/qbo-client-keys";
 import { listQboClientSlugs } from "../lib/qbo-clients";
@@ -559,6 +561,52 @@ describe("token API and per-client keys", () => {
     assert.equal(typeof body.apiKey, "string");
     assert.equal(String(body.apiKey).startsWith("cxk_"), true);
     assert.equal(presentedKeyMatches(null, "nope", 0), false);
+  });
+
+  it("keeps the debug route on headers and never returns tokens", async () => {
+    useTestEnv();
+    const kv = createMemoryKv();
+    setQboTestHooks({ kv });
+    await saveQboTokens("mikemills-buck", tokenRecord());
+    setQboTestHooks({ kv });
+
+    const leaked = await tokenDebugGet(
+      new NextRequest(
+        "https://www.clarixhq.ai/api/qbo-token-debug?slug=mikemills-buck&secret=shared-secret-value",
+      ),
+    );
+    const leakedBody = JSON.stringify(await readJson(leaked));
+    assert.equal(leaked.status, 400);
+    assert.equal(leakedBody.includes("shared-secret-value"), false);
+    assert.equal(leakedBody.includes("access-token-value"), false);
+    assert.equal(leakedBody.includes("refresh-token-value"), false);
+
+    const headerAuth = await tokenDebugGet(
+      new NextRequest("https://www.clarixhq.ai/api/qbo-token-debug?slug=mikemills-buck", {
+        headers: { "X-QBO-Shared-Secret": "shared-secret-value" },
+      }),
+    );
+    const body = await readJson(headerAuth);
+    const serialized = JSON.stringify(body);
+    assert.equal(headerAuth.status, 200);
+    assert.equal(body.connected, true);
+    assert.equal(body.realmId, "123456789");
+    assert.equal(serialized.includes("access-token-value"), false);
+    assert.equal(serialized.includes("refresh-token-value"), false);
+    assert.equal("access_token" in body, false);
+    assert.equal("refresh_token" in body, false);
+    assert.equal(headerAuth.headers.get("cache-control"), "no-store");
+  });
+
+  it("disables the public chat route", async () => {
+    const source = readFileSync(new URL("../app/api/chat/route.ts", import.meta.url), "utf8");
+    assert.equal(source.includes("openrouter"), false);
+    assert.equal(source.includes("OPENROUTER_CHAT_KEY"), false);
+    const post = await chatPost();
+    const get = await chatGet();
+    assert.equal(post.status, 410);
+    assert.equal(get.status, 410);
+    assert.deepEqual(await readJson(post), { error: "gone" });
   });
 });
 
