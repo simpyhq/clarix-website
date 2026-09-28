@@ -1,73 +1,74 @@
-// File: app/api/cron/qbo-refresh/route.ts
+// Daily QuickBooks keep-alive. Vercel Hobby only allows cron expressions
+// that run once per day (https://vercel.com/docs/cron-jobs/usage-and-pricing);
+// an hourly expression fails the deployment. Intuit access tokens last one
+// hour and are refreshed on demand by /api/qbo-token. Refresh tokens last
+// 100 days, rolling forward each time they are used, and Intuit rotates the
+// refresh token about every 24 hours. A daily refresh is enough to keep an
+// idle connection alive and to persist that rotation.
 //
-// Vercel Cron job: runs at minute 40 of every hour via vercel.json
-// ("0 40 * * * *"). Proactively refreshes every known QBO client's
-// access token so that on-demand callers (agents, API routes) almost
-// never need to block on a live refresh.
-//
-// This route is the PRIMARY normal caller of refreshQboToken(). Other
-// code paths (getValidAccessToken) should fall through to refresh only
-// as an on-demand safety net when the cron has drifted or a token
-// expired prematurely.
-//
-// Protected by CRON_SECRET env var — Vercel sends this as a Bearer token
-// in the Authorization header on cron invocations. Set CRON_SECRET to a
-// long random value in Vercel project settings, and Vercel auto-injects
-// it as the Authorization header for cron-triggered routes.
+// Hobby may invoke the job any time during the scheduled hour.
+// Requires CRON_SECRET. Vercel sends Authorization: Bearer <CRON_SECRET>.
 
 import { NextRequest, NextResponse } from "next/server";
+import { listQboClientSlugs } from "@/lib/qbo-clients";
+import { QboCorruptRecordError, QboStorageError } from "@/lib/qbo-records";
+import { cronAuthorized } from "@/lib/qbo-security";
 import { getQboTokens, refreshQboToken } from "@/lib/qbo-token-helper";
 
-// Known client slugs. This list is the source of truth for which clients
-// get proactive refreshes. When a new client is onboarded, add their slug
-// here and re-deploy.
-const KNOWN_CLIENT_SLUGS = [
-  "mikemills-buck",
-  "tcre-capital-buck",
-  "amtm-investments-buck",
-];
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
+const STILL_FRESH_MS = 5 * 60 * 1000;
 
 export async function GET(request: NextRequest) {
-  // Verify cron secret if configured.
-  const authHeader = request.headers.get("Authorization") || "";
-  const expectedSecret = process.env.CRON_SECRET;
-  if (expectedSecret) {
-    // Vercel sends: Authorization: Bearer <CRON_SECRET>
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (token !== expectedSecret) {
-      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    }
+  if (!cronAuthorized(request.headers.get("authorization"), process.env.CRON_SECRET)) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
 
-  const results: Record<string, unknown> = {};
+  let slugs: string[];
+  try {
+    slugs = await listQboClientSlugs();
+  } catch (err) {
+    console.error("QBO cron refresh: client list failed", err instanceof Error ? err.name : "error");
+    return NextResponse.json(
+      { ok: false, error: "storage_error" },
+      { status: 500, headers: { "Cache-Control": "no-store" } },
+    );
+  }
 
-  for (const slug of KNOWN_CLIENT_SLUGS) {
+  const results: Record<string, { status: string }> = {};
+  for (const slug of slugs) {
     try {
       const record = await getQboTokens(slug);
       if (!record) {
         results[slug] = { status: "not_connected" };
         continue;
       }
-
-      // Only refresh if the token is within 1 hour of expiry (or already expired).
-      // This avoids needless refresh calls when the token is still fresh.
-      const oneHourMs = 60 * 60 * 1000;
-      if (record.expires_at > Date.now() + oneHourMs) {
-        results[slug] = { status: "still_fresh", expires_in_min: Math.floor((record.expires_at - Date.now()) / 60000) };
+      if (!record.needs_reauth && record.expires_at > Date.now() + STILL_FRESH_MS) {
+        results[slug] = { status: "still_fresh" };
         continue;
       }
-
       const refreshResult = await refreshQboToken(slug);
-      results[slug] = {
-        status: refreshResult.ok ? "refreshed" : refreshResult.reason,
-        detail: refreshResult.ok ? undefined : refreshResult.detail,
-      };
+      results[slug] = { status: refreshResult.ok ? "refreshed" : refreshResult.reason };
     } catch (err) {
-      results[slug] = { status: "error", detail: err instanceof Error ? err.message : String(err) };
+      if (err instanceof QboCorruptRecordError) {
+        results[slug] = { status: "corrupted_record" };
+      } else if (err instanceof QboStorageError) {
+        results[slug] = { status: "storage_error" };
+      } else {
+        results[slug] = { status: "error" };
+      }
     }
   }
 
-  console.log("QBO cron refresh results:", JSON.stringify(results));
+  console.log(
+    "QBO cron refresh results:",
+    JSON.stringify(Object.fromEntries(Object.entries(results).map(([slug, value]) => [slug, value.status]))),
+  );
 
-  return NextResponse.json({ ok: true, results });
+  const failed = Object.values(results).some((item) => item.status === "storage_error");
+  return NextResponse.json(
+    { ok: !failed, results },
+    { status: failed ? 500 : 200, headers: { "Cache-Control": "no-store" } },
+  );
 }

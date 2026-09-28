@@ -20,6 +20,12 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## QuickBooks Online
+
+Client connections, the token API, and the daily keep-alive are documented in [SETUP.md](./SETUP.md).
+
+Cron routes reject every caller unless `CRON_SECRET` is set in the Vercel project. Vercel sends it as `Authorization: Bearer <CRON_SECRET>`. Set that variable before deploying this app. Do not commit it.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
