@@ -58,7 +58,7 @@ export default function ProductVisual() {
             <svg viewBox="0 0 120 28" className="mt-2 h-7 w-full" aria-hidden="true">
               <polyline
                 fill="none"
-                stroke="#0B7F58"
+                stroke="#38BDF8"
                 strokeWidth="2"
                 strokeLinejoin="round"
                 strokeLinecap="round"

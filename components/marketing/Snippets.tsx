@@ -9,7 +9,7 @@ function Shell({
   children: ReactNode;
 }) {
   return (
-    <div className="mt-5 rounded-xl border border-line bg-paper p-3.5">
+    <div className="mt-5 rounded-xl border border-line bg-surface p-3.5">
       <div className="mb-2 flex items-center justify-between gap-2">
         <p className="text-[12px] font-semibold text-muted">{title}</p>
         <SamplePill />
@@ -67,7 +67,7 @@ export function SnippetBrief() {
             width="10"
             height={h}
             rx="2"
-            fill={i === 12 ? "#0B7F58" : "#D5D8DE"}
+            fill={i === 12 ? "#38BDF8" : "#3A4A68"}
           />
         ))}
       </svg>
@@ -90,12 +90,12 @@ export function SnippetClose() {
             <span
               aria-hidden="true"
               className={`mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded border ${
-                done ? "border-accent-ink bg-accent-ink text-white" : "border-line bg-surface"
+                done ? "border-accent bg-accent text-paper" : "border-line bg-surface"
               }`}
             >
               {done ? (
                 <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none">
-                  <path d="M2.5 6.2 4.8 8.5 9.5 3.5" stroke="white" strokeWidth="1.6" strokeLinecap="round" />
+                  <path d="M2.5 6.2 4.8 8.5 9.5 3.5" stroke="#1A1F2E" strokeWidth="1.6" strokeLinecap="round" />
                 </svg>
               ) : null}
             </span>

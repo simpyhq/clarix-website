@@ -29,7 +29,7 @@ export default function DemoPage() {
           </ul>
           {/* TODO(owner: booking link) Embed the scheduling calendar here when a URL exists. CSP frame-src is currently 'none'; allow the scheduler’s domain before embedding. */}
           {/* TODO(owner): confirm the one-business-day reply window. */}
-          <div className="mt-8 rounded-2xl border border-dashed border-[#C5CAD3] bg-surface px-5 py-5">
+          <div className="mt-8 rounded-2xl border border-dashed border-accent/40 bg-surface px-5 py-5">
             <p className="text-[13px] font-semibold text-accent-ink">Placeholder</p>
             <p className="mt-2 text-[15px] leading-relaxed text-muted">
               A calendar booking link is not connected yet. Use the form and we will write back.

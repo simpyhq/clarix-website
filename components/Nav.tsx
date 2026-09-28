@@ -12,7 +12,7 @@ function Logo() {
     <Link href="/" className="flex items-center gap-2.5 text-ink">
       <span
         aria-hidden="true"
-        className="grid h-8 w-8 place-items-center rounded-lg bg-ink text-[15px] font-semibold text-paper"
+        className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-[15px] font-semibold text-paper"
       >
         C
       </span>

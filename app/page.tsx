@@ -20,7 +20,7 @@ import {
 } from "@/components/marketing/Snippets";
 import { capabilities, faqs, homeDescription, problems, setupIncludes, steps } from "@/lib/content";
 import { siteUrl } from "@/lib/seo";
-import { btnOnDark, btnPrimary, btnSecondary } from "@/lib/ui";
+import { btnPrimary, btnSecondary } from "@/lib/ui";
 
 const snippetFor = {
   categorize: SnippetCategorize,
@@ -72,8 +72,9 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      <section className="border-b border-line">
-        <Container className="grid items-center gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-20">
+      <section className="relative overflow-hidden border-b border-line">
+        <div aria-hidden="true" className="hero-glow pointer-events-none absolute top-0 left-1/2 h-[460px] w-[min(760px,100%)]" />
+        <Container className="relative grid items-center gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-20">
           <div className="max-w-xl">
             <p className="text-[13px] font-semibold text-accent-ink">Clarix Cash Desk</p>
             <h1 className="mt-3 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] text-ink sm:text-6xl">
@@ -113,7 +114,7 @@ export default function HomePage() {
             {["Customer logo", "Customer logo", "Measured result"].map((label, index) => (
               <div
                 key={`${label}-${index}`}
-                className="rounded-2xl border border-dashed border-[#C5CAD3] bg-paper px-4 py-5"
+                className="rounded-2xl border border-dashed border-accent/40 bg-paper px-4 py-5"
               >
                 <p className="text-[13px] font-semibold text-accent-ink">Placeholder</p>
                 <p className="mt-1 text-[15px] font-medium text-ink">{label}</p>
@@ -239,17 +240,18 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="bg-ink text-white">
-        <Container className="grid gap-8 py-16 sm:py-24 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
+      <section className="relative overflow-hidden border-y border-line bg-raised">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(56,189,248,0.14),transparent_58%)]" />
+        <Container className="relative grid gap-8 py-16 sm:py-24 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
           <div>
-            <p className="text-[13px] font-semibold text-[#8EE0C0]">Security</p>
-            <h2 className="mt-3 text-[2rem] font-semibold leading-[1.12] tracking-[-0.03em] sm:text-[2.5rem]">
+            <p className="text-[13px] font-semibold text-accent">Security</p>
+            <h2 className="mt-3 text-[2rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ink sm:text-[2.5rem]">
               Your password never comes to us.
             </h2>
-            <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-[#D5DAE3]">
+            <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-muted">
               QuickBooks Online connects through Intuit’s sign-in. Clarix stores a connection token, not your password. A person approves changes before they are written to the books. You can disconnect from inside QuickBooks.
             </p>
-            <Link href="/security" className={`${btnOnDark} mt-8`}>
+            <Link href="/security" className={`${btnPrimary} mt-8`}>
               Read how the connection works
             </Link>
           </div>
@@ -259,7 +261,7 @@ export default function HomePage() {
               "A person approves writes to your file.",
               "Disconnect from QuickBooks at any time.",
             ].map((item) => (
-              <li key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-[15px] leading-relaxed text-[#E6E8EC]">
+              <li key={item} className="rounded-2xl border border-line bg-paper/70 px-4 py-4 text-[15px] leading-relaxed text-ink">
                 {item}
               </li>
             ))}
@@ -275,7 +277,7 @@ export default function HomePage() {
             title="A real story will go here."
             lede="We will not publish a quote, a name, or a result until a customer has agreed to it."
           />
-          <div className="mt-8 rounded-2xl border border-dashed border-[#C5CAD3] bg-surface px-5 py-6 sm:px-7">
+          <div className="mt-8 rounded-2xl border border-dashed border-accent/40 bg-surface px-5 py-6 sm:px-7">
             <p className="text-[13px] font-semibold text-accent-ink">Placeholder</p>
             <p className="mt-2 max-w-xl text-[16px] leading-relaxed text-muted">
               Named customer, business type, what changed, a quote, and a photo. Empty on purpose.

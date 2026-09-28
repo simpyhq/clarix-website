@@ -35,7 +35,7 @@ export default function AboutPage() {
           {founders.map((founder) => (
             <article key={founder.name} className="rounded-2xl border border-line bg-surface p-5">
               {/* TODO(owner): founder photo */}
-              <div className="grid h-28 w-28 place-items-center rounded-2xl border border-dashed border-[#C5CAD3] bg-paper text-center text-[13px] font-semibold text-muted">
+              <div className="grid h-28 w-28 place-items-center rounded-2xl border border-dashed border-accent/40 bg-paper text-center text-[13px] font-semibold text-muted">
                 Photo not added
               </div>
               <h3 className="mt-4 text-[1.2rem] font-semibold text-ink">{founder.name}</h3>

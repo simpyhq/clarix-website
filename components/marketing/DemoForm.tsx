@@ -109,7 +109,7 @@ export default function DemoForm() {
   }
 
   const fieldClass =
-    "mt-2 w-full rounded-[10px] border border-line bg-surface px-3 py-3 text-[16px] text-ink outline-none focus:border-accent-ink";
+    "mt-2 w-full rounded-[10px] border border-line bg-raised px-3 py-3 text-[16px] text-ink outline-none focus:border-accent";
 
   return (
     <form
@@ -169,7 +169,7 @@ export default function DemoForm() {
               ["no", "No"],
             ].map(([value, label]) => (
               <label key={value} className="inline-flex min-h-11 items-center gap-2 text-[16px] text-ink">
-                <input type="radio" name="qbo" value={value} required className="h-4 w-4 accent-[#0B7F58]" />
+                <input type="radio" name="qbo" value={value} required className="h-4 w-4 accent-[#38BDF8]" />
                 {label}
               </label>
             ))}

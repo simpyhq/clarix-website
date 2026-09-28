@@ -41,7 +41,7 @@ export default function PricingPage() {
         </article>
 
         {/* TODO(owner): replace this card with real monthly tiers, prices, and what each tier includes. */}
-        <article className="rounded-2xl border border-dashed border-[#C5CAD3] bg-paper p-6 sm:p-8">
+        <article className="rounded-2xl border border-dashed border-accent/40 bg-paper p-6 sm:p-8">
           <p className="text-[13px] font-semibold text-accent-ink">Placeholder</p>
           <h2 className="mt-3 text-[1.6rem] font-semibold tracking-[-0.03em] text-ink">Monthly plans</h2>
           <p className="mt-3 text-[16px] leading-relaxed text-muted">

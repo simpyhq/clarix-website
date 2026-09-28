@@ -12,8 +12,8 @@ export default function OpenGraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "#FAFAF7",
-          color: "#0B1220",
+          background: "#1A1F2E",
+          color: "#F4F8FF",
           padding: "72px",
         }}
       >
@@ -32,8 +32,8 @@ export default function OpenGraphImage() {
                 width: 48,
                 height: 48,
                 borderRadius: 12,
-                background: "#0B1220",
-                color: "#FAFAF7",
+                background: "#38BDF8",
+                color: "#1A1F2E",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -46,18 +46,18 @@ export default function OpenGraphImage() {
             <div style={{ marginLeft: 16, fontSize: 28, fontWeight: 600 }}>Clarix</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 22, color: "#0B7F58", fontWeight: 600 }}>Cash Desk</div>
+            <div style={{ fontSize: 22, color: "#38BDF8", fontWeight: 600 }}>Cash Desk</div>
             <div style={{ marginTop: 16, fontSize: 68, fontWeight: 700, letterSpacing: -2, lineHeight: 1.02 }}>
               Your books, handled.
             </div>
             <div style={{ fontSize: 68, fontWeight: 700, letterSpacing: -2, lineHeight: 1.02 }}>
               Your cash, clear.
             </div>
-            <div style={{ marginTop: 22, fontSize: 26, color: "#475467" }}>
+            <div style={{ marginTop: 22, fontSize: 26, color: "#B8C4D8" }}>
               AI bookkeeping and cash visibility for QuickBooks Online.
             </div>
           </div>
-          <div style={{ fontSize: 22, color: "#475467" }}>clarixhq.ai</div>
+          <div style={{ fontSize: 22, color: "#B8C4D8" }}>clarixhq.ai</div>
         </div>
       </div>
     ),

@@ -119,7 +119,7 @@ export default function SecurityPage() {
 
 function Confirm({ title, body }: { title: string; body: string }) {
   return (
-    <li className="rounded-2xl border border-dashed border-[#C5CAD3] bg-surface px-5 py-4">
+    <li className="rounded-2xl border border-dashed border-accent/40 bg-surface px-5 py-4">
       <p className="text-[13px] font-semibold text-amber">Needs confirmation</p>
       <h3 className="mt-1 text-[16px] font-semibold text-ink">{title}</h3>
       <p className="mt-1 text-[15px] leading-relaxed text-muted">{body}</p>
