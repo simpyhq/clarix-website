@@ -67,8 +67,16 @@ body {
 }
 
 /* Ledger rows animate from Uncategorized to a category.
-   The categorized label is visible by default so reduced-motion
-   and no-JS visitors see the end state. */
+   The categorized label is the resting state, so reduced-motion
+   and no-JS visitors see the end state without the two labels stacked. */
+.ledger-live .row-uncat {
+  opacity: 0;
+}
+
+.ledger-live .row-cat {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .ledger-live .row-cat {
     opacity: 0;
@@ -124,8 +132,13 @@ body {
     scroll-behavior: auto;
   }
 
-  .ledger-live .row-cat,
+  .ledger-live .row-cat {
+    opacity: 1;
+    animation: none;
+  }
+
   .ledger-live .row-uncat {
+    opacity: 0;
     animation: none;
   }
 }

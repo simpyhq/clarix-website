@@ -54,7 +54,7 @@ export default function PrivacyPage() {
         lede="This is a scaffold for legal review, not a finished policy. Intuit requires a public privacy policy before a QuickBooks app can go to production. Do not submit this URL as final text."
       />
       <Container className="py-12">
-        {/* TODO(owner/legal): replace this entire page with counsel’s privacy policy, then remove the draft banner and the noindex decision if you add one. */}
+        {/* TODO(owner/legal): replace this entire page with counsel’s privacy policy, then remove the draft banner. */}
         <div className="rounded-2xl border border-amber bg-amber-bg px-5 py-4 text-[15px] leading-relaxed text-ink">
           <p className="font-semibold">Draft for legal review</p>
           <p className="mt-1">
