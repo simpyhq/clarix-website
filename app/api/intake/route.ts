@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { volumeOptions } from "@/lib/content";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -11,51 +12,116 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const volumes = new Set<string>(volumeOptions);
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function clean(value: unknown, max: number): string {
+  if (typeof value !== "string") return "";
+  return value.replace(/\r/g, "").trim().slice(0, max);
+}
+
+function oneLine(value: string): string {
+  return value.replace(/[\r\n]+/g, " ").slice(0, 140);
+}
+
+async function readBody(req: NextRequest): Promise<Record<string, unknown> | null> {
+  const length = Number(req.headers.get("content-length") || 0);
+  if (length > 20_000) return null;
+  const contentType = req.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    try {
+      const parsed = await req.json();
+      return parsed && typeof parsed === "object" ? (parsed as Record<string, unknown>) : null;
+    } catch {
+      return null;
+    }
+  }
+  if (
+    contentType.includes("application/x-www-form-urlencoded") ||
+    contentType.includes("multipart/form-data")
+  ) {
+    const form = await req.formData();
+    const data: Record<string, unknown> = {};
+    for (const [key, value] of form.entries()) {
+      if (typeof value === "string") data[key] = value;
+    }
+    return data;
+  }
+  return null;
+}
+
 export async function POST(req: NextRequest) {
+  const wantsJson = (req.headers.get("content-type") || "").includes("application/json");
+
+  const fail = (message: string, status: number) => {
+    if (wantsJson) return NextResponse.json({ error: message }, { status });
+    return new NextResponse(
+      `<!doctype html><meta charset="utf-8"><title>Could not send</title><p>${escapeHtml(message)}</p><p><a href="/demo">Back to the form</a></p>`,
+      { status, headers: { "Content-Type": "text/html; charset=utf-8" } },
+    );
+  };
+
   try {
-    const data = await req.json();
+    const data = await readBody(req);
+    if (!data) return fail("That request could not be read.", 400);
 
-    const fields = [
-      ["Name",           data.name],
-      ["Email",          data.email],
-      ["Phone",          data.phone],
-      ["Location",       data.location],
-      ["Client Type",    data.client_type],
-      ["Company",        data.company],
-      ["Day-to-Day",     data.day_to_day],
-      ["Pain Points",    data.pain_points],
-      ["Goals",          data.goals],
-      ["Finance Tools",  Array.isArray(data.tools_finance)  ? data.tools_finance.join(", ")  : data.tools_finance],
-      ["CRM Tools",      Array.isArray(data.tools_crm)      ? data.tools_crm.join(", ")      : data.tools_crm],
-      ["Email Tools",    Array.isArray(data.tools_email)    ? data.tools_email.join(", ")    : data.tools_email],
-      ["Other Tools",    data.tools_other],
-      ["Automate",       Array.isArray(data.automate)       ? data.automate.join("\n  - ")   : data.automate],
-      ["Other Tasks",    data.automate_other],
-      ["Channels",       Array.isArray(data.channels)       ? data.channels.join(", ")       : data.channels],
-      ["Start Time",     data.start_time],
-      ["Personality",    data.personality],
-      ["Plan",           data.plan],
-      ["Timeline",       data.timeline],
-      ["Other Notes",    data.other],
-    ].filter(([, v]) => v);
+    // Honeypot: pretend success so automated posts get no signal.
+    if (clean(data.hp_field, 200).length > 0) {
+      if (wantsJson) return NextResponse.json({ ok: true });
+      return NextResponse.redirect(new URL("/demo?sent=1", req.url), 303);
+    }
 
-    const text = fields.map(([k, v]) => `${k}:\n  ${v}`).join("\n\n");
+    const name = clean(data.name, 200);
+    const email = clean(data.email, 200);
+    const company = clean(data.company, 200);
+    const role = clean(data.role, 200);
+    const qbo = clean(data.qbo, 10);
+    const volume = clean(data.volume, 40);
+    const notes = clean(data.notes, 2000);
 
+    if (!name || !company || !role) return fail("Name, company, and role are required.", 400);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Enter a work email.", 400);
+    if (qbo !== "yes" && qbo !== "no") return fail("Tell us whether you use QuickBooks Online.", 400);
+    if (!volumes.has(volume)) return fail("Choose a monthly transaction range.", 400);
+
+    const fields: [string, string][] = [
+      ["Name", name],
+      ["Email", email],
+      ["Company", company],
+      ["Role", role],
+      ["QuickBooks Online", qbo === "yes" ? "Yes" : "No"],
+      ["Monthly transaction volume", volume],
+      ["Notes", notes || "—"],
+    ];
+
+    const text = fields.map(([label, value]) => `${label}:\n  ${value}`).join("\n\n");
     const html = `
-      <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#0f172a;">
-        <div style="background:#0f172a;padding:20px 24px;border-radius:8px 8px 0 0;">
-          <h1 style="margin:0;color:#fff;font-size:18px;font-weight:600;">New Clarix Intake Form</h1>
-          <p style="margin:4px 0 0;color:#94a3b8;font-size:13px;">${new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })} CT</p>
+      <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#0b1220;">
+        <div style="background:#0b1220;padding:20px 24px;border-radius:8px 8px 0 0;">
+          <h1 style="margin:0;color:#fff;font-size:18px;font-weight:600;">New Clarix demo request</h1>
+          <p style="margin:4px 0 0;color:#d5dae3;font-size:13px;">${escapeHtml(
+            new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }),
+          )} CT</p>
         </div>
-        <div style="border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;padding:24px;">
-          ${fields.map(([k, v]) => `
+        <div style="border:1px solid #e6e8ec;border-top:none;border-radius:0 0 8px 8px;padding:24px;">
+          ${fields
+            .map(
+              ([label, value]) => `
             <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f1f3f5;">
-              <p style="margin:0 0 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;">${k}</p>
-              <p style="margin:0;font-size:14px;color:#334155;white-space:pre-wrap;">${String(v).replace(/\n  - /g, "<br>&nbsp;&nbsp;• ")}</p>
-            </div>
-          `).join("")}
+              <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:#475467;">${escapeHtml(label)}</p>
+              <p style="margin:0;font-size:15px;color:#0b1220;">${escapeHtml(value).replace(/\n/g, "<br>")}</p>
+            </div>`,
+            )
+            .join("")}
         </div>
-        <p style="font-size:12px;color:#94a3b8;margin-top:12px;">Submitted via clarix website intake form</p>
       </div>
     `;
 
@@ -63,14 +129,18 @@ export async function POST(req: NextRequest) {
       from: '"Clarix Intake" <support@clarixhq.ai>',
       to: "support@clarixhq.ai",
       cc: "christian.simpson.2018@outlook.com",
-      subject: `New Intake: ${data.name || "Unknown"} — ${data.client_type || ""}`,
+      replyTo: email,
+      subject: `Demo request: ${oneLine(name)} — ${oneLine(company)}`,
       text,
       html,
     });
 
+    if (!wantsJson || clean(data.redirect, 4) === "1") {
+      return NextResponse.redirect(new URL("/demo?sent=1", req.url), 303);
+    }
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Intake route error:", err);
-    return NextResponse.json({ error: "Failed to send" }, { status: 500 });
+    return fail("Failed to send.", 500);
   }
 }

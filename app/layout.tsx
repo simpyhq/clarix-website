@@ -1,36 +1,63 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Space_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import MobileCta from "@/components/marketing/MobileCta";
+import { homeDescription, homeTitle } from "@/lib/content";
+import { siteUrl } from "@/lib/seo";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-grotesk",
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
+  variable: "--font-inter",
 });
 
-const spaceMono = Space_Mono({
-  variable: "--font-mono",
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "700"],
   display: "swap",
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
-  title: "Clarix — Private AI Infrastructure",
-  description:
-    "An invitation-only private AI membership for principals who require a different standard.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: homeTitle,
+    template: "%s · Clarix",
+  },
+  description: homeDescription,
+  applicationName: "Clarix Cash Desk",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Clarix — Private AI Infrastructure",
-    description: "An invitation-only private AI membership for principals who require a different standard.",
-    url: "https://clarixhq.ai",
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
     siteName: "Clarix",
+    title: homeTitle,
+    description: homeDescription,
   },
-  other: {
-    "theme-color": "#080C10",
+  twitter: {
+    card: "summary_large_image",
+    title: homeTitle,
+    description: homeDescription,
   },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FAFAF7",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "ClarixHQ",
+  url: siteUrl,
+  email: "support@clarixhq.ai",
+  description: homeDescription,
 };
 
 export default function RootLayout({
@@ -39,11 +66,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${spaceMono.variable}`}>
-      <body>
-        <Navbar />
-        <main>{children}</main>
+    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
+      <body className="min-h-screen bg-paper font-sans text-ink antialiased">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <Nav />
+        <main id="main" className="pb-24 md:pb-0">
+          {children}
+        </main>
         <Footer />
+        <MobileCta />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </body>
     </html>
   );
