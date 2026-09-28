@@ -18,7 +18,9 @@ export interface QboTokenRecord {
   realmId: string;
   company_name?: string;
   expires_at: number;
-  refresh_token_expires_at: number;
+  // Absent on records written before this was stored. The next successful
+  // Intuit refresh fills it in. Do not invent a date from updated_at.
+  refresh_token_expires_at?: number;
   connected_at: string;
   updated_at: string;
   last_refresh_error?: string;
@@ -83,6 +85,16 @@ export function parseGeneration(raw: unknown): number {
   if (typeof value === "number" && Number.isInteger(value) && value >= 0) return value;
   if (typeof value === "string" && /^\d+$/.test(value)) return Number(value);
   throw new QboCorruptRecordError();
+}
+
+// Intuit's rolling refresh-token window is about 100 days when the token
+// response omits x_refresh_token_expires_in.
+export const DEFAULT_REFRESH_TOKEN_TTL_SECONDS = 100 * 24 * 60 * 60;
+
+export function refreshTokenExpiresAt(nowMs: number, expiresInSeconds: unknown): number {
+  const seconds =
+    typeof expiresInSeconds === "number" ? expiresInSeconds : DEFAULT_REFRESH_TOKEN_TTL_SECONDS;
+  return nowMs + seconds * 1000;
 }
 
 export function isServableAccessToken(record: QboTokenRecord | null, now: number): record is QboTokenRecord {

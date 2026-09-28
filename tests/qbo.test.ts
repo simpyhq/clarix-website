@@ -16,6 +16,7 @@ import { escapeHtml, renderConnectionPage } from "../lib/qbo-html";
 import { qboClientKey, qboLockKey } from "../lib/qbo-keys";
 import { readOAuthState, resolveStateSigningKey, signOAuthState } from "../lib/qbo-oauth-state";
 import { QboStorageError, QboTokenRecord } from "../lib/qbo-records";
+import { setAlertMailTestDeps } from "../lib/qbo-alert-mail";
 import { setQboTestHooks } from "../lib/qbo-runtime";
 import {
   callbackClientSlug,
@@ -61,6 +62,7 @@ function restoreEnv(): void {
     else process.env[key] = value;
   }
   setQboTestHooks(null);
+  setAlertMailTestDeps(null);
   clearRateLimitTestOverrides();
 }
 
