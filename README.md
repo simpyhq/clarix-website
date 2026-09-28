@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Clarix website
 
-## Getting Started
+Marketing site for ClarixHQ and Clarix Cash Desk, an AI finance desk for small businesses on QuickBooks Online.
 
-First, run the development server:
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Routes
 
-## Learn More
+Public pages: `/`, `/cash-desk`, `/security`, `/pricing`, `/about`, `/demo`, `/privacy`, `/terms`.
 
-To learn more about Next.js, take a look at the following resources:
+`/intake` redirects to `/demo`. The demo form posts to `/api/intake`, which emails the same recipients as before.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+QuickBooks OAuth, token refresh, and cron routes are separate from this marketing surface. Do not change them as part of a site redesign.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Before launch
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Privacy and Terms are draft scaffolds for counsel. The security page labels anything that still needs confirmation. Search the repo for `TODO(owner` before publishing customer proof, pricing, or legal text.

@@ -1,447 +1,353 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import {
+  Bell,
+  BookOpenCheck,
+  LineChart,
+  ListChecks,
+  MessageSquareText,
+  Receipt,
+} from "lucide-react";
+import { Container, SamplePill, SectionHeading } from "@/components/marketing/Frame";
+import ProductVisual from "@/components/marketing/ProductVisual";
+import FaqList from "@/components/marketing/FaqList";
+import {
+  SnippetAp,
+  SnippetAr,
+  SnippetAsk,
+  SnippetBrief,
+  SnippetCategorize,
+  SnippetClose,
+} from "@/components/marketing/Snippets";
+import { capabilities, faqs, homeDescription, problems, setupIncludes, steps } from "@/lib/content";
+import { siteUrl } from "@/lib/seo";
+import { btnPrimary, btnSecondary } from "@/lib/ui";
 
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-  stagger = false,
-  direction = "up",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-  stagger?: boolean;
-  direction?: "up" | "left";
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) { el.classList.add("visible"); obs.disconnect(); }
-      },
-      { threshold: 0.06 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  const cls = stagger ? "stagger" : direction === "left" ? "reveal-left" : "reveal";
-  return (
-    <div ref={ref} className={`${cls} ${className}`} style={!stagger ? { transitionDelay: `${delay}ms` } : undefined}>
-      {children}
-    </div>
-  );
-}
+const snippetFor = {
+  categorize: SnippetCategorize,
+  ar: SnippetAr,
+  ap: SnippetAp,
+  brief: SnippetBrief,
+  close: SnippetClose,
+  ask: SnippetAsk,
+} as const;
 
-function CountUp({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !started.current) {
-        started.current = true;
-        const start = performance.now();
-        const tick = (now: number) => {
-          const p = Math.min((now - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - p, 3);
-          setVal(Math.floor(ease * end));
-          if (p < 1) requestAnimationFrame(tick);
-          else setVal(end);
-        };
-        requestAnimationFrame(tick);
-        obs.disconnect();
-      }
-    }, { threshold: 0.2 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [end, duration]);
-  return <span ref={ref}>{val}{suffix}</span>;
-}
+const iconFor = {
+  categorize: BookOpenCheck,
+  ar: Receipt,
+  ap: Bell,
+  brief: LineChart,
+  close: ListChecks,
+  ask: MessageSquareText,
+} as const;
 
-const stats = [
-  { value: 12, suffix: "+", label: "Active clients" },
-  { value: 40, suffix: "h", label: "Saved per client / month" },
-  { value: 99, suffix: "%", label: "Uptime across all deployments" },
-  { value: 24, suffix: "h", label: "Max onboarding turnaround" },
-];
-
-const useCases = [
-  {
-    tag: "Executive Operations",
-    headline: "Your entire business in one intelligence.",
-    body: "Monitors email, Slack, CRM, and calendar simultaneously. Surfaces what needs your attention before you ask. Drafts responses, schedules follow-ups, and flags risk — all in the background.",
-    metric: "8h saved / week",
+const softwareJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Clarix Cash Desk",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: homeDescription,
+  url: siteUrl,
+  offers: {
+    "@type": "Offer",
+    price: "2500",
+    priceCurrency: "USD",
+    description: "Setup starting at $2,500. Monthly fees are not published.",
   },
-  {
-    tag: "Sales & Pipeline",
-    headline: "Never let a deal go cold again.",
-    body: "Tracks every open opportunity, logs every interaction, and prompts next-best actions at the right moment. Works across email, phone, and CRM without manual input.",
-    metric: "3x faster follow-up",
-  },
-  {
-    tag: "Financial Services",
-    headline: "Real-time intelligence on a 43,000-account portfolio.",
-    body: "Daily prioritized queues for every advisor. Scoring engine that ranks accounts by urgency, equity position, and contact history — delivered before they log on.",
-    metric: "100% queue coverage",
-  },
-  {
-    tag: "Architecture & Design",
-    headline: "Project context that never falls through the cracks.",
-    body: "Pulls from email, Deltek, and client conversations. Surfaces open action items, drafts client updates, and keeps every project thread organized without a single manual entry.",
-    metric: "Zero missed follow-ups",
-  },
-];
+};
 
-const process = [
-  { num: "01", title: "Discovery call.", body: "We learn your world — your tools, your workflows, your biggest time drains. One hour. No templates." },
-  { num: "02", title: "We build.", body: "Custom agent stack deployed on dedicated hardware at your location or ours. Typically live within 48 hours of kickoff." },
-  { num: "03", title: "You use it.", body: "Your agent starts working immediately. Morning briefings, proactive alerts, automated tasks — from day one." },
-  { num: "04", title: "We tune it.", body: "Weekly check-ins for the first month. We refine the scoring, adjust the workflows, and expand scope based on what you actually need." },
-];
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
 
 export default function HomePage() {
   return (
-    <div style={{ background: "var(--bg)", color: "var(--ink)", overflowX: "hidden" }}>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* ── HERO ── */}
-      <section
-        className="relative flex flex-col items-center justify-center text-center px-6 sm:px-8"
-        style={{ minHeight: "100vh", paddingTop: "100px", paddingBottom: "80px" }}
-      >
-        {/* Ambient glows */}
-        <div className="ambient-glow animate-orb-float" style={{ top: "8%", left: "50%", transform: "translateX(-50%)", opacity: 0.9 }} />
-        <div className="ambient-glow" style={{ top: "55%", left: "15%", width: "500px", height: "500px", background: "radial-gradient(circle, rgba(56,189,248,0.03) 0%, transparent 70%)", animationDelay: "3s" }} />
-        <div className="ambient-glow" style={{ top: "30%", right: "10%", width: "400px", height: "400px", background: "radial-gradient(circle, rgba(56,189,248,0.025) 0%, transparent 70%)", animationDelay: "1.5s" }} />
-
-        <div className="relative z-10 max-w-4xl mx-auto">
-          {/* Badge */}
-          <div
-            className="animate-fade-in inline-flex items-center gap-2 mx-auto"
-            style={{
-              border: "1px solid var(--cyan-border)",
-              borderRadius: "100px",
-              padding: "6px 16px",
-              marginBottom: "40px",
-              background: "var(--cyan-bg)",
-            }}
-          >
-            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--cyan)", animation: "cyanPulse 2s ease-in-out infinite" }} />
-            <span style={{ color: "var(--cyan)", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "var(--font-mono), monospace" }}>
-              Now Accepting New Clients
-            </span>
+      <section className="relative overflow-hidden border-b border-line">
+        <div aria-hidden="true" className="hero-glow pointer-events-none absolute top-0 left-1/2 h-[460px] w-[min(760px,100%)]" />
+        <Container className="relative grid items-center gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-20">
+          <div className="max-w-xl">
+            <p className="text-[13px] font-semibold text-accent-ink">Clarix Cash Desk</p>
+            <h1 className="mt-3 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] text-ink sm:text-6xl">
+              Your books, handled.
+              <span className="mt-1 block">Your cash, clear.</span>
+            </h1>
+            <p className="mt-5 text-[18px] leading-relaxed text-muted">
+              Clarix Cash Desk is an AI finance desk for small businesses on QuickBooks Online. It categorizes transactions, follows up on invoices, and sends a plain-English cash brief. A person approves changes before they are written to your books.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/demo" className={btnPrimary}>
+                Book a demo
+              </Link>
+              <Link href="#sample" className={btnSecondary}>
+                See a sample cash brief
+              </Link>
+            </div>
+            <p className="mt-5 text-[14px] leading-relaxed text-muted">
+              Connects to QuickBooks Online. About a 20-minute call.
+              {/* TODO(owner): confirm the demo is 20 minutes. */}
+              {/* TODO(owner: add once app is listed) Official Intuit QuickBooks badge goes here, and only after the app is listed. */}
+            </p>
           </div>
+          <ProductVisual />
+        </Container>
+      </section>
 
-          {/* Headline */}
-          <h1
-            className="animate-fade-in-up delay-100"
-            style={{
-              fontSize: "clamp(3rem, 8vw, 6rem)",
-              lineHeight: 1.0,
-              fontWeight: 800,
-              letterSpacing: "-0.05em",
-              marginBottom: "32px",
-              color: "var(--ink)",
-            }}
-          >
-            The AI that runs<br />
-            <span style={{
-              background: "linear-gradient(135deg, #38BDF8 0%, #818CF8 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}>
-              your business.
-            </span>
-          </h1>
-
-          {/* Subhead */}
-          <p
-            className="animate-fade-in-up delay-200 mx-auto"
-            style={{ color: "var(--ink-2)", fontSize: "clamp(16px, 2.5vw, 20px)", lineHeight: 1.65, maxWidth: "520px", marginBottom: "48px" }}
-          >
-            Clarix builds private AI agents for businesses that want real results —
-            not another dashboard to manage.
-          </p>
-
-          {/* CTAs */}
-          <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ marginBottom: "80px" }}>
-            <Link
-              href="/intake"
-              style={{
-                background: "var(--cyan)",
-                color: "var(--bg)",
-                padding: "14px 36px",
-                borderRadius: "6px",
-                fontSize: "14px",
-                fontWeight: 700,
-                letterSpacing: "0.04em",
-                textTransform: "uppercase",
-                fontFamily: "var(--font-mono), monospace",
-                transition: "all 0.2s ease",
-                boxShadow: "0 0 40px rgba(56,189,248,0.25)",
-                display: "inline-block",
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 60px rgba(56,189,248,0.45)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 40px rgba(56,189,248,0.25)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)"; }}
-            >
-              Get Started →
-            </Link>
-            <Link
-              href="/services"
-              style={{ color: "var(--ink-3)", fontSize: "14px", padding: "14px 28px", letterSpacing: "0.02em", transition: "color 0.2s ease" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--ink)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--ink-3)"; }}
-            >
-              See what we build
-            </Link>
-          </div>
-
-          {/* Stats row */}
-          <div
-            className="animate-fade-in delay-500 grid grid-cols-2 sm:grid-cols-4 gap-px mx-auto"
-            style={{ maxWidth: "680px", border: "1px solid var(--border)", borderRadius: "8px", overflow: "hidden", background: "var(--border)" }}
-          >
-            {stats.map((s) => (
+      {/* TODO(owner): replace this strip with real customer logos (with permission) and 2–3 metrics from actual engagements. Do not invent numbers. */}
+      <section className="border-b border-line bg-surface" aria-label="Proof placeholder">
+        <Container className="py-12 sm:py-14">
+          <SectionHeading
+            eyebrow="Proof"
+            title="Numbers and logos, when they are real."
+            lede="Nothing in this strip is a claim. Customer logos and measured results will be added only with permission."
+          />
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {["Customer logo", "Customer logo", "Measured result"].map((label, index) => (
               <div
-                key={s.label}
-                style={{ background: "var(--bg-2)", padding: "24px 20px", textAlign: "center" }}
+                key={`${label}-${index}`}
+                className="rounded-2xl border border-dashed border-accent/40 bg-paper px-4 py-5"
               >
-                <div style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 800, color: "var(--cyan)", letterSpacing: "-0.04em", lineHeight: 1 }}>
-                  <CountUp end={s.value} suffix={s.suffix} />
-                </div>
-                <div style={{ color: "var(--ink-3)", fontSize: "11px", marginTop: "6px", letterSpacing: "0.04em", lineHeight: 1.4 }}>{s.label}</div>
+                <p className="text-[13px] font-semibold text-accent-ink">Placeholder</p>
+                <p className="mt-1 text-[15px] font-medium text-ink">{label}</p>
+                <p className="mt-1 text-[14px] text-muted">Not published yet.</p>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="animate-fade-in delay-700" style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)" }}>
-          <div style={{ width: "1px", height: "48px", background: "linear-gradient(to bottom, transparent, rgba(56,189,248,0.4))", margin: "0 auto" }} />
-        </div>
+        </Container>
       </section>
 
-      {/* ── HOW IT WORKS ── */}
-      <section style={{ borderTop: "1px solid var(--border)", padding: "100px 24px" }}>
-        <div className="max-w-5xl mx-auto">
-          <Reveal className="mb-16 text-center">
-            <p className="eyebrow" style={{ marginBottom: "16px" }}>The Process</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.04em" }}>
-              Live in 48 hours.
-            </h2>
-          </Reveal>
+      <section className="border-b border-line">
+        <Container className="py-16 sm:py-24">
+          <SectionHeading
+            eyebrow="The work"
+            title="Three places the books usually slip."
+            lede="Cash Desk is built for owner-operators, finance leads, and the bookkeepers who support them."
+          />
+          {/* TODO(owner): confirm whether a revenue band (for example $1M–$25M) should be stated. */}
+          <ol className="mt-10 grid gap-4 lg:grid-cols-3">
+            {problems.map((item, index) => (
+              <li key={item.pain} className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
+                <p className="font-mono text-[13px] tabular-nums text-muted">0{index + 1}</p>
+                <h3 className="mt-3 text-[1.25rem] font-semibold tracking-[-0.02em] text-ink">{item.pain}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">{item.detail}</p>
+                <p className="mt-4 border-t border-line pt-4 text-[15px] leading-relaxed text-ink">{item.outcome}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
 
-          <Reveal stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {process.map((step) => (
-              <div
-                key={step.num}
-                className="hover-card"
-                style={{
-                  background: "var(--bg-2)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "8px",
-                  padding: "32px 24px",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0, left: 0, right: 0,
-                    height: "2px",
-                    background: "linear-gradient(90deg, var(--cyan) 0%, transparent 100%)",
-                    opacity: 0.5,
-                  }}
-                />
-                <span
-                  className="font-mono"
-                  style={{ color: "var(--cyan)", fontSize: "10px", letterSpacing: "0.2em", opacity: 0.7, display: "block", marginBottom: "20px" }}
+      <section className="border-b border-line bg-surface">
+        <Container className="py-16 sm:py-24">
+          <SectionHeading
+            eyebrow="What Cash Desk does"
+            title="Six jobs, one desk."
+            lede="Each one proposes. A person still approves anything that changes the file or goes to a customer."
+          />
+          <div className="mt-10 grid gap-4 md:grid-cols-6">
+            {capabilities.map((item, index) => {
+              const Icon = iconFor[item.id];
+              const Snippet = snippetFor[item.id];
+              const span =
+                index === 0 || index === 3 ? "md:col-span-4" : index >= 4 ? "md:col-span-3" : "md:col-span-2";
+              return (
+                <article
+                  key={item.id}
+                  className={`flex flex-col rounded-2xl border border-line bg-paper p-5 sm:p-6 ${span}`}
                 >
-                  {step.num}
-                </span>
-                <h3 style={{ fontSize: "17px", fontWeight: 700, marginBottom: "12px", letterSpacing: "-0.02em" }}>
-                  {step.title}
+                  <Icon aria-hidden="true" className="text-accent-ink" size={20} />
+                  <h3 className="mt-4 text-[1.2rem] font-semibold tracking-[-0.02em] text-ink">{item.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted">{item.summary}</p>
+                  <Snippet />
+                </article>
+              );
+            })}
+          </div>
+          <p className="mt-6">
+            <Link href="/cash-desk" className="text-[15px] font-semibold text-accent-ink underline decoration-accent-ink/30 underline-offset-4">
+              Read the product detail
+            </Link>
+          </p>
+        </Container>
+      </section>
+
+      <section id="how" className="border-b border-line">
+        <Container className="py-16 sm:py-24">
+          <SectionHeading
+            eyebrow="How it works"
+            title="Connect, configure, approve, tune."
+            lede="QuickBooks stays the system of record. Cash Desk works beside it."
+          />
+          {/* TODO(owner): publish a truthful setup timeline when you are ready to promise one. */}
+          {/* TODO(owner): confirm the monthly tuning cadence. */}
+          <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((step) => (
+              <li key={step.n} className="rounded-2xl border border-line bg-surface p-5">
+                <p className="font-mono text-[13px] tabular-nums text-accent-ink">{step.n}</p>
+                <h3 className="mt-3 text-[1.15rem] font-semibold tracking-[-0.02em] text-ink">{step.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      <section id="sample" className="border-b border-line bg-surface">
+        <Container className="grid gap-10 py-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] sm:py-24">
+          <SectionHeading
+            eyebrow="Sample output"
+            title="The morning note, in plain English."
+            lede="This is a mock message so you can see the shape. Every figure below is invented."
+          />
+          <article className="rounded-2xl border border-line bg-paper p-5 shadow-card sm:p-7">
+            <div className="flex items-start justify-between gap-3 border-b border-line pb-4">
+              <div>
+                <p className="text-[13px] text-muted">From Cash Desk · to you</p>
+                <h3 className="mt-1 text-[1.2rem] font-semibold tracking-[-0.02em] text-ink">
+                  Tuesday morning — cash brief
                 </h3>
-                <p style={{ color: "var(--ink-2)", fontSize: "14px", lineHeight: 1.7 }}>{step.body}</p>
               </div>
-            ))}
-          </Reveal>
-        </div>
+              <SamplePill />
+            </div>
+            <div className="mt-5 space-y-4 text-[16px] leading-relaxed text-ink">
+              <p>Good morning.</p>
+              <p>
+                Cash on hand is <span className="font-mono tabular-nums">$128,440.18</span>.
+              </p>
+              <p>
+                Three invoices are past due, totaling <span className="font-mono tabular-nums">$18,420.00</span>.
+                The largest is Sample Customer A, <span className="font-mono tabular-nums">$9,200.00</span>, 21 days.
+              </p>
+              <p>
+                Bills due in the next 7 days: <span className="font-mono tabular-nums">$6,150.00</span>. Rent is the largest, and nothing has been paid automatically.
+              </p>
+              <p>
+                Overnight, 12 transactions were categorized. 2 are waiting for review: an ACH from “SQ *”, and check 4412 with no payee.
+              </p>
+              <p>Nothing was written to QuickBooks. Approve, edit, or skip each item.</p>
+            </div>
+            <p className="mt-5 text-[13px] text-muted">Sample Company · illustrative only · not a customer</p>
+          </article>
+        </Container>
       </section>
 
-      {/* ── USE CASES ── */}
-      <section style={{ padding: "100px 24px" }}>
-        <div className="max-w-5xl mx-auto">
-          <Reveal className="mb-16">
-            <p className="eyebrow" style={{ marginBottom: "16px" }}>What we build</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.04em", maxWidth: "500px" }}>
-              Built for how your business actually runs.
+      <section className="relative overflow-hidden border-y border-line bg-raised">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(56,189,248,0.14),transparent_58%)]" />
+        <Container className="relative grid gap-8 py-16 sm:py-24 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
+          <div>
+            <p className="text-[13px] font-semibold text-accent">Security</p>
+            <h2 className="mt-3 text-[2rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ink sm:text-[2.5rem]">
+              Your password never comes to us.
             </h2>
-          </Reveal>
-
-          <div className="flex flex-col gap-0">
-            {useCases.map((uc, i) => (
-              <Reveal key={uc.tag} delay={i * 60}>
-                <div
-                  className="hover-card"
-                  style={{
-                    borderTop: "1px solid var(--border)",
-                    padding: "40px 0",
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "40px",
-                    alignItems: "center",
-                    cursor: "default",
-                  }}
-                >
-                  <div>
-                    <p className="eyebrow" style={{ marginBottom: "12px" }}>{uc.tag}</p>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 700, marginBottom: "16px", letterSpacing: "-0.03em" }}>
-                      {uc.headline}
-                    </h3>
-                    <p style={{ color: "var(--ink-2)", fontSize: "15px", lineHeight: 1.7, maxWidth: "400px" }}>{uc.body}</p>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div
-                      style={{
-                        display: "inline-block",
-                        border: "1px solid var(--cyan-border)",
-                        borderRadius: "6px",
-                        padding: "16px 24px",
-                        background: "var(--cyan-bg)",
-                      }}
-                    >
-                      <p style={{ color: "var(--cyan)", fontSize: "clamp(1.1rem, 2vw, 1.5rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                        {uc.metric}
-                      </p>
-                      <p style={{ color: "var(--ink-3)", fontSize: "11px", marginTop: "6px", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-                        Measured outcome
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
-          </div>
-        </div>
-      </section>
-
-      {/* ── DIFFERENTIATORS ── */}
-      <section style={{ borderTop: "1px solid var(--border)", padding: "100px 24px", background: "var(--bg-2)" }}>
-        <div className="max-w-5xl mx-auto">
-          <Reveal className="mb-16 text-center">
-            <p className="eyebrow" style={{ marginBottom: "16px" }}>Why Clarix</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.04em" }}>
-              Not a tool. Not a SaaS.<br />
-              <span style={{ color: "var(--cyan)" }}>A dedicated system.</span>
-            </h2>
-          </Reveal>
-
-          <Reveal stagger className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                icon: "🔒",
-                title: "Private by design.",
-                body: "Your agent runs on dedicated hardware. No shared infrastructure. No data leaving your network. Built for businesses where privacy isn't optional.",
-              },
-              {
-                icon: "⚡",
-                title: "Proactive, not reactive.",
-                body: "Doesn't wait to be asked. Monitors your tools, surfaces what matters, and acts before you need to. Your agent works while you sleep.",
-              },
-              {
-                icon: "🛠",
-                title: "Maintained by us.",
-                body: "We own every layer — infrastructure, models, and logic. You never touch a server. We tune, update, and expand scope as your business evolves.",
-              },
-            ].map((d) => (
-              <div
-                key={d.title}
-                className="hover-card"
-                style={{
-                  background: "var(--bg-3)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "8px",
-                  padding: "36px 28px",
-                }}
-              >
-                <div style={{ fontSize: "24px", marginBottom: "20px" }}>{d.icon}</div>
-                <h3 style={{ fontSize: "18px", fontWeight: 700, marginBottom: "12px", letterSpacing: "-0.02em" }}>{d.title}</h3>
-                <p style={{ color: "var(--ink-2)", fontSize: "14px", lineHeight: 1.75 }}>{d.body}</p>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── PULL QUOTE ── */}
-      <section style={{ padding: "120px 24px", borderBottom: "1px solid var(--border)" }}>
-        <Reveal className="max-w-3xl mx-auto text-center">
-          <p style={{
-            fontSize: "clamp(1.8rem, 5vw, 3.2rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.15,
-            color: "var(--ink)",
-          }}>
-            "We don't sell software.<br />
-            We build the AI that runs<br />
-            <span style={{ color: "var(--cyan)" }}>your entire operation."</span>
-          </p>
-          <p style={{ color: "var(--ink-3)", fontSize: "13px", marginTop: "24px", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "var(--font-mono), monospace" }}>
-            — Christian Simpson, Co-founder
-          </p>
-        </Reveal>
-      </section>
-
-      {/* ── CTA ── */}
-      <section style={{ padding: "120px 24px" }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <Reveal>
-            <p className="eyebrow" style={{ marginBottom: "24px" }}>Get started</p>
-            <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 800, letterSpacing: "-0.05em", marginBottom: "20px", lineHeight: 1.05 }}>
-              Ready to stop doing<br />work AI should handle?
-            </h2>
-            <p style={{ color: "var(--ink-2)", fontSize: "16px", lineHeight: 1.75, maxWidth: "420px", margin: "0 auto 40px" }}>
-              Tell us what you're working on. We'll respond within 24 hours with a plan, not a sales pitch.
+            <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-muted">
+              QuickBooks Online connects through Intuit’s sign-in. Clarix stores a connection token, not your password. A person approves changes before they are written to the books. You can disconnect from inside QuickBooks.
             </p>
-            <Link
-              href="/intake"
-              style={{
-                background: "var(--cyan)",
-                color: "var(--bg)",
-                padding: "16px 48px",
-                borderRadius: "6px",
-                fontSize: "14px",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                fontFamily: "var(--font-mono), monospace",
-                display: "inline-block",
-                boxShadow: "0 0 40px rgba(56,189,248,0.3)",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 70px rgba(56,189,248,0.5)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 40px rgba(56,189,248,0.3)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)"; }}
-            >
-              Start the conversation →
+            <Link href="/security" className={`${btnPrimary} mt-8`}>
+              Read how the connection works
             </Link>
-            <p style={{ color: "var(--ink-3)", fontSize: "12px", marginTop: "20px", letterSpacing: "0.04em" }}>
-              No automated responses. Direct reply within 24 hours.
-            </p>
-          </Reveal>
-        </div>
+          </div>
+          <ul className="grid gap-3">
+            {[
+              "Intuit sign-in. No QuickBooks or bank password stored.",
+              "A person approves writes to your file.",
+              "Disconnect from QuickBooks at any time.",
+            ].map((item) => (
+              <li key={item} className="rounded-2xl border border-line bg-paper/70 px-4 py-4 text-[15px] leading-relaxed text-ink">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Container>
       </section>
 
-    </div>
+      {/* TODO(owner): one named customer story with permission — business type, before and after, quote, and photo. */}
+      <section className="border-b border-line" aria-label="Customer story placeholder">
+        <Container className="py-16 sm:py-24">
+          <SectionHeading
+            eyebrow="Customers"
+            title="A real story will go here."
+            lede="We will not publish a quote, a name, or a result until a customer has agreed to it."
+          />
+          <div className="mt-8 rounded-2xl border border-dashed border-accent/40 bg-surface px-5 py-6 sm:px-7">
+            <p className="text-[13px] font-semibold text-accent-ink">Placeholder</p>
+            <p className="mt-2 max-w-xl text-[16px] leading-relaxed text-muted">
+              Named customer, business type, what changed, a quote, and a photo. Empty on purpose.
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-line bg-surface">
+        <Container className="grid gap-8 py-16 sm:py-24 lg:grid-cols-2">
+          <div>
+            <SectionHeading
+              eyebrow="Pricing"
+              title="Setup from $2,500."
+              lede="Monthly plans are not published yet. We will price the monthly work on the demo, before you commit."
+            />
+            {/* TODO(owner): replace “monthly plans coming soon” with real tiers when they are final. */}
+            <Link href="/pricing" className={`${btnSecondary} mt-8`}>
+              See what setup includes
+            </Link>
+          </div>
+          <ul className="rounded-2xl border border-line bg-paper p-5 sm:p-6">
+            {setupIncludes.map((item) => (
+              <li key={item} className="border-b border-line py-3 text-[15px] leading-relaxed text-ink last:border-b-0">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* TODO(owner): multi-entity and accountant pricing, if that channel should have its own offer. */}
+      <section className="border-b border-line">
+        <Container className="py-12 sm:py-16">
+          <h2 className="text-[1.5rem] font-semibold tracking-[-0.03em] text-ink">
+            Bookkeepers and multi-entity companies
+          </h2>
+          <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted">
+            If you keep books for clients, or you have more than one company file, say so on the demo form. Pricing for that work is not published yet.
+          </p>
+        </Container>
+      </section>
+
+      <section id="faq" className="border-b border-line">
+        <Container className="py-16 sm:py-24">
+          <SectionHeading eyebrow="FAQ" title="Straight answers." />
+          {/* TODO(owner): update the cost answer when monthly pricing is final. */}
+          {/* TODO(owner-verify): exact QuickBooks disconnect path, if you want it more specific than “inside QuickBooks Online”. */}
+          <div className="mt-8">
+            <FaqList />
+          </div>
+        </Container>
+      </section>
+
+      <section>
+        <Container className="py-16 sm:py-24">
+          <div className="max-w-2xl">
+            <h2 className="text-[2rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ink sm:text-[2.6rem]">
+              See Cash Desk on your own books.
+            </h2>
+            <p className="mt-4 text-[17px] leading-relaxed text-muted">
+              Tell us who you are and whether you use QuickBooks Online. We reply within one business day.
+            </p>
+            {/* TODO(owner): confirm the one-business-day reply window. */}
+            <Link href="/demo" className={`${btnPrimary} mt-8`}>
+              Book a demo
+            </Link>
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }
