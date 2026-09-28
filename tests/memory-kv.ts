@@ -93,6 +93,33 @@ export function createMemoryKv(now: () => number = Date.now): QboKv {
       return true;
     },
 
+    async incr(key, ttlSeconds) {
+      const current = readString(key);
+      const n = current && /^\d+$/.test(current) ? Number(current) + 1 : 1;
+      const existing = strings.get(key);
+      const expiresAt =
+        current !== null && existing?.expiresAt !== undefined && existing.expiresAt !== null
+          ? existing.expiresAt
+          : now() + ttlSeconds * 1000;
+      strings.set(key, { value: String(n), expiresAt });
+      return n;
+    },
+
+    async appendLog(key, value, maxLength) {
+      const current = readString(key);
+      let items: string[] = [];
+      if (current) {
+        try {
+          const parsed = JSON.parse(current) as unknown;
+          if (Array.isArray(parsed)) items = parsed.filter((item): item is string => typeof item === "string");
+        } catch {
+          items = [];
+        }
+      }
+      items.unshift(value);
+      strings.set(key, { value: JSON.stringify(items.slice(0, maxLength)), expiresAt: null });
+    },
+
     async writeRecord(recordKey, genKey, clientsKey, json, slug) {
       const next = parseGen(readString(genKey)) + 1;
       strings.set(recordKey, { value: json, expiresAt: null });

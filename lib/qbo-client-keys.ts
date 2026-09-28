@@ -1,4 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
 import { getQboKv } from "@/lib/qbo-kv";
 import { qboApiKeyKey } from "@/lib/qbo-keys";
 import { parseApiKeyRecord, QboApiKeyRecord, QboCorruptRecordError, QboStorageError } from "@/lib/qbo-records";
@@ -105,12 +106,18 @@ export async function issueClientApiKey(
     return { ok: false, reason: "storage_error" };
   }
 
+  const rotated = Boolean(existing);
+  await recordSecurityEvent({
+    event: rotated ? "key_rotated" : "key_issued",
+    slug,
+  });
+
   return {
     ok: true,
     slug,
     apiKey,
     prefix: record.prefix,
-    rotated: Boolean(existing),
+    rotated,
     previousValidUntil: record.previous_until ?? null,
   };
 }

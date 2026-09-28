@@ -5,7 +5,9 @@
 // An existing slug is not re-pointed at a different QuickBooks company.
 
 import { NextRequest, NextResponse } from "next/server";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
 import { HTML_PAGE_HEADERS, renderConnectionPage } from "@/lib/qbo-html";
+import { clientIp, consumeRateLimit, RATE_LIMITS } from "@/lib/qbo-rate-limit";
 import { listQboClientSlugs } from "@/lib/qbo-clients";
 import { consumeOAuthState } from "@/lib/qbo-oauth-state";
 import { QboStorageError, QboTokenRecord } from "@/lib/qbo-records";
@@ -47,6 +49,13 @@ async function realmOwnedByOtherClient(slug: string, realmId: string): Promise<b
 }
 
 export async function GET(request: NextRequest) {
+  const ip = clientIp(request.headers);
+  const limit = await consumeRateLimit({ ...RATE_LIMITS.callbackIp, id: ip });
+  if (!limit.ok) {
+    await recordSecurityEvent({ event: "rate_limited", ip, detail: "qbo-callback" });
+    return page("Too many connection attempts. Wait a few minutes and try again.", 429);
+  }
+
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const realmId = searchParams.get("realmId");
@@ -81,9 +90,11 @@ export async function GET(request: NextRequest) {
     const decision = realmReconnectDecision(existing?.realmId, realmId);
     if (decision === "refuse_rebind") {
       console.error(`QBO callback refused realm rebind for slug "${clientSlug}"`);
+      await recordSecurityEvent({ event: "reconnect_refused", slug: clientSlug, ip, detail: "rebind" });
       return page(REBIND_REFUSAL_MESSAGE, 409);
     }
     if (await realmOwnedByOtherClient(clientSlug, realmId)) {
+      await recordSecurityEvent({ event: "reconnect_refused", slug: clientSlug, ip, detail: "collision" });
       return page(REALM_COLLISION_MESSAGE, 409);
     }
   } catch (err) {
@@ -140,7 +151,6 @@ export async function GET(request: NextRequest) {
 
   console.log("QBO connected:", {
     customer: clientSlug,
-    realmId,
     connected_at: new Date().toISOString(),
   });
 
@@ -191,6 +201,12 @@ export async function GET(request: NextRequest) {
   try {
     await saveQboTokens(clientSlug, tokenRecord);
     console.log("QBO token persisted for client:", clientSlug);
+    await recordSecurityEvent({
+      event: "connect",
+      slug: clientSlug,
+      ip,
+      detail: existing ? "reconnect" : "new",
+    });
   } catch (err) {
     console.error("QBO callback: failed to write token", err instanceof Error ? err.name : "error");
     return page("We couldn't save the QuickBooks connection. Please try again or contact support.", 500);

@@ -61,6 +61,20 @@ redis.call('DEL', KEYS[1])
 return v
 `;
 
+const INCR_LUA = `
+local n = redis.call('INCR', KEYS[1])
+if n == 1 then
+  redis.call('EXPIRE', KEYS[1], tonumber(ARGV[1]))
+end
+return n
+`;
+
+const APPEND_LOG_LUA = `
+redis.call('LPUSH', KEYS[1], ARGV[1])
+redis.call('LTRIM', KEYS[1], 0, tonumber(ARGV[2]) - 1)
+return 1
+`;
+
 export interface QboKv {
   get(key: string): Promise<unknown>;
   set(key: string, value: string, exSeconds?: number): Promise<void>;
@@ -73,6 +87,8 @@ export interface QboKv {
   acquireLock(key: string, owner: string, ttlSeconds: number): Promise<boolean>;
   releaseLock(key: string, owner: string): Promise<boolean>;
   casRecord(recordKey: string, genKey: string, expectedGen: string, json: string): Promise<boolean>;
+  incr(key: string, ttlSeconds: number): Promise<number>;
+  appendLog(key: string, value: string, maxLength: number): Promise<void>;
   writeRecord(
     recordKey: string,
     genKey: string,
@@ -198,6 +214,15 @@ const restKv: QboKv = {
     const count = asCount(result);
     if (count < 0) throw new QboCorruptRecordError();
     return count === 1;
+  },
+
+  async incr(key, ttlSeconds) {
+    const result = await redisEval(INCR_LUA, [key], [String(ttlSeconds)]);
+    return asCount(result);
+  },
+
+  async appendLog(key, value, maxLength) {
+    await redisEval(APPEND_LOG_LUA, [key], [value, String(maxLength)]);
   },
 
   async writeRecord(recordKey, genKey, clientsKey, json, slug) {
