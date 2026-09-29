@@ -26,6 +26,8 @@ Client connections, the token API, and the daily keep-alive are documented in [S
 
 Cron routes reject every caller unless `CRON_SECRET` is set in the Vercel project. Vercel sends it as `Authorization: Bearer <CRON_SECRET>`. Set that variable before deploying this app. Do not commit it.
 
+Token encryption, secret rotation, and incident response are in [SECURITY.md](./SECURITY.md). Set `QBO_TOKEN_ENC_KEY` to encrypt QuickBooks tokens in KV. If it is unset, tokens stay plaintext and the server logs a warning.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

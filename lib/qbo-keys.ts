@@ -23,3 +23,5 @@ export function qboStateKey(nonce: string): string {
 export function qboApiKeyKey(slug: string): string {
   return `qbo:apikey:${slug}`;
 }
+
+export const QBO_AUDIT_KEY = "qbo:audit";

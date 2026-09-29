@@ -29,6 +29,7 @@ import {
   sharedSecretAllowed,
 } from "../lib/qbo-security";
 import { getQboTokens, getValidAccessToken, saveQboTokens } from "../lib/qbo-token-helper";
+import { clearRateLimitTestOverrides } from "../lib/qbo-rate-limit";
 import { createMemoryKv } from "./memory-kv";
 
 const ENV_KEYS = [
@@ -42,6 +43,9 @@ const ENV_KEYS = [
   "CRON_SECRET",
   "KV_REST_API_TOKEN",
   "KV_REST_API_URL",
+  "QBO_TOKEN_ENC_KEY",
+  "QBO_TOKEN_ENC_KEY_VERSION",
+  "QBO_TOKEN_ENC_KEYS",
 ] as const;
 
 const envSnapshot = new Map<string, string | undefined>();
@@ -57,6 +61,7 @@ function restoreEnv(): void {
     else process.env[key] = value;
   }
   setQboTestHooks(null);
+  clearRateLimitTestOverrides();
 }
 
 rememberEnv();
@@ -71,6 +76,9 @@ function useTestEnv(): void {
   delete process.env.QBO_ALLOW_SHARED_SECRET;
   delete process.env.QBO_KEY_ADMIN_SECRET;
   process.env.CRON_SECRET = "cron-secret-value";
+  delete process.env.QBO_TOKEN_ENC_KEY;
+  delete process.env.QBO_TOKEN_ENC_KEY_VERSION;
+  delete process.env.QBO_TOKEN_ENC_KEYS;
 }
 
 function tokenRecord(overrides: Partial<QboTokenRecord> = {}): QboTokenRecord {

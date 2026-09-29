@@ -11,12 +11,13 @@
 // a newer grant, and a process can only delete a lock it still owns.
 
 import { randomUUID } from "crypto";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
+import { decodeTokenFromStorage, encodeTokenForStorage, loadTokenKeyRing, tokenRecordIsPlaintext } from "@/lib/qbo-crypto";
 import { getQboKv } from "@/lib/qbo-kv";
 import { QBO_CLIENTS_KEY, qboClientKey, qboGenKey, qboLockKey } from "@/lib/qbo-keys";
 import {
   isServableAccessToken,
   parseGeneration,
-  parseTokenRecord,
   QboCorruptRecordError,
   QboStorageError,
   QboTokenRecord,
@@ -82,12 +83,18 @@ function sleep(ms: number): Promise<void> {
 export async function getQboTokens(slug: string): Promise<QboTokenRecord | null> {
   if (!isValidClientSlug(slug)) return null;
   const raw = await getQboKv().get(qboClientKey(slug));
-  return parseTokenRecord(raw);
+  return decodeTokenFromStorage(raw);
 }
 
 export async function saveQboTokens(slug: string, record: QboTokenRecord): Promise<void> {
   if (!isValidClientSlug(slug)) throw new QboStorageError("invalid client slug");
-  await getQboKv().writeRecord(qboClientKey(slug), qboGenKey(slug), QBO_CLIENTS_KEY, JSON.stringify(record), slug);
+  await getQboKv().writeRecord(
+    qboClientKey(slug),
+    qboGenKey(slug),
+    QBO_CLIENTS_KEY,
+    encodeTokenForStorage(record),
+    slug,
+  );
 }
 
 export async function clearQboTokens(slug: string): Promise<void> {
@@ -103,7 +110,26 @@ async function readGeneration(slug: string): Promise<number> {
 }
 
 async function casWrite(slug: string, expectedGen: number, record: QboTokenRecord): Promise<boolean> {
-  return getQboKv().casRecord(qboClientKey(slug), qboGenKey(slug), String(expectedGen), JSON.stringify(record));
+  return getQboKv().casRecord(
+    qboClientKey(slug),
+    qboGenKey(slug),
+    String(expectedGen),
+    encodeTokenForStorage(record),
+  );
+}
+
+// Rewrites a plaintext record with the current key. The daily cron calls
+// this for companies whose access token is still fresh, so they do not wait
+// for the next Intuit refresh before leaving plaintext.
+export async function upgradePlaintextToken(slug: string): Promise<"skipped" | "upgraded" | "unchanged"> {
+  if (!isValidClientSlug(slug) || !loadTokenKeyRing()) return "skipped";
+  const raw = await getQboKv().get(qboClientKey(slug));
+  if (!tokenRecordIsPlaintext(raw)) return "unchanged";
+  const record = decodeTokenFromStorage(raw);
+  if (!record) return "unchanged";
+  const generation = await readGeneration(slug);
+  const wrote = await casWrite(slug, generation, record);
+  return wrote ? "upgraded" : "unchanged";
 }
 
 async function refreshAccessToken(refreshToken: string): Promise<{
@@ -214,6 +240,7 @@ export async function refreshQboToken(slug: string): Promise<RefreshResult> {
     if (typeof existing.refresh_token_expires_at === "number" && qboNow() >= existing.refresh_token_expires_at) {
       const marked = await markReauth(slug, existing, generation, "refresh_token_expired", nowIso);
       if (marked === "superseded") return { ok: true };
+      await recordSecurityEvent({ event: "refresh_failure", slug, detail: "refresh_token_expired" });
       return { ok: false, reason: "reauth_required", detail: "reauth_required" };
     }
 
@@ -226,8 +253,10 @@ export async function refreshQboToken(slug: string): Promise<RefreshResult> {
       if (err.invalidGrant) {
         const marked = await markReauth(slug, existing, generation, err.safeCode, nowIso);
         if (marked === "superseded") return { ok: true };
+        await recordSecurityEvent({ event: "refresh_failure", slug, detail: err.safeCode });
         return { ok: false, reason: "reauth_required", detail: "reauth_required" };
       }
+      await recordSecurityEvent({ event: "refresh_failure", slug, detail: err.safeCode });
       try {
         await casWrite(slug, generation, {
           ...existing,

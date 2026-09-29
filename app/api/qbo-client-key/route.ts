@@ -7,7 +7,9 @@
 //   {"slug":"mikemills-buck","rotate":false}
 
 import { NextRequest, NextResponse } from "next/server";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
 import { issueClientApiKey } from "@/lib/qbo-client-keys";
+import { clientIp, consumeRateLimit, RATE_LIMITS } from "@/lib/qbo-rate-limit";
 import { safeEqual } from "@/lib/qbo-security";
 
 export const runtime = "nodejs";
@@ -20,12 +22,22 @@ function json(body: unknown, status = 200): NextResponse {
 }
 
 export async function POST(request: NextRequest) {
+  const ip = clientIp(request.headers);
+  const limit = await consumeRateLimit({ ...RATE_LIMITS.adminIp, id: ip });
+  if (!limit.ok) {
+    await recordSecurityEvent({ event: "rate_limited", ip, detail: "qbo-client-key" });
+    return json({ error: true, reason: "rate_limited" }, 429);
+  }
+
   const adminSecret = process.env.QBO_KEY_ADMIN_SECRET;
   if (!adminSecret) return json({ error: true }, 404);
 
   const header = request.headers.get("authorization") || "";
   const match = /^Bearer\s+(\S+)\s*$/i.exec(header);
-  if (!match || !safeEqual(match[1], adminSecret)) return json({ error: true }, 401);
+  if (!match || !safeEqual(match[1], adminSecret)) {
+    await recordSecurityEvent({ event: "auth_failure", ip, detail: "qbo-client-key" });
+    return json({ error: true }, 401);
+  }
 
   let body: { slug?: unknown; rotate?: unknown };
   try {

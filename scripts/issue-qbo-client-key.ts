@@ -40,6 +40,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err: unknown) => {
-  console.error(err instanceof Error ? err.message : "failed");
+  console.error(err instanceof Error ? err.name : "failed");
   process.exit(1);
 });

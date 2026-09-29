@@ -7,7 +7,9 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
 import { listQboClientSlugs } from "@/lib/qbo-clients";
+import { clientIp } from "@/lib/qbo-rate-limit";
 import { escapeHtml } from "@/lib/qbo-html";
 import { qboConnectUrl } from "@/lib/qbo-oauth-state";
 import { QboStorageError } from "@/lib/qbo-records";
@@ -35,6 +37,7 @@ type Alert = { slug: string; reason: string; detail?: string; connectUrl: string
 
 export async function GET(request: NextRequest) {
   if (!cronAuthorized(request.headers.get("authorization"), process.env.CRON_SECRET)) {
+    await recordSecurityEvent({ event: "auth_failure", ip: clientIp(request.headers), detail: "qbo-cron-health" });
     return NextResponse.json({ error: "unauthorized" }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
 

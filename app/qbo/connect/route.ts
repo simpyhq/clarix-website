@@ -3,8 +3,10 @@
 // rather than embedding a raw slug as OAuth state.
 
 import { NextRequest, NextResponse } from "next/server";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
 import { HTML_PAGE_HEADERS, renderConnectionPage } from "@/lib/qbo-html";
 import { createOAuthState, intuitAuthorizeUrl } from "@/lib/qbo-oauth-state";
+import { clientIp, consumeRateLimit, RATE_LIMITS } from "@/lib/qbo-rate-limit";
 import { QboStorageError } from "@/lib/qbo-records";
 import { isValidClientSlug } from "@/lib/qbo-security";
 
@@ -20,6 +22,12 @@ function page(message: string, status: number): NextResponse {
 
 export async function GET(request: NextRequest) {
   const client = request.nextUrl.searchParams.get("client") || "";
+  const ip = clientIp(request.headers);
+  const limit = await consumeRateLimit({ ...RATE_LIMITS.connectIp, id: ip });
+  if (!limit.ok) {
+    await recordSecurityEvent({ event: "rate_limited", slug: client, ip, detail: "qbo-connect" });
+    return page("Too many connection attempts. Wait a few minutes and try again.", 429);
+  }
   if (!isValidClientSlug(client)) {
     return page("This connect link is not valid. Contact support.", 400);
   }

@@ -20,7 +20,10 @@ Set these in Vercel. Do not put the values in git.
 | `QBO_ALLOW_SHARED_SECRET` | no | Unset, `true`, or `1` keeps the legacy shared secret working. Set to `false` (also `0`, `no`, or `off`) after every Mac mini sends a per-client key |
 | `QBO_KEY_ADMIN_SECRET` | no | Unlocks `POST /api/qbo-client-key`. The route stays 404 until this is set |
 | `QBO_OAUTH_STATE_SECRET` | no | Dedicated HMAC key for OAuth `state`. When unset, the key is derived from `KV_REST_API_TOKEN` (not from `QBO_CLIENT_SECRET`) |
-| `SMTP_USER`, `SMTP_PASS` | yes, for health email | Gmail SMTP used by the daily health check |
+| `QBO_TOKEN_ENC_KEY` | no, but set it before this deploy if you want tokens encrypted | AES-256-GCM key, 32 bytes, base64 (`openssl rand -base64 32`). Unset keeps today's plaintext storage and logs a warning |
+| `QBO_TOKEN_ENC_KEY_VERSION` | no | Integer stamped on new writes. Default `1`. Bump it when you rotate |
+| `QBO_TOKEN_ENC_KEYS` | no | Older keys, `1:<base64>,2:<base64>`, so records written by a previous version can still be read |
+| `SMTP_USER`, `SMTP_PASS` | yes, for health email | Gmail SMTP used by the daily health check and the intake form |
 
 `CRON_SECRET` is new. Vercel only injects it into a deployment that was created after the variable exists, and these routes fail closed without it. Set it on Production (and Preview, if preview crons should run) before merging the change that requires it. A long random string with no spaces is enough. Example generation: `openssl rand -base64 32`.
 
@@ -86,7 +89,9 @@ Known failures stay HTTP 200 so existing agents that read the JSON body keep wor
 
 `detail` is only one of `reauth_required`, `refresh_request_failed`, or `retry`. Intuit's response body is not returned. An access token whose `expires_at` is in the past is not returned; the caller gets `refresh_in_progress` and should retry.
 
-`GET /api/qbo-token-debug?slug=<slug>` returns metadata only (company, realm, expiry, a sanitized refresh error). It does not return access or refresh tokens. Send the credential in a header, never in the query string, because query strings are written to access logs. Use `X-QBO-Client-Key`, or `X-QBO-Shared-Secret` while the shared secret is still allowed. A `secret` query parameter is rejected with `400` and `{ "error": true, "reason": "use_header" }` and is not checked as a password.
+A caller who exceeds the per-slug ceiling (1200 requests / 10 minutes) or the per-IP ceiling (2400 / 10 minutes) gets HTTP 429 `{ "error": true, "reason": "rate_limited" }`. Failed logins are counted separately (120 / 10 minutes per IP) and do not spend the slug's budget. Those ceilings are far above a Mac mini's normal polling. If the rate-limit counter cannot be written, the request is allowed.
+
+`GET /api/qbo-token-debug?slug=<slug>` returns metadata only (company, realm, expiry, a sanitized refresh error, and `storage` of `plaintext` or `vN`). It does not return access or refresh tokens. Send the credential in a header, never in the query string, because query strings are written to access logs. Use `X-QBO-Client-Key`, or `X-QBO-Shared-Secret` while the shared secret is still allowed. A `secret` query parameter is rejected with `400` and `{ "error": true, "reason": "use_header" }` and is not checked as a password.
 
 ## Website chat
 

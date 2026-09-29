@@ -10,10 +10,12 @@
 // Requires CRON_SECRET. Vercel sends Authorization: Bearer <CRON_SECRET>.
 
 import { NextRequest, NextResponse } from "next/server";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
 import { listQboClientSlugs } from "@/lib/qbo-clients";
+import { clientIp } from "@/lib/qbo-rate-limit";
 import { QboCorruptRecordError, QboStorageError } from "@/lib/qbo-records";
 import { cronAuthorized } from "@/lib/qbo-security";
-import { getQboTokens, refreshQboToken } from "@/lib/qbo-token-helper";
+import { getQboTokens, refreshQboToken, upgradePlaintextToken } from "@/lib/qbo-token-helper";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -22,6 +24,7 @@ const STILL_FRESH_MS = 5 * 60 * 1000;
 
 export async function GET(request: NextRequest) {
   if (!cronAuthorized(request.headers.get("authorization"), process.env.CRON_SECRET)) {
+    await recordSecurityEvent({ event: "auth_failure", ip: clientIp(request.headers), detail: "qbo-cron-refresh" });
     return NextResponse.json({ error: "unauthorized" }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
 
@@ -36,7 +39,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const results: Record<string, { status: string }> = {};
+  const results: Record<string, { status: string; encryption?: string }> = {};
   for (const slug of slugs) {
     try {
       const record = await getQboTokens(slug);
@@ -45,7 +48,8 @@ export async function GET(request: NextRequest) {
         continue;
       }
       if (!record.needs_reauth && record.expires_at > Date.now() + STILL_FRESH_MS) {
-        results[slug] = { status: "still_fresh" };
+        const upgraded = await upgradePlaintextToken(slug);
+        results[slug] = upgraded === "upgraded" ? { status: "still_fresh", encryption: "upgraded" } : { status: "still_fresh" };
         continue;
       }
       const refreshResult = await refreshQboToken(slug);

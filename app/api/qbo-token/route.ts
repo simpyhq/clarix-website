@@ -14,9 +14,12 @@
 // 200 { accessToken, realmId }
 // 200 { error: true, reason, detail? }
 // 401 { error: true }
+// 429 { error: true, reason: "rate_limited" }  — above the per-slug or per-IP ceiling
 
 import { NextRequest, NextResponse } from "next/server";
-import { asSafeDetail } from "@/lib/qbo-security";
+import { recordSecurityEvent } from "@/lib/qbo-audit";
+import { clientIp, consumeRateLimit, RATE_LIMITS } from "@/lib/qbo-rate-limit";
+import { asSafeDetail, isValidClientSlug } from "@/lib/qbo-security";
 import { authorizeQboApiRequest } from "@/lib/qbo-token-auth";
 import { getValidAccessToken } from "@/lib/qbo-token-helper";
 
@@ -28,8 +31,12 @@ const JSON_HEADERS = {
   Pragma: "no-cache",
 };
 
-function json(body: unknown, status = 200): NextResponse {
-  return NextResponse.json(body, { status, headers: JSON_HEADERS });
+function json(body: unknown, status = 200, extraHeaders?: Record<string, string>): NextResponse {
+  return NextResponse.json(body, { status, headers: { ...JSON_HEADERS, ...extraHeaders } });
+}
+
+function tooMany(): NextResponse {
+  return json({ error: true, reason: "rate_limited" }, 429, { "Retry-After": String(RATE_LIMITS.tokenIp.windowSeconds) });
 }
 
 export async function GET(request: NextRequest) {
@@ -38,6 +45,13 @@ export async function GET(request: NextRequest) {
   const querySecret = searchParams.get("secret");
   const headerSecret = request.headers.get("x-qbo-shared-secret");
   const clientKey = request.headers.get("x-qbo-client-key");
+  const ip = clientIp(request.headers);
+
+  const ipLimit = await consumeRateLimit({ ...RATE_LIMITS.tokenIp, id: ip });
+  if (!ipLimit.ok) {
+    await recordSecurityEvent({ event: "rate_limited", slug: client, ip, detail: "qbo-token-ip" });
+    return tooMany();
+  }
 
   const auth = await authorizeQboApiRequest({
     slug: client,
@@ -48,11 +62,22 @@ export async function GET(request: NextRequest) {
     return json({ error: true, reason: "storage_error" });
   }
   if (auth !== "ok") {
+    const failures = await consumeRateLimit({ ...RATE_LIMITS.tokenAuthFail, id: ip });
+    await recordSecurityEvent({ event: "auth_failure", slug: client, ip, detail: "qbo-token" });
+    if (!failures.ok) return tooMany();
     return json({ error: true }, 401);
   }
 
   if (!client) {
     return json({ error: true, reason: "missing_client" });
+  }
+
+  if (isValidClientSlug(client)) {
+    const slugLimit = await consumeRateLimit({ ...RATE_LIMITS.tokenSlug, id: client });
+    if (!slugLimit.ok) {
+      await recordSecurityEvent({ event: "rate_limited", slug: client, ip, detail: "qbo-token-slug" });
+      return tooMany();
+    }
   }
 
   const result = await getValidAccessToken(client);
