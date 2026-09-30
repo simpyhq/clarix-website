@@ -10,7 +10,7 @@ import { HTML_PAGE_HEADERS, renderConnectionPage } from "@/lib/qbo-html";
 import { clientIp, consumeRateLimit, RATE_LIMITS } from "@/lib/qbo-rate-limit";
 import { listQboClientSlugs } from "@/lib/qbo-clients";
 import { consumeOAuthState } from "@/lib/qbo-oauth-state";
-import { QboStorageError, QboTokenRecord } from "@/lib/qbo-records";
+import { QboStorageError, QboTokenRecord, refreshTokenExpiresAt } from "@/lib/qbo-records";
 import {
   callbackClientSlug,
   INVALID_STATE_MESSAGE,
@@ -184,15 +184,13 @@ export async function GET(request: NextRequest) {
 
   const now = Date.now();
   const expiresIn = typeof tokens.expires_in === "number" ? tokens.expires_in : 3600;
-  const refreshExpiresIn =
-    typeof tokens.x_refresh_token_expires_in === "number" ? tokens.x_refresh_token_expires_in : 100 * 24 * 3600;
   const tokenRecord: QboTokenRecord = {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     realmId,
     company_name: companyName,
     expires_at: now + expiresIn * 1000,
-    refresh_token_expires_at: now + refreshExpiresIn * 1000,
+    refresh_token_expires_at: refreshTokenExpiresAt(now, tokens.x_refresh_token_expires_in),
     connected_at: existing?.connected_at || new Date(now).toISOString(),
     updated_at: new Date(now).toISOString(),
     needs_reauth: false,

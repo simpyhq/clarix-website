@@ -68,7 +68,10 @@ export async function GET(request: NextRequest) {
       connected_at: record.connected_at,
       updated_at: record.updated_at,
       expires_at: record.expires_at,
-      refresh_token_expires_at: record.refresh_token_expires_at,
+      refresh_token_expires_at:
+        typeof record.refresh_token_expires_at === "number" && Number.isFinite(record.refresh_token_expires_at)
+          ? record.refresh_token_expires_at
+          : null,
       last_refresh_error: publicRefreshError(record.last_refresh_error) || null,
       last_refresh_at: record.last_refresh_at || null,
       needs_reauth: record.needs_reauth || false,

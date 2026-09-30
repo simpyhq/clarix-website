@@ -16,6 +16,7 @@ const EVENTS = new Set([
   "auth_failure",
   "refresh_failure",
   "rate_limited",
+  "alert_delivery_failed",
 ]);
 
 export type SecurityEventName =
@@ -25,7 +26,8 @@ export type SecurityEventName =
   | "key_rotated"
   | "auth_failure"
   | "refresh_failure"
-  | "rate_limited";
+  | "rate_limited"
+  | "alert_delivery_failed";
 
 export type SecurityEvent = {
   event: SecurityEventName;

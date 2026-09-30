@@ -23,7 +23,9 @@ Set these in Vercel. Do not put the values in git.
 | `QBO_TOKEN_ENC_KEY` | no, but set it before this deploy if you want tokens encrypted | AES-256-GCM key, 32 bytes, base64 (`openssl rand -base64 32`). Unset keeps today's plaintext storage and logs a warning |
 | `QBO_TOKEN_ENC_KEY_VERSION` | no | Integer stamped on new writes. Default `1`. Bump it when you rotate |
 | `QBO_TOKEN_ENC_KEYS` | no | Older keys, `1:<base64>,2:<base64>`, so records written by a previous version can still be read |
-| `SMTP_USER`, `SMTP_PASS` | yes, for health email | Gmail SMTP used by the daily health check and the intake form |
+| `SMTP_USER`, `SMTP_PASS` | yes, for intake, and for health email unless Resend is set | Gmail SMTP. A normal Gmail password is rejected with error 535; use an app password |
+| `RESEND_API_KEY` | no | When set, the daily health alert uses Resend's HTTPS API and does not use SMTP. Intake mail still uses SMTP. Leave unset to keep today's behavior |
+| `RESEND_FROM` | no | Optional From address for the Resend health alert. Unset uses `Clarix QBO Health <support@clarixhq.ai>`, which must be on a domain verified in Resend |
 
 `CRON_SECRET` is new. Vercel only injects it into a deployment that was created after the variable exists, and these routes fail closed without it. Set it on Production (and Preview, if preview crons should run) before merging the change that requires it. A long random string with no spaces is enough. Example generation: `openssl rand -base64 32`.
 
@@ -143,13 +145,13 @@ Hobby cron jobs may run only once per day. An expression that fires more often f
 | Path | Schedule | What it does |
 | --- | --- | --- |
 | `/api/cron/qbo-refresh` | `0 10 * * *` (10:00–10:59 UTC) | Refreshes every KV client whose access token is expired or inside 5 minutes of expiry |
-| `/api/cron/qbo-health` | `0 15 * * *` (15:00–15:59 UTC) | Emails if a client needs reconnect or the refresh token expires within 14 days |
+| `/api/cron/qbo-health` | `0 15 * * *` (15:00–15:59 UTC) | One email if a client is dead, the refresh token expires within 7 days (urgent), or within 14 days (warning) |
 
 Both routes require `Authorization: Bearer <CRON_SECRET>`. There is no hardcoded slug list. The job reads the `qbo:clients` set and every `qbo:client:*` key, so `chp-primary` and later clients are included as soon as their token record exists. A slug found only as a key is added to `qbo:clients`.
 
 Intuit's access token lasts one hour (`expires_in` 3600). Agents already refresh through `/api/qbo-token` when they call. The refresh token lasts 100 days and the window rolls forward each time it is used. Intuit rotates the refresh-token value about every 24 hours, or on the next refresh after that, and the previous value then stops working ([Intuit authorization FAQ](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/faq), [refresh-token validity](https://help.developer.intuit.com/s/article/Validity-of-Refresh-Token)). There is also a five-year hard maximum that a daily refresh does not extend. The daily job is what keeps an idle company inside the 100-day window and persists the rotated refresh token. It skips a client whose access token still has more than five minutes of life, so it does not fight a mini that just refreshed.
 
-Health mail goes to `michael@ospipe.com` and `christian@clarixhq.ai`, with `christian.simpson.2018@outlook.com` on cc. The reconnect link is `/qbo/connect?client=<slug>`.
+Health mail goes to `michael@ospipe.com` and `christian@clarixhq.ai`, with `christian.simpson.2018@outlook.com` on cc. The reconnect link is `/qbo/connect?client=<slug>`. The email lists each slug, a status (`dead`, `urgent`, or `warning`), and days remaining. A record with no `refresh_token_expires_at` is reported as `unknown` in the JSON and is not emailed; the next successful refresh stores the expiry. If sending fails, the route still returns 200, `alert_delivery` is `failed`, the log line starts with `QBO_ALERT_DELIVERY_FAILED`, and `qbo:audit` gets `alert_delivery_failed`. Set `RESEND_API_KEY` to send that mail through Resend instead of Gmail SMTP.
 
 Refresh compares-and-sets on a per-slug generation counter (`qbo:gen:<slug>`). The lock key `qbo:lock:<slug>` stores a random owner id and is deleted only when that owner still holds it. Intuit calls abort after 8 seconds. The lock lives 20 seconds, so a timed-out call cannot overlap the next refresh of the same company. If the waiter cannot get a fresh token, `/api/qbo-token` returns `refresh_in_progress` instead of an expired access token.
 

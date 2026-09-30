@@ -21,6 +21,7 @@ import {
   QboCorruptRecordError,
   QboStorageError,
   QboTokenRecord,
+  refreshTokenExpiresAt,
 } from "@/lib/qbo-records";
 import { qboFetch, qboNow, qboTiming } from "@/lib/qbo-runtime";
 import { isValidClientSlug, sanitizeIntuitFailure, SafeTokenDetail } from "@/lib/qbo-security";
@@ -136,7 +137,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
-  refreshTokenExpiresIn: number;
+  refreshTokenExpiresIn: unknown;
 }> {
   let res: Response;
   try {
@@ -176,8 +177,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{
     accessToken: data.access_token,
     refreshToken: data.refresh_token,
     expiresIn: typeof data.expires_in === "number" ? data.expires_in : 3600,
-    refreshTokenExpiresIn:
-      typeof data.x_refresh_token_expires_in === "number" ? data.x_refresh_token_expires_in : 100 * 24 * 3600,
+    refreshTokenExpiresIn: data.x_refresh_token_expires_in,
   };
 }
 
@@ -276,7 +276,7 @@ export async function refreshQboToken(slug: string): Promise<RefreshResult> {
       refresh_token: refreshed.refreshToken,
       realmId: existing.realmId,
       expires_at: now + refreshed.expiresIn * 1000,
-      refresh_token_expires_at: now + refreshed.refreshTokenExpiresIn * 1000,
+      refresh_token_expires_at: refreshTokenExpiresAt(now, refreshed.refreshTokenExpiresIn),
       updated_at: new Date(now).toISOString(),
       last_refresh_at: new Date(now).toISOString(),
       needs_reauth: false,

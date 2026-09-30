@@ -19,7 +19,9 @@ Merge [the hardening PR](https://github.com/simpyhq/clarix-website/pull/4) first
 | `QBO_TOKEN_ENC_KEY` | Vercel env, optional until you want encryption | AES-256-GCM key for token records |
 | `QBO_TOKEN_ENC_KEY_VERSION` | Vercel env, optional | Version number written with the current key. Default 1 |
 | `QBO_TOKEN_ENC_KEYS` | Vercel env, optional | Previous key versions, so old ciphertext can still be read |
-| `SMTP_USER`, `SMTP_PASS` | Vercel env | Health mail and the intake form |
+| `SMTP_USER`, `SMTP_PASS` | Vercel env | Gmail SMTP for the intake form, and for the health alert when `RESEND_API_KEY` is unset |
+| `RESEND_API_KEY` | Vercel env, optional | When set, the daily health alert is sent with Resend's HTTPS API instead of Gmail SMTP. Unset keeps today's SMTP path. Intake mail is unchanged |
+| `RESEND_FROM` | Vercel env, optional | From address for that Resend send. When unset, the from address stays `Clarix QBO Health <support@clarixhq.ai>`. The domain must be verified in Resend |
 | `OPENROUTER_CHAT_KEY` | Vercel env, if still set | Nothing in the current app. `/api/chat` returns 410 and does not call OpenRouter. An older copy of an OpenRouter key is in git history; revoke it |
 
 Generate a new random value with `openssl rand -base64 32`. Do not put spaces in values that are compared as bearer tokens.
@@ -108,9 +110,31 @@ IP identity prefers `x-real-ip`, which Vercel sets, and otherwise the last `x-fo
 
 ## Audit log
 
-Security events are written to the function log as `QBO audit {…}` and pushed onto the KV list `qbo:audit` (capped at 500). Events: `connect`, `reconnect_refused`, `key_issued`, `key_rotated`, `auth_failure`, `refresh_failure`, `rate_limited`. Fields are time, event, optional slug, optional IP, and a short reason code. Tokens, API keys, OAuth codes, and raw Intuit bodies are not stored.
+Security events are written to the function log as `QBO audit {…}` and pushed onto the KV list `qbo:audit` (capped at 500). Events: `connect`, `reconnect_refused`, `key_issued`, `key_rotated`, `auth_failure`, `refresh_failure`, `rate_limited`, `alert_delivery_failed`. Fields are time, event, optional slug, optional IP, and a short reason code. Tokens, API keys, OAuth codes, and raw Intuit bodies are not stored.
+
+`alert_delivery_failed` is written when the daily health email does not send. Its reason code is `smtp_535`, `smtp_auth`, `resend_http_<status>`, `resend_from_invalid`, or a generic `smtp_failed` / `resend_failed`. The same code is logged as `QBO_ALERT_DELIVERY_FAILED provider=<smtp|resend> code=<code>`. The HTTP response stays 200 so a bad mailbox password does not make Vercel stop the cron. The JSON body includes `alert_delivery` of `sent`, `failed`, or `not_needed`.
 
 Read the list in the Upstash console with `LRANGE qbo:audit 0 50`. Hobby log retention is short, so the KV list is the copy that outlasts the function logs.
+
+## Health alerts
+
+`GET /api/cron/qbo-health` runs on the existing daily schedule (`0 15 * * *`). It does not add a cron. One email lists every client that needs attention:
+
+| Status | Meaning |
+| --- | --- |
+| `dead` | `needs_reauth` is set, or `refresh_token_expires_at` is already in the past |
+| `urgent` | the refresh token expires within 7 days |
+| `warning` | the refresh token expires within 14 days, and it is not already urgent |
+| `unknown` | the stored record has no `refresh_token_expires_at` |
+| `healthy` | the refresh token expires later than 14 days |
+
+Unknown is not an error and is not emailed. The cron JSON lists it as `"status": "unknown"`, `"days_remaining": null`, and `"note": "next_refresh_records_expiry"`. A successful Intuit refresh writes the field from `x_refresh_token_expires_in`. If Intuit omits that value, the stored expiry is 100 days from the refresh. An old record is left alone until that refresh; a guessed date could mark a live company urgent or hide a real deadline.
+
+The email lists the client slug, status, days remaining (`unknown` when a dead record has no expiry), and a reconnect link. The link is `/qbo/connect?client=<slug>`. That route still mints a signed single-use `state` and the callback still refuses to point the slug at a different QuickBooks company. The message does not include tokens, realm ids, or API keys.
+
+Recipients stay `michael@ospipe.com` and `christian@clarixhq.ai`, with `christian.simpson.2018@outlook.com` on cc.
+
+Gmail error 535 means Google rejected `SMTP_USER` / `SMTP_PASS`. Create an app password for that mailbox (Google Account → Security → 2-Step Verification → App passwords) and set `SMTP_PASS` to the 16-character app password, or set `RESEND_API_KEY` and leave SMTP for the intake form. Resend must have the from-domain verified. Changing either variable requires a new Vercel deployment before the function can see it.
 
 ## Response headers
 
